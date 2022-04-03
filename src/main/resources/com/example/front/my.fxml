@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import eu.hansolo.medusa.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="398.0" prefWidth="486.0" style="-fx-background-color: white;" stylesheets="@css/my.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.front.AccountController">
+    <AnchorPane fx:id="panel" layoutX="40.0" layoutY="36.0" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #b3b3b3;">
+        <children>
+            <ImageView fitHeight="30.0" fitWidth="27.0" layoutX="125.0" layoutY="125.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="3.0" AnchorPane.rightAnchor="3.0">
+                <image>
+                    <Image url="@images/settings%20(2).png" />
+                </image>
+            </ImageView>
+            <Label alignment="CENTER" layoutX="14.0" layoutY="4.0" prefHeight="27.0" prefWidth="150.0" text="Themperature" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <font>
+                    <Font name="Segoe UI Semibold" size="14.0" />
+                </font>
+            </Label>
+            <Gauge layoutX="5.0" layoutY="26.0" maxValue="0.0" mediumTickMarksVisible="false" prefHeight="110.0" prefWidth="170.0" skinType="SIMPLE" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="27.0">
+            <minorTickMarkColor>
+               <Color red="0.14000000059604645" green="0.14000000059604645" blue="0.14000000059604645" />
+            </minorTickMarkColor></Gauge>
+        </children>
+    </AnchorPane>
+
+</AnchorPane>

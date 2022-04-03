@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="352.0" prefWidth="324.0" style="-fx-background-color: White;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.front.SettingIndicatorController">
+    <AnchorPane layoutX="6.0" layoutY="49.0" prefHeight="152.0" prefWidth="154.0" style="-fx-background-color: #b3b3b3;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="45.0">
+        <Label layoutX="7.0" layoutY="7.0" text="name" textFill="WHITE" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+            <font>
+                <Font name="Segoe UI Semibold" size="14.0" />
+            </font>
+        </Label>
+        <TextField fx:id="nameChart" layoutX="5.0" layoutY="25.0" prefHeight="26.0" prefWidth="140.0" style="-fx-background-color: white; -fx-background-radius: 0;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+            <font>
+                <Font name="Segoe UI Semibold" size="14.0" />
+            </font></TextField>
+        <Label layoutX="5.0" layoutY="55.0" text="unit" textFill="WHITE" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+            <font>
+                <Font name="Segoe UI Semibold" size="14.0" />
+            </font>
+        </Label>
+        <TextField fx:id="unitChart" layoutX="5.0" layoutY="75.0" prefHeight="26.0" prefWidth="140.0" style="-fx-background-color: white; -fx-background-radius: 0;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+            <font>
+                <Font name="Segoe UI Semibold" size="14.0" />
+            </font></TextField>
+        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="137.0" layoutY="199.0" onMouseClicked="#clickDown" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="15.0">
+            <image>
+                <Image url="@images/down-arrow.png" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="97.0" layoutY="207.0" onMouseClicked="#clickLeft" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="97.0">
+            <image>
+                <Image url="@images/chevron.png" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="137.0" layoutY="167.0" onMouseClicked="#clickTop" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="137.0" AnchorPane.rightAnchor="137.0">
+            <image>
+                <Image url="@images/chevron%20(1).png" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="177.0" layoutY="207.0" onMouseClicked="#clickRight" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="97.0">
+            <image>
+                <Image url="@images/chevron%20(3).png" />
+            </image>
+        </ImageView>
+      <DatePicker fx:id="datePicker" layoutX="5.0" layoutY="125.0" style="-fx-background-color: white; -fx-background-radius: 0;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+    </AnchorPane>
+
+    <AnchorPane layoutX="-17.0" layoutY="-86.0" prefHeight="35.0" style="-fx-background-color: #b3b3b3;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <children>
+            <ImageView fx:id="deleteButton" fitHeight="30.0" fitWidth="30.0" layoutX="271.0" layoutY="-1.0" onMouseClicked="#deleteClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                <image>
+                    <Image url="@images/garbage%20(1).png" />
+                </image>
+            </ImageView>
+            <ImageView fx:id="editButton" fitHeight="30.0" fitWidth="30.0" layoutX="87.0" layoutY="4.0" onMouseClicked="#saveClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="5.0">
+                <image>
+                    <Image url="@images/diskette%20(3).png" />
+                </image>
+            </ImageView>
+        </children>
+    </AnchorPane>
+</AnchorPane>
