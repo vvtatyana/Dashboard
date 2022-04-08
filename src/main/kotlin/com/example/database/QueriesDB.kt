@@ -6,15 +6,15 @@ import java.sql.Connection
 import java.sql.Statement
 import kotlin.system.exitProcess
 
-/* *
+/**
 * Класс для работы с бд
 */
 class QueriesDB(private val connection: Connection, private val statement: Statement) {
 
-    /* *
+    /**
     * Возвращает выборку данных из бд
-    * sql - запрос
-    * column - количество столбцов в таблице
+    * @sql - запрос
+    * @column - количество столбцов в таблице
     */
     private fun select(sql: String, column: Int): List<List<String>> {
         val result = mutableListOf<List<String>>()
@@ -36,9 +36,9 @@ class QueriesDB(private val connection: Connection, private val statement: State
        return result
     }
 
-    /* *
+    /**
     * Выполняет запросы для операторов вставить, изменить, удалить данные из таблицы
-    * sql - запрос
+    * @sql - запрос
     */
     private fun insertUpdateDelete(sql: String) {
         try {

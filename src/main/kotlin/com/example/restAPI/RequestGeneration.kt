@@ -9,24 +9,24 @@ import java.net.HttpURLConnection
 import java.net.URL
 import com.example.util.*
 
-/* *
+/**
 * Класс для обмена данными с платформой
 */
 class RequestGeneration {
 
-    /* *
+    /**
      * Собирает url-адресс для запросов
-     * address - протокол и хост
-     * description - адрес ресурса
+     * @address - протокол и хост
+     * @description - адрес ресурса
      */
     fun addressGeneration(address: String, description: String): String {
         return "$address/$description"
     }
 
-    /* *
+    /**
      * Собирает url-адресс для запросов и отправляет GET-запрос
-     * address - протокол и хост
-     * description - адрес ресурса
+     * @address - протокол и хост
+     * @description - адрес ресурса
      */
     fun addressAssemblyGET(address: String, description: String): String? {
         return getRequest(
@@ -34,9 +34,9 @@ class RequestGeneration {
         )
     }
 
-    /* *
+    /**
      * Совершает GET-запрос по указанному адресу
-     * address - адрес для запроса
+     * @address - адрес для запроса
      */
     fun getRequest(address: String?): String? {
         val urlForGetRequest = URL(address)
@@ -61,10 +61,10 @@ class RequestGeneration {
         }
     }
 
-    /* *
+    /**
      * Совершает PATCH-запрос по указанному адресу
-     * address - адрес для запроса
-     * postParams - измененные данные для отправки
+     * @address - адрес для запроса
+     * @postParams - измененные данные для отправки
      */
     @Throws(IOException::class)
     fun patchRequest(address: String?, postParams: String): JsonObject? {

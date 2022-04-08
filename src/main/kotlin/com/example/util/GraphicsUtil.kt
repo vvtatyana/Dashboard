@@ -11,7 +11,7 @@ enum class pref(val prefWidth: Double, val prefHeight: Double){
 
 enum class decoration (val prefWidth: Double, val prefHeight: Double, val layoutX: Double, val layoutY: Double, val style: String){
     NAME (0.0, 0.0,14.0, 4.0, "-fx-text-fill: black; -fx-font-size: 14px;-fx-font-family: \"Segoe UI Semibold\";"),
-    SETTING (25.0,25.0,25.0,25.0, "./src/main/resources/com/example/front/images/setting.png"),
+    SETTING (25.0,25.0,25.0,25.0, "./src/main/resources/com/example/controller/images/setting.png"),
     CHARTS (307.0,255.0,0.0,24.0, "")
 }
 

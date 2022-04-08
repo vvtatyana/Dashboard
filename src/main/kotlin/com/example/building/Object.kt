@@ -1,6 +1,6 @@
 package com.example.building
 
-/* *
+/**
 * Класс для объекта
 */
 class Object(

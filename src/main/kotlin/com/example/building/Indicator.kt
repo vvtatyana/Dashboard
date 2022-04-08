@@ -1,6 +1,6 @@
 package com.example.building
 
-/* *
+/**
 * Класс для индикатора
 */
 class Indicator(private val id: Int?,

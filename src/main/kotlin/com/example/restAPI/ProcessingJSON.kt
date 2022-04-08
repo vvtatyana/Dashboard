@@ -9,23 +9,23 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 
-/* *
+/**
 * Класс для работы json-данными
 */
 class ProcessingJSON {
 
-    /* *
+    /**
      * Читает данные
-     * jsonObject - данные для чтения
-     * description - элемен, который нужно вернуть
+     * @jsonObject - данные для чтения
+     * @description - элемен, который нужно вернуть
      */
     fun read(jsonObject: JsonObject, value: String): JsonElement? {
         return jsonObject.get(value)
     }
 
-    /* *
+    /**
      * Читает данные о пользователях
-     * jsonArray - массив данных с пользователями
+     * @jsonArray - массив данных с пользователями
      */
     fun readAllUsers(jsonArray: JsonArray): List<User> {
         val iterator: Iterator<*> = jsonArray.iterator()
@@ -48,9 +48,9 @@ class ProcessingJSON {
         return users
     }
 
-    /* *
+    /**
      * Читает параметры модели
-     * JsonObject - данные с моделью
+     * @JsonObject - данные с моделью
      */
     private fun readModelParams(jsonObject: JsonObject): Map<String, String> {
         val params = mutableMapOf<String, String>()
@@ -75,11 +75,11 @@ class ProcessingJSON {
         return state
     }
 
-    /* *
+    /**
      * Изменяет данные о модели
-     * data - исходные данные о модели
-     * value - поле для изменения
-     * field - новое значение
+     * @data - исходные данные о модели
+     * @value - поле для изменения
+     * @field - новое значение
      */
     fun updateModel(data: String, name: String, value: String, field: String): String {
         println(name)
@@ -105,9 +105,9 @@ class ProcessingJSON {
         return ""
     }
 
-    /* *
+    /**
      * Читает уровни модели для определенного показателя
-     * jsonObject - данные о модели
+     * @jsonObject - данные о модели
      */
     fun readBorder(jsonObject: JsonObject, name: String): Map<String, String> {
         val border = mutableMapOf<String, String>()
@@ -126,9 +126,9 @@ class ProcessingJSON {
         return border
     }
 
-    /* *
+    /**
      * Читает даные о всех объектах
-     * jsonArray - массив данных об объектах
+     * @jsonArray - массив данных об объектах
      */
     fun readAllObjects(jsonArray: JsonArray): List<Object> {
         val iterator: Iterator<*> = jsonArray.iterator()
@@ -142,11 +142,10 @@ class ProcessingJSON {
         return objects
     }
 
-    //читает показатели у объекта  для графика
-    /* *
+    /**
      * Читает показатели у объекта для построения графика, а имменно время и показатели в это время
-     * jsonArray - массив данных об объектах
-     * topic - название показателя
+     * @jsonArray - массив данных об объектах
+     * @topic - название показателя
      */
     fun readForChart(jsonArray: JsonArray, topic: String): List<List<Number>> {
         val iterator: Iterator<*> = jsonArray.iterator()

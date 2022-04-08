@@ -1,6 +1,6 @@
 package com.example.building
 
-/* *
+/**
 * Класс для графика
 */
 class Chart (private val id: Int?,
