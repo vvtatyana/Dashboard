@@ -1,5 +1,8 @@
 package com.example.building
 
+/* *
+* Класс для пользователя
+*/
 class User(
     private val id: Int?,
     private val idUser: String,

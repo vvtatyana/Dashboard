@@ -6,9 +6,16 @@ import java.sql.Connection
 import java.sql.Statement
 import kotlin.system.exitProcess
 
-
+/* *
+* Класс для работы с бд
+*/
 class QueriesDB(private val connection: Connection, private val statement: Statement) {
 
+    /* *
+    * Возвращает выборку данных из бд
+    * sql - запрос
+    * column - количество столбцов в таблице
+    */
     private fun select(sql: String, column: Int): List<List<String>> {
         val result = mutableListOf<List<String>>()
 
@@ -29,6 +36,10 @@ class QueriesDB(private val connection: Connection, private val statement: State
        return result
     }
 
+    /* *
+    * Выполняет запросы для операторов вставить, изменить, удалить данные из таблицы
+    * sql - запрос
+    */
     private fun insertUpdateDelete(sql: String) {
         try {
             statement.executeUpdate(sql)
@@ -118,13 +129,13 @@ class QueriesDB(private val connection: Connection, private val statement: State
     }
 
     fun deleteObject(idObj: String){
-        val sql = "DELETE from OBJECTS where ID_OBJECT=$idObj"
+        val sql = "DELETE from OBJECTS where ID_OBJECT='$idObj'"
         insertUpdateDelete(sql)
     }
 
     /*INDICATORS*/
-    fun selectIndicator(layoutX: Double, layoutY: Double): Indicator?{
-        val result = select("SELECT * from INDICATORS where LAYOUT_X=$layoutX and LAYOUT_Y=$layoutY", 7)
+    fun selectIndicator(layoutX: Double, layoutY: Double, idObj: String): Indicator?{
+        val result = select("SELECT * from INDICATORS where LAYOUT_X=$layoutX and LAYOUT_Y=$layoutY and ID_OBJECT='$idObj'", tableBD.INDICATORS.column)
         return if (result.isNotEmpty())
             Indicator(result[0][0].toInt(), result[0][1], result[0][2], result[0][3].toDouble(), result[0][4].toDouble(), result[0][5], result[0][6])
         else null
@@ -174,8 +185,8 @@ class QueriesDB(private val connection: Connection, private val statement: State
     }
 
     /*CHARTS*/
-    fun selectChart(layoutX: Double, layoutY: Double): Chart?{
-        val result = select("SELECT * from CHARTS where LAYOUT_X=$layoutX and LAYOUT_Y=$layoutY", tableBD.CHARTS.column)
+    fun selectChart(layoutX: Double, layoutY: Double, idObj: String): Chart?{
+        val result = select("SELECT * from CHARTS where LAYOUT_X=$layoutX and LAYOUT_Y=$layoutY and ID_OBJECT='$idObj'", tableBD.CHARTS.column)
         return if (result.isNotEmpty())
             Chart(result[0][0].toInt(), result[0][1], result[0][2], result[0][3].toDouble(), result[0][4].toDouble(), result[0][5], result[0][6], result[0][6])
         else null

@@ -1,63 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="mainPane" prefHeight="261.0" prefWidth="324.0" style="-fx-background-color: White;"
-            xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.front.SettingChartController">
-    <AnchorPane fx:id="dataPane" layoutX="6.0" layoutY="49.0" prefHeight="152.0" prefWidth="154.0"
-                style="-fx-background-color: #b3b3b3;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0"
-                AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="45.0">
-        <Label layoutX="7.0" layoutY="7.0" text="name" textFill="WHITE" AnchorPane.leftAnchor="5.0"
-               AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+<AnchorPane fx:id="mainPane" prefHeight="363.0" prefWidth="324.0" style="-fx-background-color: White;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.front.SettingChartController">
+    <AnchorPane fx:id="dataPane" layoutX="6.0" layoutY="49.0" prefHeight="152.0" prefWidth="154.0" style="-fx-background-color: #b3b3b3;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="45.0">
+        <Label layoutX="7.0" layoutY="7.0" text="name" textFill="WHITE" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
             <font>
-                <Font name="Segoe UI Semibold" size="14.0"/>
+                <Font name="Segoe UI Semibold" size="14.0" />
             </font>
         </Label>
-        <ComboBox fx:id="chartsType" layoutY="166.0" prefWidth="150.0"
-                  style="-fx-background-color: white; -fx-background-radius: 0;" AnchorPane.leftAnchor="5.0"
-                  AnchorPane.rightAnchor="5.0"/>
+        <ComboBox fx:id="chartsType" layoutX="5.0" layoutY="269.0" prefWidth="150.0" style="-fx-background-color: white; -fx-background-radius: 0;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="269.0" />
 
-        <TextField fx:id="nameChart" layoutX="5.0" layoutY="25.0" prefHeight="26.0" prefWidth="140.0"
-                   style="-fx-background-color: white; -fx-background-radius: 0;" AnchorPane.leftAnchor="5.0"
-                   AnchorPane.rightAnchor="5.0">
+        <TextField fx:id="nameChart" layoutX="5.0" layoutY="25.0" prefHeight="26.0" prefWidth="140.0" style="-fx-background-color: white; -fx-background-radius: 0;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="25.0">
             <font>
-                <Font name="Segoe UI Semibold" size="14.0"/>
+                <Font name="Segoe UI Semibold" size="14.0" />
             </font>
         </TextField>
-        <Label layoutX="5.0" layoutY="55.0" text="unit" textFill="WHITE" AnchorPane.leftAnchor="5.0"
-               AnchorPane.rightAnchor="5.0">
+        <Label layoutX="5.0" layoutY="55.0" text="unit" textFill="WHITE" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="55.0">
             <font>
-                <Font name="Segoe UI Semibold" size="14.0"/>
+                <Font name="Segoe UI Semibold" size="14.0" />
             </font>
         </Label>
-        <TextField fx:id="unitChart" layoutX="5.0" layoutY="75.0" prefHeight="26.0" prefWidth="140.0"
-                   style="-fx-background-color: white; -fx-background-radius: 0;" AnchorPane.leftAnchor="5.0"
-                   AnchorPane.rightAnchor="5.0">
+        <TextField fx:id="unitChart" layoutX="5.0" layoutY="75.0" prefHeight="26.0" prefWidth="140.0" style="-fx-background-color: white; -fx-background-radius: 0;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
             <font>
-                <Font name="Segoe UI Semibold" size="14.0"/>
+                <Font name="Segoe UI Semibold" size="14.0" />
             </font>
         </TextField>
-        <DatePicker fx:id="datePicker" layoutX="5.0" layoutY="125.0"
-                    style="-fx-background-color: white; -fx-background-radius: 0;" AnchorPane.leftAnchor="5.0"
-                    AnchorPane.rightAnchor="5.0"/>
+      <JFXTimePicker fx:id="fromTimePicker" layoutX="5.0" layoutY="173.0" prefHeight="20.0" prefWidth="166.0" style="-fx-background-color: white; -fx-background-radius: 0;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="173.0" />
+      <JFXDatePicker fx:id="datePicker" layoutX="5.0" layoutY="125.0" style="-fx-background-color: white; -fx-background-radius: 0;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="125.0" />
+      <Label layoutX="5.0" layoutY="153.0" text="from" textFill="WHITE" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="153.0">
+         <font>
+            <Font name="Segoe UI Semibold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="7.0" layoutY="201.0" text="to" textFill="WHITE" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="201.0">
+         <font>
+            <Font name="Segoe UI Semibold" size="14.0" />
+         </font>
+      </Label>
+      <JFXTimePicker fx:id="toTimePicker" layoutX="5.0" layoutY="221.0" prefHeight="20.0" prefWidth="166.0" style="-fx-background-color: white; -fx-background-radius: 0;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="221.0" />
     </AnchorPane>
 
-    <AnchorPane fx:id="headerPane" layoutX="-17.0" layoutY="-86.0" prefHeight="35.0"
-                style="-fx-background-color: #b3b3b3;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                AnchorPane.topAnchor="0.0">
-        <ImageView fx:id="deleteImageView" fitHeight="30.0" fitWidth="30.0" layoutX="271.0" layoutY="-1.0"
-                   onMouseClicked="#deleteClick" pickOnBounds="true" preserveRatio="true"
-                   AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-            <Image url="@images/garbage%20(1).png"/>
+    <AnchorPane fx:id="headerPane" layoutX="-17.0" layoutY="-86.0" prefHeight="35.0" style="-fx-background-color: #b3b3b3;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <ImageView fx:id="deleteImageView" fitHeight="30.0" fitWidth="30.0" layoutX="271.0" layoutY="-1.0" onMouseClicked="#deleteClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+            <Image url="@images/trash.png" />
         </ImageView>
-        <ImageView fx:id="saveImageView" fitHeight="30.0" fitWidth="30.0" layoutX="87.0" layoutY="4.0"
-                   onMouseClicked="#saveClick" pickOnBounds="true" preserveRatio="true"
-                   AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="5.0">
-            <Image url="@images/diskette%20(3).png"/>
+        <ImageView fx:id="saveImageView" fitHeight="30.0" fitWidth="30.0" layoutX="87.0" layoutY="4.0" onMouseClicked="#saveClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="5.0">
+            <Image url="@images/download.png" />
         </ImageView>
     </AnchorPane>
 </AnchorPane>

@@ -5,26 +5,42 @@ import java.sql.DriverManager
 import java.sql.Statement
 import kotlin.system.exitProcess
 
+/* *
+* Класс создает базу данных, таблицы базы данных, коннект к базе данных
+*/
 class Database {
     private var connection: Connection
     private var statement: Statement
 
+    /* *
+     * Создает коннект с бд при инициализации экземпляра класса
+     */
     init {
         Class.forName("org.sqlite.JDBC")
-        connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/com/example/front/database/SmartHome.db")
+        connection =
+            DriverManager.getConnection("jdbc:sqlite:src/main/resources/com/example/front/database/SmartHome.db")
         statement = connection.createStatement()
         connection.autoCommit = false
         openBD()
     }
 
-    fun getConnection(): Connection{
+    /* *
+     * Возвращает соединение с бд
+     */
+    fun getConnection(): Connection {
         return connection
     }
 
-    fun getStatement(): Statement{
+    /* *
+     * Возвращает инструкцию бд
+     */
+    fun getStatement(): Statement {
         return statement
     }
 
+    /* *
+     * Создает соединение с бд
+     */
     private fun openBD() {
         try {
             var sql = usersTable()
@@ -41,11 +57,17 @@ class Database {
         }
     }
 
-    fun closeBD(){
+    /* *
+     * Закрывает соединение с бд
+     */
+    fun closeBD() {
         connection.close()
         statement.close()
     }
 
+    /* *
+     * Создает таблицу USERS, если ее нет в бд
+     */
     private fun usersTable(): String {
         return "CREATE TABLE IF NOT EXISTS USERS" +
                 "(ID             INTEGER       PRIMARY KEY    AUTOINCREMENT   NOT NULL," +
@@ -55,9 +77,13 @@ class Database {
                 " ADDRESS        VARCHAR(50)   NOT NULL," +
                 " TOKEN          VARCHAR(1000) NOT NULL," +
                 " CASTLE         VARCHAR(10)   NOT NULL," +
+                " ICON           VARCHAR(10)   NOT NULL," +
                 " THEME          VARCHAR(20)   NOT NULL)"
     }
 
+    /* *
+     * Создает таблицу OBJECTS, если ее нет в бд
+     */
     private fun objectsTable(): String {
         return "CREATE TABLE IF NOT EXISTS OBJECTS" +
                 "(ID             INTEGER       PRIMARY KEY    AUTOINCREMENT   NOT NULL," +
@@ -67,6 +93,9 @@ class Database {
                 " NAME_OBJECT    VARCHAR(50)   NOT NULL)"
     }
 
+    /* *
+     * Создает таблицу INDICATORS, если ее нет в бд
+     */
     private fun indicatorsTable(): String {
         return "CREATE TABLE IF NOT EXISTS INDICATORS" +
                 "(ID                 INTEGER       PRIMARY KEY    AUTOINCREMENT   NOT NULL," +
@@ -78,6 +107,9 @@ class Database {
                 " UNIT               VARCHAR(10)   NOT NULL)"
     }
 
+    /* *
+     * Создает таблицу CHARTS, если ее нет в бд
+     */
     private fun chartsTable(): String {
         return "CREATE TABLE IF NOT EXISTS CHARTS" +
                 "(ID                 INTEGER       PRIMARY KEY    AUTOINCREMENT   NOT NULL," +

@@ -15,8 +15,6 @@ const val TOPIC = "base/state/"
 //method
 const val GET = "GET"
 const val POST = "POST"
-const val PATCH = "PATCH"
-const val DELETE = "DELETE"
 
 //entities
 const val MODELS = "models"
@@ -34,6 +32,7 @@ const val LOGIN = "login"
 const val TOKEN = "token"
 const val STATE = "state"
 const val CHILDREN = "children"
+const val LEVELS = "levels"
 const val DATA_TYPE = "dataType"
 const val VALUE = "value"
 const val TIME = "time"
@@ -48,10 +47,6 @@ enum class requestCharacters (val code: Int, val value: Char){
     AND(2, '&');
 
     companion object {
-        fun getEnum(code: Int): requestCharacters? {
-            return values().find { it.code == code }
-        }
-
         fun contains(code: Int): Boolean {
             return values().find { it.code == code } != null
         }

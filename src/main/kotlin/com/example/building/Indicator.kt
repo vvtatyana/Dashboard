@@ -1,5 +1,8 @@
 package com.example.building
 
+/* *
+* Класс для индикатора
+*/
 class Indicator(private val id: Int?,
                 private val idObject: String,
                 private val nameIndicator: String,

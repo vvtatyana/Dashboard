@@ -1,7 +1,7 @@
 package com.example.front
 
-import com.example.back.Parsing
-import com.example.back.RequestGeneration
+import com.example.restAPI.ProcessingJSON
+import com.example.restAPI.RequestGeneration
 import com.example.util.*
 import com.google.gson.Gson
 import com.google.gson.JsonObject
@@ -12,57 +12,68 @@ import javafx.scene.control.TextField
 import javafx.scene.image.ImageView
 import javafx.scene.layout.AnchorPane
 import javafx.stage.Stage
-import com.example.building.Object
+import javafx.scene.control.Tooltip
 
+/* *
+* Класс создает окно для настройки индикатора
+*/
 class SettingIndicatorController {
 
     @FXML
-    lateinit var mainPane: AnchorPane
+    private lateinit var mainPane: AnchorPane
 
     @FXML
-    lateinit var headerPane: AnchorPane
+    private lateinit var headerPane: AnchorPane
 
     @FXML
-    lateinit var dataPane: AnchorPane
+    private lateinit var dataPane: AnchorPane
 
     @FXML
-    lateinit var minTextField: TextField
+    private lateinit var minTextField: TextField
 
     @FXML
-    lateinit var midTextField: TextField
+    private lateinit var midTextField: TextField
 
     @FXML
-    lateinit var maxTextField: TextField
+    private lateinit var maxTextField: TextField
 
     @FXML
-    lateinit var saveImageView: ImageView
+    private lateinit var saveImageView: ImageView
 
     @FXML
-    lateinit var deleteImageView: ImageView
+    private lateinit var deleteImageView: ImageView
 
     @FXML
-    lateinit var unitIndicators: TextField
+    private lateinit var unitIndicators: TextField
 
     @FXML
-    lateinit var nameIndicators: TextField
+    private lateinit var nameIndicators: TextField
 
     private lateinit var border: Map<String, String>
     private var idModel = ""
+    private var name = ""
 
     var list = mutableListOf<String>()
     var delete = false
 
-    fun load(objectDate: Object) {
-        idModel = objectDate.getIdModel()
+    /* *
+    * Получение данных из основного окна
+    * idModel - id модели
+    */
+    fun load(idModel: String, name: String) {
+        this.name = name
+        this.idModel = idModel
+
         mainPane.style = getMainColor()
         headerPane.style = getAdditionalColor()
         dataPane.style = getAdditionalColor()
+        Tooltip.install(saveImageView, Tooltip("Сохранить изменения"))
 
-        val address = RequestGeneration().addressGeneration(DEFAULT_ADDRESS, MODELS, requestCharacters.SLESH.code)
-        val strM = RequestGeneration().addressAssemblyGET(address, idModel)
-        val jsonM = Gson().fromJson(strM, JsonObject::class.java)
+        val address = RequestGeneration().addressGeneration(DEFAULT_ADDRESS, MODELS)
+        val getData = RequestGeneration().addressAssemblyGET(address, idModel)
+        val model = Gson().fromJson(getData, JsonObject::class.java)
 
-        border = Parsing().readBorder(jsonM)
+        border = ProcessingJSON().readBorder(model, name)
         if (border[MIN] != null)
             minTextField.text = border[MIN].toString()
         if (border[MID] != null)
@@ -71,6 +82,9 @@ class SettingIndicatorController {
             maxTextField.text = border[MAX].toString()
     }
 
+    /* *
+     * Обработка нажатия кнопки сохранения
+     */
     @FXML
     private fun saveClick() {
         if (minTextField.text != border[MIN]!!.toString()) {
@@ -87,15 +101,23 @@ class SettingIndicatorController {
         stage.close()
     }
 
+    /* *
+     * Изменяет данные о границах модели
+     * field - поле
+     * value - новое значение
+     */
     private fun updateBorder(field: String, value: String) {
-        var address = RequestGeneration().addressGeneration(DEFAULT_ADDRESS, MODELS, requestCharacters.SLESH.code)
-        address = RequestGeneration().addressGeneration(address, idModel, requestCharacters.SLESH.code)
-        val dataGet = RequestGeneration().GETRequest(address).toString()
-        val data = Parsing().updateModel(dataGet, field, value)
+        var address = RequestGeneration().addressGeneration(DEFAULT_ADDRESS, MODELS)
+        address = RequestGeneration().addressGeneration(address, idModel)
+        val dataGet = RequestGeneration().getRequest(address).toString()
+        val data = ProcessingJSON().updateModel(dataGet, name, field, value)
         if (data != "")
-            RequestGeneration().PATCHRequest(address, data)
+            RequestGeneration().patchRequest(address, data)
     }
 
+    /* *
+     * Обработка нажатия кнопки удаления
+     */
     @FXML
     private fun deleteClick() {
         delete = true

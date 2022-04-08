@@ -13,29 +13,45 @@ import javafx.scene.layout.AnchorPane
 import javafx.stage.Modality
 import javafx.stage.Stage
 
+/* *
+* Класс создает окно для входа
+*/
 class LoginController {
+
     @FXML
-    lateinit var dataPane: AnchorPane
+    private lateinit var dataPane: AnchorPane
+
     @FXML
-    lateinit var mainPane: AnchorPane
+    private lateinit var mainPane: AnchorPane
+
     @FXML
-    lateinit var registrationButton: Button
+    private lateinit var registrationButton: Button
+
     @FXML
-    lateinit var memoryCheck: CheckBox
+    private lateinit var memoryCheck: CheckBox
+
     @FXML
     private lateinit var loginText: TextField
+
     @FXML
-    private lateinit var inputButton: Button
+    private lateinit var enterButton: Button
+
     @FXML
     private lateinit var errorLabel: Label
 
+    /* *
+     * Инициализация окна
+     */
     fun initialize() {
         mainPane.style = getMainColor()
         dataPane.style = getAdditionalColor()
     }
 
+    /* *
+     * Обработка нажатия кнопки войти
+     */
     @FXML
-    private fun onInputButtonClick() {
+    private fun onEnterButtonClick() {
         val database = Database()
         val queriesDB = QueriesDB(database.getConnection(), database.getStatement())
         val user = queriesDB.selectUser(usersTable.LOGIN.name, loginText.text)
@@ -48,7 +64,7 @@ class LoginController {
             }
 
             database.closeBD()
-            var stage: Stage = inputButton.scene.window as Stage
+            var stage: Stage = enterButton.scene.window as Stage
             stage.close()
             val fxmlLoader = FXMLLoader(javaClass.getResource("window.fxml"))
             stage = Stage()
@@ -56,14 +72,16 @@ class LoginController {
             stage.title = "Window"
             stage.scene = Scene(fxmlLoader.load())
             stage.show()
-        }
-        else {
+        } else {
             errorLabel.text = "Не верный логин"
         }
     }
 
+    /* *
+     * Обработка нажатия кнопки зарегестрироваться
+     */
     @FXML
-    private fun onRegistrationButtonClick(){
+    private fun onRegistrationButtonClick() {
         var stage: Stage = registrationButton.scene.window as Stage
         stage.close()
         val fxmlLoader = FXMLLoader(javaClass.getResource("registrationWindow.fxml"))

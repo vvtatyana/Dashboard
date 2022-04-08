@@ -9,7 +9,11 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
 import javafx.stage.Stage
 
+/* *
+* Точка входа в приложение
+*/
 class StartApplication : Application() {
+
     override fun start(stage: Stage) {
         val database = Database()
         val queriesDB = QueriesDB(database.getConnection(), database.getStatement())
@@ -29,6 +33,12 @@ class StartApplication : Application() {
         }
     }
 
+    /* *
+     * Открытие нового окна
+     * stage - контейнер для окна
+     * nameFile - название файла окна
+     * title - название окна
+     */
     private fun showWindow(stage: Stage, nameFile: String, title: String){
         val fxmlLoader = FXMLLoader(javaClass.getResource(nameFile))
         val scene = Scene(fxmlLoader.load())

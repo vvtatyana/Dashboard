@@ -1,5 +1,8 @@
 package com.example.building
 
+/* *
+* Класс для объекта
+*/
 class Object(
     private val id: Int?,
     private val idObject: String,
