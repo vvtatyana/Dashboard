@@ -8,6 +8,7 @@ import com.example.database.QueriesDB
 import com.example.util.*
 import com.google.gson.Gson
 import com.google.gson.JsonArray
+import dropShadow
 import getAdditionalColor
 import getMainColor
 import javafx.fxml.FXML
@@ -15,11 +16,14 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.scene.control.Alert.AlertType
+import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.Region
 import javafx.stage.Modality
 import javafx.stage.Stage
+import wayToImage
+import java.io.FileInputStream
 
 /**
 * Класс создает окно для регистрации
@@ -71,6 +75,11 @@ class RegistrationController {
     fun initialize() {
         mainPane.style = getMainColor()
         dataPane.style = getAdditionalColor()
+        dataPane.effect = dropShadow()
+        for(ch in dataPane.children){
+            if(ch.layoutY != 399.0)
+                ch.effect = dropShadow()
+        }
         Tooltip.install(nameInfoOne, Tooltip("Справка"))
         Tooltip.install(nameInfoTwo, Tooltip("Справка"))
         Tooltip.install(nameInfoThree, Tooltip("Справка"))
@@ -158,6 +167,7 @@ class RegistrationController {
      */
     private fun showWindow(nameFile: String, title: String) {
         var stage: Stage = loginButton.scene.window as Stage
+        stage.icons.add(Image(FileInputStream(wayToImage("iot"))))
         stage.close()
         val fxmlLoader = FXMLLoader(javaClass.getResource(nameFile))
         stage = Stage()

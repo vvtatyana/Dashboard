@@ -8,6 +8,7 @@ import com.example.util.DEFAULT_ADDRESS
 import com.example.util.MODELS
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import dropShadow
 import getAdditionalColor
 import getMainColor
 import javafx.collections.FXCollections
@@ -55,8 +56,14 @@ class AddWidgetController {
      */
     fun initialize() {
         mainPane.style = getMainColor()
-        addIndicators.style = getAdditionalColor()
         dataPane.style = getAdditionalColor()
+        dataPane.effect = dropShadow()
+        addIndicators.style = getAdditionalColor()
+
+        for(ch in dataPane.children){
+            ch.effect = dropShadow()
+        }
+
         Tooltip.install(addImageView, Tooltip("Добавить виджет"))
         unitLabel.isVisible = false
         nameLabel.isVisible = false

@@ -2,6 +2,7 @@ package com.example.controller
 
 import com.example.building.Widget
 import com.jfoenix.controls.JFXTimePicker
+import dropShadow
 import getAdditionalColor
 import getMainColor
 import javafx.collections.FXCollections
@@ -65,7 +66,15 @@ class SettingChartController {
     fun initialize() {
         mainPane.style = getMainColor()
         headerPane.style = getAdditionalColor()
+        headerPane.effect = dropShadow()
+        for(ch in headerPane.children){
+            ch.effect = dropShadow()
+        }
         dataPane.style = getAdditionalColor()
+        dataPane.effect = dropShadow()
+        for(ch in dataPane.children){
+            ch.effect = dropShadow()
+        }
         Tooltip.install(saveImageView, Tooltip("Сохранить изменения"))
         chartsType.items =
             FXCollections.observableArrayList(mutableListOf("AreaChart", "BarChart", "LineChart", "ScatterChart"))

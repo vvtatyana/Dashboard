@@ -153,8 +153,7 @@ class ProcessingJSON {
         while (iterator.hasNext()) {
             val one = ArrayList<Number>()
             val slide: JsonObject = Gson().fromJson(iterator.next().toString(), JsonObject::class.java)
-            val getTopic = slide.get(TOPIC)
-
+            val getTopic = slide.get("topic")
             if (getTopic != null && getTopic.asString == topic) {
                 val time = slide.get(TIME)
                 val payload = slide.get(PAYLOAD)

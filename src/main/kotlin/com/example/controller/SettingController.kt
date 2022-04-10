@@ -1,6 +1,7 @@
 package com.example.controller
 
 import THEME
+import dropShadow
 import getAdditionalColor
 import getMainColor
 import javafx.collections.FXCollections
@@ -37,7 +38,15 @@ class SettingController {
     fun initialize() {
         mainPane.style = getMainColor()
         headerPane.style = getAdditionalColor()
+        headerPane.effect = dropShadow()
+        for(ch in headerPane.children){
+            ch.effect = dropShadow()
+        }
         dataPane.style = getAdditionalColor()
+        dataPane.effect = dropShadow()
+        for(ch in dataPane.children){
+            ch.effect = dropShadow()
+        }
         themeBox.items = FXCollections.observableArrayList(mutableListOf("light", "dark"))
         Tooltip.install(saveImageView, Tooltip("Сохранить изменения"))
     }

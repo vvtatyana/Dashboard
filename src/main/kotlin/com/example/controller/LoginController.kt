@@ -3,15 +3,19 @@ package com.example.controller
 import com.example.database.Database
 import com.example.database.QueriesDB
 import com.example.util.*
+import dropShadow
 import getAdditionalColor
 import getMainColor
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
 import javafx.scene.control.*
+import javafx.scene.image.Image
 import javafx.scene.layout.AnchorPane
 import javafx.stage.Modality
 import javafx.stage.Stage
+import wayToImage
+import java.io.FileInputStream
 
 /**
 * Класс создает окно для входа
@@ -45,6 +49,11 @@ class LoginController {
     fun initialize() {
         mainPane.style = getMainColor()
         dataPane.style = getAdditionalColor()
+        dataPane.effect = dropShadow()
+        for(ch in dataPane.children){
+            if(ch.layoutY != 203.0)
+                ch.effect = dropShadow()
+        }
     }
 
     /**
@@ -68,6 +77,7 @@ class LoginController {
             stage.close()
             val fxmlLoader = FXMLLoader(javaClass.getResource("window.fxml"))
             stage = Stage()
+            stage.icons.add(Image(FileInputStream(wayToImage("iot"))))
             stage.initModality(Modality.APPLICATION_MODAL)
             stage.title = "Window"
             stage.scene = Scene(fxmlLoader.load())
@@ -85,6 +95,7 @@ class LoginController {
         var stage: Stage = registrationButton.scene.window as Stage
         stage.close()
         val fxmlLoader = FXMLLoader(javaClass.getResource("registrationWindow.fxml"))
+        stage.icons.add(Image(FileInputStream(wayToImage("iot"))))
         stage = Stage()
         stage.initModality(Modality.APPLICATION_MODAL)
         stage.title = "Registration"

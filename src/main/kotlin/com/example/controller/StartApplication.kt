@@ -10,6 +10,7 @@ import javafx.scene.Scene
 import javafx.scene.image.Image
 import javafx.scene.layout.StackPane
 import javafx.stage.Stage
+import wayToImage
 import java.io.FileInputStream
 
 
@@ -46,7 +47,7 @@ class StartApplication : Application() {
     private fun showWindow(stage: Stage, nameFile: String, title: String){
         val fxmlLoader = FXMLLoader(javaClass.getResource(nameFile))
         val scene = Scene(fxmlLoader.load())
-        stage.icons.add(Image(FileInputStream("./src/main/resources/com/example/controller/images/iot.png")))
+        stage.icons.add(Image(FileInputStream(wayToImage("iot"))))
         stage.title = title
         stage.scene = scene
         stage.show()

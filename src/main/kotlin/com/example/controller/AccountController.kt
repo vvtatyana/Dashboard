@@ -2,6 +2,7 @@ package com.example.controller
 
 import com.example.building.User
 import com.example.util.*
+import dropShadow
 import getAdditionalColor
 import getMainColor
 import javafx.fxml.FXML
@@ -12,6 +13,7 @@ import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.layout.AnchorPane
 import javafx.stage.Stage
+import wayToImage
 import java.io.FileInputStream
 
 /**
@@ -44,6 +46,7 @@ class AccountController {
 
     var exit: Boolean = false
     var save: Boolean = false
+    private var icon: Int = 0
 
     /**
      * Инициализация окна
@@ -51,9 +54,15 @@ class AccountController {
     fun initialize() {
         mainPane.style = getMainColor()
         headerPane.style = getAdditionalColor()
+        headerPane.effect = dropShadow()
         dataPane.style = getAdditionalColor()
-        val animal = (1..25).random()
-        accountIcon.image = Image(FileInputStream("./src/main/resources/com/example/controller/front/animals/$animal.png"))
+        dataPane.effect = dropShadow()
+        for(ch in headerPane.children){
+            ch.effect = dropShadow()
+        }
+        for(ch in dataPane.children){
+            ch.effect = dropShadow()
+        }
 
         Tooltip.install(saveImageView, Tooltip("Сохранить изменения"))
         Tooltip.install(exitImageView, Tooltip("Выйти из аккаунта"))
@@ -67,6 +76,7 @@ class AccountController {
         this.user = user
         username.text = user.getUsername()
         login.text = user.getLogin()
+        accountIcon.image = Image(FileInputStream(wayToImage("animals\\${user.getIcon()}")))
     }
 
     /**
@@ -75,33 +85,31 @@ class AccountController {
     @FXML
     private fun saveClick() {
         save = true
-        if (tokenText.text != null)
-            HEADERS_AUTH = "Bearer ${tokenText.text}"
+        val token = tokenText.text
+        var host = hostText.text
+
+        if (token != "")
+            HEADERS_AUTH = "Bearer $token"
+
+        if (host != "") {
+            DEFAULT_ADDRESS = "https://${host}/api/v1"
+            host = DEFAULT_ADDRESS
+        }
+
         user = User(
             user.getId(),
             user.getIdUser(),
             user.getUsername(),
             user.getLogin(),
-            user.getAddress(),
-            tokenText.text,
+            host,
+            token,
             user.getCastle(),
-            user.getIcon(),
+            icon,
             user.getTheme()
         )
-        if (hostText.text != null) {
-            DEFAULT_ADDRESS = "https://${hostText.text}/api/v1"
-            user = User(
-                user.getId(),
-                user.getIdUser(),
-                user.getUsername(),
-                user.getLogin(),
-                DEFAULT_ADDRESS,
-                user.getToken(),
-                user.getCastle(),
-                user.getIcon(),
-                user.getTheme()
-            )
-        }
+
+        val stage: Stage = saveImageView.scene.window as Stage
+        stage.close()
     }
 
     /**
@@ -112,5 +120,12 @@ class AccountController {
         exit = true
         val stage: Stage = exitImageView.scene.window as Stage
         stage.close()
+    }
+
+    @FXML
+    private fun accountIconClick(){
+        if (icon < 25) icon ++
+        else icon = 1
+        accountIcon.image = Image(FileInputStream(wayToImage("animals\\$icon")))
     }
 }

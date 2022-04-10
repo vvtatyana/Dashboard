@@ -6,6 +6,7 @@ import com.example.restAPI.RequestGeneration
 import com.example.util.*
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import dropShadow
 import getAdditionalColor
 import getMainColor
 import javafx.fxml.FXML
@@ -19,6 +20,9 @@ import javafx.scene.control.Tooltip
 * Класс создает окно для настройки индикатора
 */
 class SettingIndicatorController {
+
+    @FXML
+    private lateinit var borderPane: AnchorPane
 
     @FXML
     private lateinit var mainPane: AnchorPane
@@ -57,30 +61,43 @@ class SettingIndicatorController {
     var dataWidget: Widget? = null
     var delete = false
 
+    fun initialise(){
+        mainPane.style = getMainColor()
+        headerPane.style = getAdditionalColor()
+        headerPane.effect = dropShadow()
+        for(ch in headerPane.children){
+            ch.effect = dropShadow()
+        }
+        dataPane.style = getAdditionalColor()
+        dataPane.effect = dropShadow()
+        for(ch in dataPane.children){
+            ch.effect = dropShadow()
+        }    }
+
     /**
     * Получение данных из основного окна
     * @idModel - id модели
     */
-    fun load(idModel: String, name: String) {
+    fun load(idModel: String, name: String, type: String) {
         this.name = name
         this.idModel = idModel
 
-        mainPane.style = getMainColor()
-        headerPane.style = getAdditionalColor()
-        dataPane.style = getAdditionalColor()
         Tooltip.install(saveImageView, Tooltip("Сохранить изменения"))
 
         val address = RequestGeneration().addressGeneration(DEFAULT_ADDRESS, MODELS)
         val getData = RequestGeneration().addressAssemblyGET(address, idModel)
         val model = Gson().fromJson(getData, JsonObject::class.java)
 
-        border = ProcessingJSON().readBorder(model, name)
-        if (border[MIN] != null)
-            minTextField.text = border[MIN].toString()
-        if (border[MID] != null)
-            midTextField.text = border[MID].toString()
-        if (border[MAX] != null)
-            maxTextField.text = border[MAX].toString()
+        if (type == "number") {
+            border = ProcessingJSON().readBorder(model, name)
+            if (border[MIN] != null)
+                minTextField.text = border[MIN].toString()
+            if (border[MID] != null)
+                midTextField.text = border[MID].toString()
+            if (border[MAX] != null)
+                maxTextField.text = border[MAX].toString()
+        }
+        else borderPane.isVisible = false
     }
 
     /**
