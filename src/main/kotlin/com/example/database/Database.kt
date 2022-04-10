@@ -104,7 +104,8 @@ class Database {
                 " LAYOUT_X           DOUBLE        NOT NULL," +
                 " LAYOUT_Y           DOUBLE        NOT NULL," +
                 " NAME               VARCHAR(50)   NOT NULL," +
-                " UNIT               VARCHAR(10)   NOT NULL)"
+                " UNIT               VARCHAR(10)   NOT NULL," +
+                " TYPE               VARCHAR(10)   NOT NULL)"
     }
 
     /**

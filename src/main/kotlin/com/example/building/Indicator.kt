@@ -9,7 +9,8 @@ class Indicator(private val id: Int?,
                 private val layoutX: Double,
                 private val layoutY: Double,
                 private val name: String,
-                private val unit: String) {
+                private val unit: String,
+                private val type: String) {
 
     fun getId(): Int {
         return id!!
@@ -37,6 +38,10 @@ class Indicator(private val id: Int?,
 
     fun getUnit(): String {
         return unit
+    }
+
+    fun getType(): String {
+        return type
     }
 }
 

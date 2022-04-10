@@ -1,5 +1,6 @@
 package com.example.controller
 
+import com.example.building.Widget
 import com.jfoenix.controls.JFXTimePicker
 import getAdditionalColor
 import getMainColor
@@ -55,7 +56,7 @@ class SettingChartController {
     private var layoutX: Double = 0.0
     private var layoutY: Double = 0.0
 
-    var list = mutableListOf<String>()
+    lateinit var dataWidget: Widget
     var delete = false
 
     /**
@@ -103,7 +104,7 @@ class SettingChartController {
         }
         val type = if (chartsType.value == null) ""
         else chartsType.value
-        list = mutableListOf(nameChart.text, unitChart.text, date, from, to, type)
+        dataWidget = Widget(nameChart.text, unitChart.text,type, date, from, to )
         val stage: Stage = saveImageView.scene.window as Stage
         stage.close()
     }

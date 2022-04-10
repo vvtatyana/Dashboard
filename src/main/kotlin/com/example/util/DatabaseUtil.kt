@@ -1,9 +1,9 @@
 package com.example.util
 
 enum class tableBD (val column: Int){
-    USERS(8),
+    USERS(9),
     OBJECTS(5),
-    INDICATORS(7),
+    INDICATORS(8),
     CHARTS(8),
 }
 
@@ -15,6 +15,7 @@ enum class usersTable{
     ADDRESS,
     TOKEN,
     CASTLE,
+    ICON,
     THEME
 }
 
@@ -34,6 +35,7 @@ enum class indicatorsTable{
     LAYOUT_Y,
     NAME,
     UNIT,
+    TYPE
 }
 
 enum class chartsTable{

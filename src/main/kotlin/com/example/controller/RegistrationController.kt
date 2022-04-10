@@ -102,6 +102,8 @@ class RegistrationController {
 
             for (user in users)
                 if (user.getUsername() == username && user.getLogin() == login) {
+
+                    val animal = (1..25).random()
                     if (memoryCheck.isSelected)
                         queriesDB.insertIntoUser(
                             User(
@@ -112,6 +114,7 @@ class RegistrationController {
                                 DEFAULT_ADDRESS,
                                 token,
                                 true,
+                                animal,
                                 THEME
                             )
                         )
@@ -125,6 +128,7 @@ class RegistrationController {
                                 DEFAULT_ADDRESS,
                                 token,
                                 false,
+                                animal,
                                 THEME
                             )
                         )

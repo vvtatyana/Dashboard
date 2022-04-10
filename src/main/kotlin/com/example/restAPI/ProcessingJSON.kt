@@ -41,6 +41,7 @@ class ProcessingJSON {
                     DEFAULT_ADDRESS,
                     TOKEN,
                     true,
+                    1,
                     THEME
                 )
             )
@@ -52,7 +53,7 @@ class ProcessingJSON {
      * Читает параметры модели
      * @JsonObject - данные с моделью
      */
-    private fun readModelParams(jsonObject: JsonObject): Map<String, String> {
+    fun readModelParams(jsonObject: JsonObject): Map<String, String> {
         val params = mutableMapOf<String, String>()
         val children: JsonArray =
             jsonObject.get(DATA).asJsonObject.get(CHILDREN).asJsonArray[1].asJsonObject.get(CHILDREN).asJsonArray
@@ -82,7 +83,6 @@ class ProcessingJSON {
      * @field - новое значение
      */
     fun updateModel(data: String, name: String, value: String, field: String): String {
-        println(name)
         val jsonModel: JsonObject = Gson().fromJson(data, JsonObject::class.java)
         val children = jsonModel.get(DATA).asJsonObject.get(CHILDREN).asJsonArray[1].asJsonObject.get(CHILDREN)
             .asJsonArray

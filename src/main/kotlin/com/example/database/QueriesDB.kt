@@ -54,7 +54,7 @@ class QueriesDB(private val connection: Connection, private val statement: State
     fun selectUser(field: String, value: String): User?{
         val result = select("SELECT * from USERS where $field='$value'", tableBD.USERS.column)
         return if (result.isNotEmpty())
-            User(result[0][0].toInt(), result[0][1], result[0][2], result[0][3], result[0][4], result[0][5], result[0][6].toBoolean(), result[0][7])
+            User(result[0][0].toInt(), result[0][1], result[0][2], result[0][3], result[0][4], result[0][5], result[0][6].toBoolean(), result[0][7].toInt(), result[0][8])
         else null
     }
 
@@ -72,7 +72,8 @@ class QueriesDB(private val connection: Connection, private val statement: State
                         result[4],
                         result[5],
                         result[6].toBoolean(),
-                        result[7]
+                        result[7].toInt(),
+                        result[8]
                     )
                 )
             }
@@ -82,8 +83,8 @@ class QueriesDB(private val connection: Connection, private val statement: State
     }
 
     fun insertIntoUser(user: User){
-        val sql = "INSERT INTO USERS (ID_USER,USERNAME,LOGIN,ADDRESS,TOKEN,CASTLE,THEME)" +
-                "VALUES ('${user.getIdUser()}' , '${user.getUsername()}', '${user.getLogin()}', '${user.getAddress()}', '${user.getToken()}', '${user.getCastle()}', '${user.getTheme()}');"
+        val sql = "INSERT INTO USERS (ID_USER,USERNAME,LOGIN,ADDRESS,TOKEN,CASTLE,ICON,THEME)" +
+                "VALUES ('${user.getIdUser()}' , '${user.getUsername()}', '${user.getLogin()}', '${user.getAddress()}', '${user.getToken()}', '${user.getCastle()}', '${user.getIcon()}', '${user.getTheme()}');"
         insertUpdateDelete(sql)
     }
 
@@ -137,7 +138,7 @@ class QueriesDB(private val connection: Connection, private val statement: State
     fun selectIndicator(layoutX: Double, layoutY: Double, idObj: String): Indicator?{
         val result = select("SELECT * from INDICATORS where LAYOUT_X=$layoutX and LAYOUT_Y=$layoutY and ID_OBJECT='$idObj'", tableBD.INDICATORS.column)
         return if (result.isNotEmpty())
-            Indicator(result[0][0].toInt(), result[0][1], result[0][2], result[0][3].toDouble(), result[0][4].toDouble(), result[0][5], result[0][6])
+            Indicator(result[0][0].toInt(), result[0][1], result[0][2], result[0][3].toDouble(), result[0][4].toDouble(), result[0][5], result[0][6], result[0][7])
         else null
     }
 
@@ -154,7 +155,8 @@ class QueriesDB(private val connection: Connection, private val statement: State
                         result[3].toDouble(),
                         result[4].toDouble(),
                         result[5],
-                        result[6]
+                        result[6],
+                        result[7]
                     )
                 )
             }
@@ -164,8 +166,8 @@ class QueriesDB(private val connection: Connection, private val statement: State
     }
 
     fun insertIntoIndicator(indicator: Indicator){
-        val sql = "INSERT INTO INDICATORS (ID_OBJECT,NAME_INDICATOR,LAYOUT_X,LAYOUT_Y,NAME,UNIT)" +
-                "VALUES ('${indicator.getIdObject()}' , '${indicator.getNameIndicator()}', '${indicator.getLayoutX()}', '${indicator.getLayoutY()}', '${indicator.getName()}', '${indicator.getUnit()}');"
+        val sql = "INSERT INTO INDICATORS (ID_OBJECT,NAME_INDICATOR,LAYOUT_X,LAYOUT_Y,NAME,UNIT,TYPE)" +
+                "VALUES ('${indicator.getIdObject()}' , '${indicator.getNameIndicator()}', '${indicator.getLayoutX()}', '${indicator.getLayoutY()}', '${indicator.getName()}', '${indicator.getUnit()}', '${indicator.getType()}');"
         insertUpdateDelete(sql)
     }
 

@@ -16,22 +16,28 @@ enum class decoration (val prefWidth: Double, val prefHeight: Double, val layout
 }
 
 enum class themeSystem (val theme: String, val mainColor: String, val additionalColor: String){
-    LIGTH("light", "#ffffff",  "#b3b3b3"),
+    LIGHT("light", "#ffffff",  "#b3b3b3"),
     DARK("dark", "#000000",  "#333333")
+}
+
+enum class typeIndicator (val type: String){
+    NUMBER ("number"),
+    STRING ("string"),
+    BOOLEAN ("boolean")
 }
 
 fun getMainColor(): String{
     return when(THEME){
-        "light" -> "-fx-background-color: ${themeSystem.LIGTH.mainColor}"
+        "light" -> "-fx-background-color: ${themeSystem.LIGHT.mainColor}"
         "dark" -> "-fx-background-color: ${themeSystem.DARK.mainColor}"
-        else -> "-fx-background-color: ${themeSystem.LIGTH.mainColor}"
+        else -> "-fx-background-color: ${themeSystem.LIGHT.mainColor}"
     }
 }
 
 fun getAdditionalColor(): String{
     return when(THEME){
-        "light" -> "-fx-background-color: ${themeSystem.LIGTH.additionalColor}"
+        "light" -> "-fx-background-color: ${themeSystem.LIGHT.additionalColor}"
         "dark" -> "-fx-background-color: ${themeSystem.DARK.additionalColor}"
-        else -> "-fx-background-color: ${themeSystem.LIGTH.additionalColor}"
+        else -> "-fx-background-color: ${themeSystem.LIGHT.additionalColor}"
     }
 }

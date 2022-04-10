@@ -11,6 +11,7 @@ class User(
     private val address: String,
     private val token: String,
     private val castle: Boolean,
+    private val icon: Int,
     private val theme: String
 ) {
     fun getId(): Int? {
@@ -39,6 +40,10 @@ class User(
 
     fun getCastle(): Boolean{
         return castle
+    }
+
+    fun getIcon(): Int{
+        return icon
     }
 
     fun getTheme(): String {

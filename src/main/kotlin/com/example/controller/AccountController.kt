@@ -85,6 +85,7 @@ class AccountController {
             user.getAddress(),
             tokenText.text,
             user.getCastle(),
+            user.getIcon(),
             user.getTheme()
         )
         if (hostText.text != null) {
@@ -97,6 +98,7 @@ class AccountController {
                 DEFAULT_ADDRESS,
                 user.getToken(),
                 user.getCastle(),
+                user.getIcon(),
                 user.getTheme()
             )
         }

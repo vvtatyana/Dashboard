@@ -1,5 +1,6 @@
 package com.example.controller
 
+import com.example.building.Widget
 import com.example.restAPI.ProcessingJSON
 import com.example.restAPI.RequestGeneration
 import com.example.util.*
@@ -53,7 +54,7 @@ class SettingIndicatorController {
     private var idModel = ""
     private var name = ""
 
-    var list = mutableListOf<String>()
+    var dataWidget: Widget? = null
     var delete = false
 
     /**
@@ -96,7 +97,7 @@ class SettingIndicatorController {
         if (maxTextField.text != border[MAX]!!.toString()) {
             updateBorder(MAX, maxTextField.text)
         }
-        list = mutableListOf(nameIndicators.text, unitIndicators.text)
+        dataWidget = Widget(nameIndicators.text, unitIndicators.text)
         val stage: Stage = saveImageView.scene.window as Stage
         stage.close()
     }
