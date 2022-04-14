@@ -5,19 +5,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="mainPane" prefHeight="140.0" prefWidth="324.0" style="-fx-background-color: White;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.SettingIndicatorController">
-    <AnchorPane fx:id="dataPane" layoutX="6.0" layoutY="49.0" prefHeight="199.0" prefWidth="314.0" style="-fx-background-color: #b3b3b3;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="45.0">
-        <Label layoutX="7.0" layoutY="7.0" text="name" textFill="WHITE" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+<AnchorPane fx:id="mainPane" prefHeight="409.0" prefWidth="324.0" style="-fx-background-color: White;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.SettingIndicatorController">
+    <AnchorPane fx:id="dataPane" layoutX="6.0" layoutY="49.0" prefHeight="357.0" prefWidth="314.0" style="-fx-background-color: #b3b3b3;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="45.0">
+        <Label layoutX="7.0" layoutY="7.0" text="Название" textFill="WHITE" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
             <font>
                 <Font name="Segoe UI Semibold" size="14.0" />
             </font>
         </Label>
-        <TextField fx:id="nameIndicators" layoutX="5.0" layoutY="25.0" prefHeight="26.0" prefWidth="140.0" style="-fx-background-color: white; -fx-background-radius: 0;" AnchorPane.bottomAnchor="133.6" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="25.0">
+        <TextField fx:id="nameIndicators" layoutX="5.0" layoutY="25.0" prefHeight="26.0" prefWidth="140.0" style="-fx-background-color: white; -fx-background-radius: 0;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="25.0">
             <font>
                 <Font name="Segoe UI Semibold" size="14.0" />
             </font>
         </TextField>
-        <Label layoutX="5.0" layoutY="55.0" text="unit" textFill="WHITE" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+        <Label layoutX="5.0" layoutY="55.0" text="Единицы измерения" textFill="WHITE" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
             <font>
                 <Font name="Segoe UI Semibold" size="14.0" />
             </font>
@@ -27,56 +27,70 @@
                 <Font name="Segoe UI Semibold" size="14.0" />
             </font>
         </TextField>
-      <AnchorPane fx:id="borderPane" layoutX="12.0" layoutY="105.0" prefHeight="83.0" prefWidth="283.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="105.0">
-         <children>
-              <TextField fx:id="minTextField" layoutX="54.0" layoutY="20.0" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-background-radius: 0;" AnchorPane.leftAnchor="54.0" AnchorPane.topAnchor="20.0">
-                  <font>
-                      <Font name="Segoe UI Semibold" size="14.0" />
-                  </font>
-              </TextField>
-              <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="14.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="20.0">
-                  <Image url="@images/red.png" />
-              </ImageView>
-              <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="94.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="94.0" AnchorPane.topAnchor="20.0">
-                  <Image url="@images/green.png" />
-              </ImageView>
-              <TextField fx:id="midTextField" layoutX="134.0" layoutY="20.0" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-background-radius: 0;" AnchorPane.leftAnchor="134.0" AnchorPane.topAnchor="20.0">
-                  <font>
-                      <Font name="Segoe UI Semibold" size="14.0" />
-                  </font>
-              </TextField>
-              <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="174.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="174.0" AnchorPane.topAnchor="20.0">
-                  <Image url="@images/orange.png" />
-              </ImageView>
-              <TextField fx:id="maxTextField" layoutX="214.0" layoutY="20.0" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-background-radius: 0;" AnchorPane.leftAnchor="214.0" AnchorPane.topAnchor="20.0">
-                  <font>
-                      <Font name="Segoe UI Semibold" size="14.0" />
-                  </font>
-              </TextField>
-              <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="254.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="254.0" AnchorPane.rightAnchor="-3.6000000000000227" AnchorPane.topAnchor="20.0">
-                  <Image url="@images/red.png" />
-              </ImageView>
-              <Label layoutX="60.0" layoutY="59.0" text="min" textFill="WHITE" AnchorPane.topAnchor="59.0">
-                  <font>
-                      <Font name="Segoe UI Semibold" size="14.0" />
-                  </font>
-              </Label>
-              <Label layoutX="140.0" layoutY="59.0" text="mid" textFill="WHITE" AnchorPane.topAnchor="59.0">
-                  <font>
-                      <Font name="Segoe UI Semibold" size="14.0" />
-                  </font>
-              </Label>
-              <Label layoutX="218.0" layoutY="59.0" text="max" textFill="WHITE" AnchorPane.topAnchor="59.0">
-                  <font>
-                      <Font name="Segoe UI Semibold" size="14.0" />
-                  </font>
-              </Label>
-              <Label layoutX="-146.0" layoutY="2.0" text="level" textFill="WHITE" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
-                  <font>
-                      <Font name="Segoe UI Semibold" size="14.0" />
-                  </font>
-              </Label>
-         </children></AnchorPane>
+        <AnchorPane fx:id="borderPane" layoutX="5.0" layoutY="108.0" prefHeight="223.0" prefWidth="304.0"
+                    AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="108.0">
+            <Label layoutX="-146.0" layoutY="2.0" prefHeight="20.0" prefWidth="304.0" text="Уровень" textFill="WHITE"
+                   AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <font>
+                    <Font name="Segoe UI Semibold" size="14.0"/>
+                </font>
+            </Label>
+            <ComboBox fx:id="nameIntervalComboBox" layoutX="5.0" layoutY="20.0" prefHeight="26.0" prefWidth="304.0"
+                      style="-fx-background-color: white; -fx-background-radius: 0;" AnchorPane.leftAnchor="0.0"
+                      AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0"/>
+            <TextField fx:id="valueIntervalFrom" layoutX="-1.0" layoutY="112.0" prefHeight="27.0" prefWidth="56.0"
+                       style="-fx-background-color: white; -fx-background-radius: 0;" AnchorPane.leftAnchor="0.0"
+                       AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="112.0">
+                <font>
+                    <Font name="Segoe UI Semibold" size="13.0"/>
+                </font>
+            </TextField>
+            <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="132.0" layoutY="186.0"
+                       onMouseClicked="#updateLevelClick" pickOnBounds="true" preserveRatio="true"
+                       AnchorPane.rightAnchor="132.0">
+                <Image url="@images/verified.png"/>
+            </ImageView>
+            <TextField fx:id="colorInterval" layoutX="141.0" layoutY="65.0" prefHeight="27.0" prefWidth="94.0"
+                       style="-fx-background-color: white; -fx-background-radius: 0;" AnchorPane.leftAnchor="0.0"
+                       AnchorPane.rightAnchor="71.0">
+                <font>
+                    <Font name="Segoe UI Semibold" size="13.0"/>
+                </font>
+            </TextField>
+            <Label fx:id="colorPane" layoutX="233.0" layoutY="67.0" prefHeight="29.0" prefWidth="28.0"
+                   style="-fx-background-color: white;" AnchorPane.leftAnchor="233.0" AnchorPane.rightAnchor="0.0"
+                   AnchorPane.topAnchor="65.0"/>
+            <TextField fx:id="valueIntervalTo" layoutY="159.0" prefHeight="27.0" prefWidth="56.0"
+                       style="-fx-background-color: white; -fx-background-radius: 0;" AnchorPane.leftAnchor="0.0"
+                       AnchorPane.rightAnchor="0.0">
+                <font>
+                    <Font name="Segoe UI Semibold" size="13.0"/>
+                </font>
+            </TextField>
+            <Label fx:id="fromLabel" layoutX="6.0" layoutY="92.0" text="От" textFill="WHITE" AnchorPane.leftAnchor="0.0"
+                   AnchorPane.rightAnchor="0.0">
+                <font>
+                    <Font name="Segoe UI Semibold" size="14.0"/>
+                </font>
+            </Label>
+            <Label fx:id="toLabel" layoutX="7.0" layoutY="139.0" text="До" textFill="WHITE" AnchorPane.leftAnchor="0.0"
+                   AnchorPane.rightAnchor="0.0">
+                <font>
+                    <Font name="Segoe UI Semibold" size="14.0"/>
+                </font>
+            </Label>
+            <Label layoutX="139.0" layoutY="46.0" text="Цвет" textFill="WHITE" AnchorPane.leftAnchor="0.0"
+                   AnchorPane.rightAnchor="0.0">
+                <font>
+                    <Font name="Segoe UI Semibold" size="14.0"/>
+                </font>
+            </Label>
+        </AnchorPane>
+      <Label fx:id="errorLabel" alignment="CENTER" layoutX="5.0" layoutY="334.0" textFill="RED" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="334.0">
+         <font>
+            <Font name="Segoe UI Semibold" size="14.0" />
+         </font>
+      </Label>
     </AnchorPane>
 
     <AnchorPane fx:id="headerPane" layoutX="-17.0" layoutY="-86.0" prefHeight="35.0" style="-fx-background-color: #b3b3b3;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

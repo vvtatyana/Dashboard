@@ -1,6 +1,6 @@
 package com.example.restAPI
 
-import THEME
+import com.example.util.THEME
 import com.example.building.Object
 import com.example.building.User
 import com.example.util.*
@@ -10,8 +10,8 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 
 /**
-* Класс для работы json-данными
-*/
+ * Класс для работы json-данными
+ */
 class ProcessingJSON {
 
     /**
@@ -82,26 +82,33 @@ class ProcessingJSON {
      * @value - поле для изменения
      * @field - новое значение
      */
-    fun updateModel(data: String, name: String, value: String, field: String): String {
+    fun updateModel(data: String, name: String, value: String, field: String, level: String): String {
         val jsonModel: JsonObject = Gson().fromJson(data, JsonObject::class.java)
-        val children = jsonModel.get(DATA).asJsonObject.get(CHILDREN).asJsonArray[1].asJsonObject.get(CHILDREN)
-            .asJsonArray
-
-        for(ch in children){
-            if (ch.asJsonObject.get(ID).asString == name){
-                val values = ch.asJsonObject.get(LEVELS).asJsonObject.get(VALUE).asJsonArray
-                for (i in 0 until values.size()) {
-                    if (values[i].asJsonObject.get(NAME).asString == value) {
-                        var jsonValue = values[i].asJsonObject.get(VALUE).asJsonObject
-                        jsonValue.addProperty("a", field)
-                        jsonValue = values[i - 1].asJsonObject.get(VALUE).asJsonObject
-                        jsonValue.addProperty("b", field)
-                        return jsonModel.toString()
-                    }
+        val values = readBorder(jsonModel, name)
+        if (values != null) {
+            for (i in 0 until values.size()) {
+                if (values[i].asJsonObject.get(NAME).asString == value) {
+                    val jsonValue = values[i].asJsonObject.get(VALUE).asJsonObject
+                    jsonValue.addProperty(level, field)
+                    return jsonModel.toString()
                 }
             }
         }
+        return ""
+    }
 
+    fun updateModelColor(data: String, name: String, value: String, field: String): String {
+        val jsonModel: JsonObject = Gson().fromJson(data, JsonObject::class.java)
+        val values = readBorder(jsonModel, name)
+        if (values != null) {
+            for (i in 0 until values.size()) {
+                if (values[i].asJsonObject.get(NAME).asString == value) {
+                    val jsonValue = values[i].asJsonObject
+                    jsonValue.addProperty("color", field)
+                    return jsonModel.toString()
+                }
+            }
+        }
         return ""
     }
 
@@ -109,22 +116,83 @@ class ProcessingJSON {
      * Читает уровни модели для определенного показателя
      * @jsonObject - данные о модели
      */
-    fun readBorder(jsonObject: JsonObject, name: String): Map<String, String> {
+    fun readBorderBoolean(jsonObject: JsonObject, name: String): Map<String, String> {
         val border = mutableMapOf<String, String>()
-        val children = jsonObject.get(DATA).asJsonObject.get(CHILDREN).asJsonArray[1].asJsonObject.get(CHILDREN)
-            .asJsonArray
+        val values = readBorder(jsonObject, name)
+        if (values != null) {
+            for (i in 0 until values.size()) {
+                border[values[i].asJsonObject.get(NAME).asString] =
+                    values[i].asJsonObject.get(VALUE).asString
+            }
+        }
+        return border
+    }
 
-        for(ch in children) {
-            if (ch.asJsonObject.get(ID).asString == name) {
-                val values: JsonArray = ch.asJsonObject.get(LEVELS).asJsonObject.get(VALUE).asJsonArray
-                for (i in 1 until values.size()) {
+    fun readBorderFrom(jsonObject: JsonObject, name: String): Map<String, String> {
+        val border = mutableMapOf<String, String>()
+        val values = readBorder(jsonObject, name)
+        if (values != null) {
+            for (i in 0 until values.size()) {
+                if (values[i].asJsonObject.get(VALUE).asJsonObject.get("a").asString != "-Infinity")
                     border[values[i].asJsonObject.get(NAME).asString] =
                         values[i].asJsonObject.get(VALUE).asJsonObject.get("a").asString
+                else if (values[i].asJsonObject.get(VALUE).asJsonObject.get("a").asString == "-Infinity") {
+                    border[values[i].asJsonObject.get(NAME).asString] =
+                        (values[i].asJsonObject.get(VALUE).asJsonObject.get("b").asInt - 10).toString()
                 }
             }
         }
         return border
     }
+
+    fun readBorderTo(jsonObject: JsonObject, name: String): Map<String, String> {
+        val border = mutableMapOf<String, String>()
+        val values = readBorder(jsonObject, name)
+        if (values != null) {
+            for (i in 0 until values.size()) {
+                if (values[i].asJsonObject.get(VALUE).asJsonObject.get("b").asString != "Infinity")
+                    border[values[i].asJsonObject.get(NAME).asString] =
+                        values[i].asJsonObject.get(VALUE).asJsonObject.get("b").asString
+                else if (values[i].asJsonObject.get(VALUE).asJsonObject.get("b").asString == "Infinity") {
+                    border[values[i].asJsonObject.get(NAME).asString] =
+                        (values[i].asJsonObject.get(VALUE).asJsonObject.get("a").asInt + 10).toString()
+                }
+            }
+        }
+        return border
+    }
+
+    private fun readBorder(jsonObject: JsonObject, name: String): JsonArray? {
+        val children = jsonObject.get(DATA).asJsonObject.get(CHILDREN).asJsonArray[1].asJsonObject.get(CHILDREN)
+            .asJsonArray
+
+        for (ch in children) {
+            if (ch.asJsonObject.get(ID).asString == name && ch.asJsonObject.get(LEVELS) != null
+                && ch.asJsonObject.get(LEVELS).asJsonObject.get(VALUE).toString() != "null"
+            ) {
+                return ch.asJsonObject.get(LEVELS).asJsonObject.get(VALUE).asJsonArray
+            }
+        }
+        return null
+    }
+
+    fun readBorderColor(jsonObject: JsonObject, name: String): Map<String, String> {
+        val borderColor = mutableMapOf<String, String>()
+        val children = jsonObject.get(DATA).asJsonObject.get(CHILDREN).asJsonArray[1].asJsonObject.get(CHILDREN)
+            .asJsonArray
+
+        for (ch in children) {
+            if (ch.asJsonObject.get(ID).asString == name) {
+                val values: JsonArray = ch.asJsonObject.get(LEVELS).asJsonObject.get(VALUE).asJsonArray
+                for (i in 0 until values.size()) {
+                    borderColor[values[i].asJsonObject.get(NAME).asString] =
+                        values[i].asJsonObject.get("color").asString
+                }
+            }
+        }
+        return borderColor
+    }
+
 
     /**
      * Читает даные о всех объектах

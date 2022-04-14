@@ -1,0 +1,27 @@
+.list-cell {
+    -fx-control-inner-background: #459cf7;
+    -fx-control-inner-background-alt: #459cf7;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-effect: dropshadow(one-pass-box, #666666, 5.0, 3.0, 3.0, 3.0);
+}
+
+.chart {
+    -fx-padding: 10px;
+    -fx-background-color: linear-gradient(to left, #80c3f2, #459cf7);
+}
+
+.chart-plot-background {
+    -fx-background-color: white;
+}
+
+.chart-vertical-grid-lines {
+    -fx-stroke: #459cf7;
+    -fx-stroke-width: 1;
+}
+
+.chart-horizontal-grid-lines {
+    -fx-stroke: #459cf7;
+    -fx-stroke-width: 1;
+}

@@ -1,10 +1,20 @@
+package com.example.util
+
 import javafx.scene.effect.DropShadow
+import javafx.scene.layout.AnchorPane
 import javafx.scene.paint.Color
 
 var THEME = "light"
 
 const val STYLE_PANEL = "-fx-background-color: linear-gradient(to left, #80c3f2, #459cf7);"
-const val STYLE_FONT = "-fx-font-size: 16px;-fx-font-family: \"Segoe UI Semibold\";"
+const val DATA_FORMAT = "dd MMM yyy"
+const val TIME_FORMAT = "HH:mm"
+const val FONT = "Segoe UI Semibold"
+
+const val AREA_CHART = "AreaChart"
+const val BAR_CHART = "BarChart"
+const val LINE_CHART = "LineChart"
+const val SCATTER_CHART = "ScatterChart"
 
 enum class pref(val prefWidth: Double, val prefHeight: Double){
     INDICATOR (200.0, 200.0),
@@ -12,8 +22,8 @@ enum class pref(val prefWidth: Double, val prefHeight: Double){
 }
 
 enum class decoration (val prefWidth: Double, val prefHeight: Double, val layoutX: Double, val layoutY: Double, val style: String){
-    NAME (0.0, 0.0,14.0, 4.0, textStyle("white",14)),
-    SETTING (25.0,25.0,25.0,25.0, wayToImage("setting")),
+    NAME (0.0, 0.0,14.0, 4.0, textStyle("white",16)),
+    SETTING (25.0,25.0,27.0,27.0, wayToImage("setting")),
     CHARTS (307.0,255.0,0.0,24.0, "")
 }
 
@@ -62,5 +72,30 @@ fun dropShadow(): DropShadow {
 }
 
 fun textStyle(color: String, size: Int): String{
-    return "-fx-text-fill: $color;-fx-font-size: ${size}px;-fx-font-family: \"Segoe UI Semibold\";"
+    return "-fx-text-fill: $color; -fx-font-size: ${size}px; -fx-font-family: \"Segoe UI Semibold\";"
+}
+
+fun themePane(mainPane: AnchorPane, dataPane: AnchorPane, headerPane: AnchorPane? = null){
+    mainPane.style = getMainColor()
+
+    dataPane.style = getAdditionalColor()
+
+    if (headerPane != null) {
+        headerPane.style = getAdditionalColor()
+    }
+}
+
+fun shadowPane(dataPane: AnchorPane, headerPane: AnchorPane? = null){
+
+    dataPane.effect = dropShadow()
+    for(ch in dataPane.children){
+        ch.effect = dropShadow()
+    }
+
+    if (headerPane != null) {
+        headerPane.effect = dropShadow()
+        for (ch in headerPane.children) {
+            ch.effect = dropShadow()
+        }
+    }
 }

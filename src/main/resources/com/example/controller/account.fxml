@@ -5,52 +5,77 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="mainPane" prefHeight="394.0" prefWidth="438.0" style="-fx-background-color: White;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.AccountController">
-    <AnchorPane fx:id="headerPane" layoutX="-17.0" layoutY="-86.0" prefHeight="35.0" style="-fx-background-color: #b3b3b3;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <ImageView fx:id="exitImageView" fitHeight="30.0" fitWidth="30.0" layoutX="199.0" layoutY="12.0" onMouseClicked="#exitClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-            <Image url="@images/logout.png" />
+<AnchorPane fx:id="mainPane" prefHeight="394.0" prefWidth="438.0" style="-fx-background-color: White;"
+            xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.controller.AccountController">
+    <AnchorPane fx:id="headerPane" layoutX="-17.0" layoutY="-86.0" prefHeight="35.0"
+                style="-fx-background-color: #b3b3b3;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                AnchorPane.topAnchor="0.0">
+        <ImageView fx:id="exitImageView" fitHeight="30.0" fitWidth="30.0" layoutX="199.0" layoutY="12.0"
+                   onMouseClicked="#exitClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0"
+                   AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+            <Image url="@images/logout.png"/>
         </ImageView>
-        <ImageView fx:id="saveImageView" fitHeight="30.0" fitWidth="30.0" layoutX="87.0" layoutY="4.0" onMouseClicked="#saveClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="5.0">
-            <Image url="@images/download.png" />
+        <ImageView fx:id="saveImageView" fitHeight="30.0" fitWidth="30.0" layoutX="87.0" layoutY="4.0"
+                   onMouseClicked="#saveClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0"
+                   AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="5.0">
+            <Image url="@images/download.png"/>
+        </ImageView>
+        <ImageView fx:id="dayNight" fitHeight="30.0" fitWidth="30.0" layoutX="359.0" layoutY="-2.0"
+                   onMouseClicked="#dayNightClick" pickOnBounds="true" preserveRatio="true"
+                   AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="5.0">
+            <Image url="@images/light.png"/>
         </ImageView>
     </AnchorPane>
 
-    <AnchorPane fx:id="dataPane" layoutX="10.0" layoutY="10.0" style="-fx-background-color: #b3b3b3;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="45.0">
-        <ImageView fx:id="accountIcon" fitHeight="90.0" fitWidth="90.0" onMouseClicked="#accountIconClick" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="167.0" AnchorPane.topAnchor="7.0">
+    <AnchorPane fx:id="dataPane" layoutX="10.0" layoutY="10.0" style="-fx-background-color: #b3b3b3;"
+                AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0"
+                AnchorPane.topAnchor="45.0">
+        <ImageView fx:id="accountIcon" fitHeight="90.0" fitWidth="90.0" onMouseClicked="#accountIconClick"
+                   pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="167.0"
+                   AnchorPane.topAnchor="7.0">
         </ImageView>
-        <Label fx:id="username" layoutX="165.0" layoutY="97.0" text="username" textFill="WHITE" AnchorPane.topAnchor="97.0">
+        <Label fx:id="username" alignment="TOP_CENTER" layoutX="165.0" layoutY="97.0" text="имя пользователя"
+               textFill="WHITE" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="97.0">
             <font>
-                <Font name="Segoe UI Semibold" size="22.0" />
+                <Font name="Segoe UI Semibold" size="22.0"/>
             </font>
         </Label>
-        <Label layoutX="51.0" layoutY="136.0" text="логин" textFill="WHITE" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="136.0">
+        <Label layoutX="51.0" layoutY="136.0" text="логин" textFill="WHITE" AnchorPane.leftAnchor="50.0"
+               AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="136.0">
             <font>
-                <Font name="Segoe UI Semibold" size="20.0" />
+                <Font name="Segoe UI Semibold" size="20.0"/>
             </font>
         </Label>
-        <Label fx:id="login" layoutX="48.0" layoutY="166.0" prefHeight="35.0" prefWidth="328.0" style="-fx-background-color: #cccccc;" textFill="#753313" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="166.0">
+        <Label fx:id="login" layoutX="48.0" layoutY="166.0" prefHeight="35.0" prefWidth="328.0"
+               style="-fx-background-color: #cccccc;" textFill="#753313" AnchorPane.leftAnchor="50.0"
+               AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="166.0">
             <font>
-                <Font name="Segoe UI Semibold" size="16.0" />
+                <Font name="Segoe UI Semibold" size="16.0"/>
             </font>
         </Label>
-        <Label layoutX="48.0" layoutY="201.0" text="токен" textFill="WHITE" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="201.0">
+        <Label layoutX="48.0" layoutY="201.0" text="токен" textFill="WHITE" AnchorPane.leftAnchor="50.0"
+               AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="201.0">
             <font>
-                <Font name="Segoe UI Semibold" size="20.0" />
+                <Font name="Segoe UI Semibold" size="20.0"/>
             </font>
         </Label>
-        <TextField fx:id="tokenText" layoutX="48.0" layoutY="231.0" prefHeight="30.0" prefWidth="328.0" style="-fx-background-color: white; -fx-background-radius: 0;" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+        <TextField fx:id="tokenText" layoutX="48.0" layoutY="231.0" prefHeight="30.0" prefWidth="328.0"
+                   style="-fx-background-color: white; -fx-background-radius: 0;" AnchorPane.leftAnchor="50.0"
+                   AnchorPane.rightAnchor="50.0">
             <font>
-                <Font name="Segoe UI Semibold" size="14.0" />
+                <Font name="Segoe UI Semibold" size="14.0"/>
             </font>
         </TextField>
         <Label layoutX="50.0" layoutY="261.0" text="хост" textFill="WHITE">
             <font>
-                <Font name="Segoe UI Semibold" size="20.0" />
+                <Font name="Segoe UI Semibold" size="20.0"/>
             </font>
         </Label>
-        <TextField fx:id="hostText" layoutX="48.0" layoutY="291.0" prefHeight="30.0" prefWidth="328.0" style="-fx-background-color: white; -fx-background-radius: 0;">
+        <TextField fx:id="hostText" layoutX="48.0" layoutY="291.0" prefHeight="30.0" prefWidth="328.0"
+                   style="-fx-background-color: white; -fx-background-radius: 0;">
             <font>
-                <Font name="Segoe UI Semibold" size="14.0" />
+                <Font name="Segoe UI Semibold" size="14.0"/>
             </font>
         </TextField>
     </AnchorPane>

@@ -1,6 +1,6 @@
 package com.example.controller
 
-import THEME
+import com.example.util.THEME
 import com.example.restAPI.*
 import com.example.building.User
 import com.example.database.Database
@@ -8,9 +8,8 @@ import com.example.database.QueriesDB
 import com.example.util.*
 import com.google.gson.Gson
 import com.google.gson.JsonArray
-import dropShadow
-import getAdditionalColor
-import getMainColor
+import com.example.util.dropShadow
+import com.example.util.getAdditionalColor
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
@@ -22,7 +21,7 @@ import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.Region
 import javafx.stage.Modality
 import javafx.stage.Stage
-import wayToImage
+import com.example.util.wayToImage
 import java.io.FileInputStream
 
 /**
@@ -73,8 +72,8 @@ class RegistrationController {
      * Инициализация окна
      */
     fun initialize() {
-        mainPane.style = getMainColor()
-        dataPane.style = getAdditionalColor()
+
+        themePane(mainPane, dataPane)
         dataPane.effect = dropShadow()
         for(ch in dataPane.children){
             if(ch.layoutY != 399.0)
@@ -112,7 +111,7 @@ class RegistrationController {
             for (user in users)
                 if (user.getUsername() == username && user.getLogin() == login) {
 
-                    val animal = (1..25).random()
+                    val animal = (1..30).random()
                     if (memoryCheck.isSelected)
                         queriesDB.insertIntoUser(
                             User(

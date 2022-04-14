@@ -1,16 +1,11 @@
 package com.example.controller
 
-import STYLE_FONT
 import com.example.building.Widget
 import com.example.restAPI.ProcessingJSON
 import com.example.restAPI.RequestGeneration
-import com.example.util.DEFAULT_ADDRESS
-import com.example.util.MODELS
+import com.example.util.*
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import dropShadow
-import getAdditionalColor
-import getMainColor
 import javafx.collections.FXCollections
 import javafx.event.EventHandler
 import javafx.fxml.FXML
@@ -39,35 +34,26 @@ class AddWidgetController {
     @FXML
     private lateinit var nameLabel: Label
     @FXML
-    private lateinit var typeLabel: Label
-    @FXML
     private lateinit var addImageView: ImageView
     @FXML
-    private lateinit var addIndicators: ListView<String>
+    private lateinit var addIndicators: ComboBox<String>
 
     private var name: String = ""
     lateinit var returnData: Widget
 
     private val request = RequestGeneration()
     private var dataType: String = ""
+    var add = false
 
     /**
      * Инициализация окна
      */
     fun initialize() {
-        mainPane.style = getMainColor()
-        dataPane.style = getAdditionalColor()
-        dataPane.effect = dropShadow()
-        addIndicators.style = getAdditionalColor()
-
-        for(ch in dataPane.children){
-            ch.effect = dropShadow()
-        }
+        themePane(mainPane, dataPane)
+        shadowPane(dataPane)
 
         Tooltip.install(addImageView, Tooltip("Добавить виджет"))
         unitLabel.isVisible = false
-        nameLabel.isVisible = false
-        nameTextField.isVisible = false
         unitTextField.isVisible = false
     }
 
@@ -80,9 +66,7 @@ class AddWidgetController {
         if (!typeWidget) {
             chartsType.items =
                 FXCollections.observableArrayList(mutableListOf("AreaChart", "BarChart", "LineChart", "ScatterChart"))
-        } else {
-            chartsType.isVisible = false
-            typeLabel.isVisible = false
+            chartsType.value = "AreaChart"
         }
 
         val address = request.addressGeneration(DEFAULT_ADDRESS, MODELS)
@@ -93,7 +77,8 @@ class AddWidgetController {
         val stateType = ProcessingJSON().readModelParams(model)
 
         addIndicators.items = FXCollections.observableArrayList(modelState)
-        addIndicators.style = STYLE_FONT
+        addIndicators.value = modelState[0]
+
         addIndicators.onMouseClicked = EventHandler {
             val newValue = addIndicators.selectionModel.selectedItem
             if (modelState.contains(newValue)) {
@@ -121,6 +106,7 @@ class AddWidgetController {
      */
     @FXML
     private fun addClick() {
+        add = true
         val type = if (chartsType.value != null) chartsType.value
         else dataType
         returnData = Widget(name, nameTextField.text, unitTextField.text, type)

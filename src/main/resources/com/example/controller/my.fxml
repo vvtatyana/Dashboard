@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import eu.hansolo.medusa.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.WindowController">
+    <AnchorPane fx:id="panel" layoutX="14.0" layoutY="36.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to left, #80c3f2, #459cf7);">
+        <children>
+            <ImageView fitHeight="30.0" fitWidth="27.0" layoutX="125.0" layoutY="125.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="3.0" AnchorPane.rightAnchor="3.0">
+                <image>
+                    <Image url="@images/equalizer.png" />
+                </image>
+            </ImageView>
+            <Label alignment="CENTER" layoutX="14.0" layoutY="4.0" prefHeight="27.0" prefWidth="150.0" text="Themperature" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <font>
+                    <Font name="Segoe UI Semibold" size="14.0" />
+                </font>
+            </Label>
+            <Gauge layoutX="5.0" layoutY="26.0" maxValue="0.0" mediumTickMarksVisible="false" prefHeight="110.0" prefWidth="170.0" skinType="SIMPLE" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="27.0">
+                <minorTickMarkColor>
+                    <Color red="0.14000000059604645" green="0.14000000059604645" blue="0.14000000059604645" />
+                </minorTickMarkColor></Gauge>
+        </children>
+    </AnchorPane>
+   <AnchorPane fx:id="panel1" layoutX="14.0" layoutY="253.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #b3b3b3;">
+      <children>
+         <ImageView fitHeight="30.0" fitWidth="27.0" layoutX="125.0" layoutY="125.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="3.0" AnchorPane.rightAnchor="3.0">
+            <image>
+               <Image url="@images/equalizer.png" />
+            </image>
+         </ImageView>
+         <Label alignment="CENTER" layoutX="14.0" layoutY="4.0" prefHeight="27.0" prefWidth="150.0" text="Window" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <font>
+               <Font name="Segoe UI Semibold" size="14.0" />
+            </font>
+         </Label>
+         <Circle fill="#1fff59" layoutX="74.0" layoutY="79.0" radius="75.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="29.0" />
+         <Circle fill="#636161" layoutX="99.0" layoutY="104.0" radius="34.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="66.0" AnchorPane.rightAnchor="66.0" AnchorPane.topAnchor="70.0" />
+         <Label alignment="CENTER" layoutX="72.0" layoutY="85.0" prefHeight="39.0" prefWidth="54.0" text="true" textFill="WHITE" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="73.0" AnchorPane.rightAnchor="73.0" AnchorPane.topAnchor="85.0">
+            <font>
+               <Font name="Segoe UI Semibold" size="14.0" />
+            </font>
+         </Label>
+      </children>
+   </AnchorPane>
+   <AnchorPane fx:id="panel11" layoutX="236.0" layoutY="36.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #b3b3b3;">
+      <children>
+         <ImageView fitHeight="30.0" fitWidth="27.0" layoutX="125.0" layoutY="125.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="3.0" AnchorPane.rightAnchor="3.0">
+            <image>
+               <Image url="@images/equalizer.png" />
+            </image>
+         </ImageView>
+         <Label alignment="CENTER" layoutX="14.0" layoutY="4.0" prefHeight="27.0" prefWidth="150.0" text="Work" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <font>
+               <Font name="Segoe UI Semibold" size="14.0" />
+            </font>
+         </Label>
+         <Label alignment="CENTER" layoutX="21.0" layoutY="27.0" style="-fx-border-color: white; -fx-border-width: 3;" text="Label" textFill="WHITE" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="25.0">
+            <font>
+               <Font name="Segoe UI Semibold" size="14.0" />
+            </font>
+         </Label>
+      </children>
+   </AnchorPane>
+</AnchorPane>

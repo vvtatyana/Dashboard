@@ -1,10 +1,8 @@
 package com.example.controller
 
+import com.example.util.THEME
 import com.example.building.User
 import com.example.util.*
-import dropShadow
-import getAdditionalColor
-import getMainColor
 import javafx.fxml.FXML
 import javafx.scene.control.Label
 import javafx.scene.control.TextField
@@ -13,59 +11,67 @@ import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.layout.AnchorPane
 import javafx.stage.Stage
-import wayToImage
+import com.example.util.themePane
+import com.example.util.wayToImage
 import java.io.FileInputStream
 
 /**
-* Класс создает окно аккаунта пользователя
-*/
+ * Класс создает окно аккаунта пользователя
+ */
 class AccountController {
 
     @FXML
     private lateinit var mainPane: AnchorPane
+
     @FXML
     private lateinit var headerPane: AnchorPane
+
     @FXML
     private lateinit var dataPane: AnchorPane
+
     @FXML
     private lateinit var accountIcon: ImageView
+
     @FXML
     private lateinit var exitImageView: ImageView
+
     @FXML
     private lateinit var login: Label
+
     @FXML
     private lateinit var username: Label
+
     @FXML
     private lateinit var tokenText: TextField
+
     @FXML
     private lateinit var hostText: TextField
+
     @FXML
     private lateinit var saveImageView: ImageView
+
+    @FXML
+    private lateinit var dayNight: ImageView
+
+    private var icon: Int = 0
 
     lateinit var user: User
 
     var exit: Boolean = false
     var save: Boolean = false
-    private var icon: Int = 0
 
     /**
      * Инициализация окна
      */
     fun initialize() {
-        mainPane.style = getMainColor()
-        headerPane.style = getAdditionalColor()
-        headerPane.effect = dropShadow()
-        dataPane.style = getAdditionalColor()
-        dataPane.effect = dropShadow()
-        for(ch in headerPane.children){
-            ch.effect = dropShadow()
-        }
-        for(ch in dataPane.children){
-            ch.effect = dropShadow()
-        }
+        themePane(mainPane, dataPane, headerPane)
+        shadowPane(dataPane, headerPane)
+
+        dayNight.image = Image(FileInputStream(wayToImage(THEME)))
 
         Tooltip.install(saveImageView, Tooltip("Сохранить изменения"))
         Tooltip.install(exitImageView, Tooltip("Выйти из аккаунта"))
+        Tooltip.install(dayNight, Tooltip("Тема приложения"))
     }
 
     /**
@@ -96,18 +102,19 @@ class AccountController {
             host = DEFAULT_ADDRESS
         }
 
-        user = User(
-            user.getId(),
-            user.getIdUser(),
-            user.getUsername(),
-            user.getLogin(),
-            host,
-            token,
-            user.getCastle(),
-            icon,
-            user.getTheme()
-        )
-
+        if (token != "" || host != "" || icon != user.getIcon()) {
+            user = User(
+                user.getId(),
+                user.getIdUser(),
+                user.getUsername(),
+                user.getLogin(),
+                host,
+                token,
+                user.getCastle(),
+                icon,
+                user.getTheme()
+            )
+        }
         val stage: Stage = saveImageView.scene.window as Stage
         stage.close()
     }
@@ -123,9 +130,27 @@ class AccountController {
     }
 
     @FXML
-    private fun accountIconClick(){
-        if (icon < 25) icon ++
+    private fun accountIconClick() {
+        if (icon < 30) icon++
         else icon = 1
         accountIcon.image = Image(FileInputStream(wayToImage("animals\\$icon")))
+    }
+
+    @FXML
+    private fun dayNightClick() {
+        THEME = when (THEME) {
+            "light" -> {
+                dayNight.image = Image(FileInputStream(wayToImage("dark")))
+                "dark"
+            }
+            "dark" -> {
+                dayNight.image = Image(FileInputStream(wayToImage("light")))
+                "light"
+            }
+            else -> {
+                dayNight.image = Image(FileInputStream(wayToImage("light")))
+                "light"
+            }
+        }
     }
 }

@@ -83,7 +83,7 @@ class QueriesDB(private val connection: Connection, private val statement: State
     }
 
     fun insertIntoUser(user: User){
-        val sql = "INSERT INTO USERS (ID_USER,USERNAME,LOGIN,ADDRESS,TOKEN,CASTLE,ICON,THEME)" +
+        val sql = "INSERT INTO USERS (ID_USER,USERNAME,LOGIN,ADDRESS,TOKEN,CASTLE,ICON,com.example.util.getTHEME)" +
                 "VALUES ('${user.getIdUser()}' , '${user.getUsername()}', '${user.getLogin()}', '${user.getAddress()}', '${user.getToken()}', '${user.getCastle()}', '${user.getIcon()}', '${user.getTheme()}');"
         insertUpdateDelete(sql)
     }

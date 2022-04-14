@@ -3,9 +3,7 @@ package com.example.controller
 import com.example.database.Database
 import com.example.database.QueriesDB
 import com.example.util.*
-import dropShadow
-import getAdditionalColor
-import getMainColor
+import com.example.util.dropShadow
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
@@ -14,7 +12,7 @@ import javafx.scene.image.Image
 import javafx.scene.layout.AnchorPane
 import javafx.stage.Modality
 import javafx.stage.Stage
-import wayToImage
+import com.example.util.wayToImage
 import java.io.FileInputStream
 
 /**
@@ -47,8 +45,8 @@ class LoginController {
      * Инициализация окна
      */
     fun initialize() {
-        mainPane.style = getMainColor()
-        dataPane.style = getAdditionalColor()
+        themePane(mainPane, dataPane)
+
         dataPane.effect = dropShadow()
         for(ch in dataPane.children){
             if(ch.layoutY != 203.0)
@@ -67,12 +65,12 @@ class LoginController {
         if (user != null) {
             ID_USER = user.getId()!!
             HEADERS_AUTH += user.getToken()
-
             if (memoryCheck.isSelected) {
                 queriesDB.updateUser(ID_USER, usersTable.CASTLE.name, true.toString())
             }
 
             database.closeBD()
+
             var stage: Stage = enterButton.scene.window as Stage
             stage.close()
             val fxmlLoader = FXMLLoader(javaClass.getResource("window.fxml"))

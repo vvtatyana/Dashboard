@@ -1,6 +1,6 @@
 package com.example.controller
 
-import THEME
+import com.example.util.THEME
 import com.example.database.Database
 import com.example.database.QueriesDB
 import com.example.util.*
@@ -8,9 +8,8 @@ import javafx.application.Application
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
 import javafx.scene.image.Image
-import javafx.scene.layout.StackPane
 import javafx.stage.Stage
-import wayToImage
+import com.example.util.wayToImage
 import java.io.FileInputStream
 
 

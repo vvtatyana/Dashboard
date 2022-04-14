@@ -1,10 +1,8 @@
 package com.example.controller
 
 import com.example.building.Widget
+import com.example.util.*
 import com.jfoenix.controls.JFXTimePicker
-import dropShadow
-import getAdditionalColor
-import getMainColor
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.scene.control.ComboBox
@@ -59,25 +57,18 @@ class SettingChartController {
 
     lateinit var dataWidget: Widget
     var delete = false
+    var save = true
 
     /**
      * Инициализация окна
      */
     fun initialize() {
-        mainPane.style = getMainColor()
-        headerPane.style = getAdditionalColor()
-        headerPane.effect = dropShadow()
-        for(ch in headerPane.children){
-            ch.effect = dropShadow()
-        }
-        dataPane.style = getAdditionalColor()
-        dataPane.effect = dropShadow()
-        for(ch in dataPane.children){
-            ch.effect = dropShadow()
-        }
+        themePane(mainPane, dataPane, headerPane)
+        shadowPane(dataPane, headerPane)
+
         Tooltip.install(saveImageView, Tooltip("Сохранить изменения"))
         chartsType.items =
-            FXCollections.observableArrayList(mutableListOf("AreaChart", "BarChart", "LineChart", "ScatterChart"))
+            FXCollections.observableArrayList(mutableListOf(AREA_CHART, BAR_CHART, LINE_CHART, SCATTER_CHART))
     }
 
     /**
@@ -95,6 +86,7 @@ class SettingChartController {
      */
     @FXML
     private fun saveClick() {
+        save = true
         var date = ""
         var from = ""
         var to = ""
@@ -106,14 +98,14 @@ class SettingChartController {
             date = cal.timeInMillis.toString()
         }
         if (fromTimePicker.value != null) {
-            from = fromTimePicker.value.format(DateTimeFormatter.ofPattern("HH:mm"))
+            from = fromTimePicker.value.format(DateTimeFormatter.ofPattern(TIME_FORMAT))
         }
         if (toTimePicker.value != null) {
-            to = toTimePicker.value.format(DateTimeFormatter.ofPattern("HH:mm"))
+            to = toTimePicker.value.format(DateTimeFormatter.ofPattern(TIME_FORMAT))
         }
         val type = if (chartsType.value == null) ""
         else chartsType.value
-        dataWidget = Widget(nameChart.text, unitChart.text,type, date, from, to )
+        dataWidget = Widget(nameChart.text, unitChart.text,type, date, from, to)
         val stage: Stage = saveImageView.scene.window as Stage
         stage.close()
     }

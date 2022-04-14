@@ -1,7 +1,7 @@
 package com.example.controller
 
-import STYLE_PANEL
-import THEME
+import com.example.util.STYLE_PANEL
+import com.example.util.THEME
 import com.example.building.*
 import com.example.building.Chart
 import com.example.database.*
@@ -12,14 +12,14 @@ import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.jfoenix.controls.JFXListView
-import decoration
-import dropShadow
+import com.example.util.decoration
+import com.example.util.dropShadow
 import eu.hansolo.medusa.Gauge
 import eu.hansolo.medusa.Gauge.SkinType
 import eu.hansolo.medusa.GaugeBuilder
 import eu.hansolo.medusa.Section
-import getAdditionalColor
-import getMainColor
+import com.example.util.getAdditionalColor
+import com.example.util.getMainColor
 import javafx.animation.TranslateTransition
 import javafx.collections.FXCollections
 import javafx.event.EventHandler
@@ -27,6 +27,7 @@ import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
 import javafx.geometry.Insets
 import javafx.geometry.Pos
+import javafx.geometry.Side
 import javafx.scene.Scene
 import javafx.scene.chart.*
 import javafx.scene.chart.XYChart.Series
@@ -39,13 +40,14 @@ import javafx.scene.layout.BorderPane.setMargin
 import javafx.scene.paint.Color
 import javafx.scene.paint.Paint
 import javafx.scene.shape.Circle
+import javafx.scene.text.Font
 import javafx.stage.Modality
 import javafx.stage.Stage
 import javafx.util.Duration
-import pref
-import textStyle
-import typeIndicator
-import wayToImage
+import com.example.util.pref
+import com.example.util.textStyle
+import com.example.util.typeIndicator
+import com.example.util.wayToImage
 import java.io.FileInputStream
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -85,9 +87,6 @@ class WindowController {
     private lateinit var chartImageView: ImageView
 
     @FXML
-    private lateinit var settingImageView: ImageView
-
-    @FXML
     private lateinit var username: Label
 
     @FXML
@@ -120,7 +119,6 @@ class WindowController {
      */
     fun initialize() {
         Tooltip.install(addImageView, Tooltip("Добавить виджет"))
-        Tooltip.install(settingImageView, Tooltip("Настройки приложения"))
         Tooltip.install(chartImageView, Tooltip("Показать изменение"))
         Tooltip.install(indicatorImageView, Tooltip("Показать индикаторы"))
         Tooltip.install(dataImageView, Tooltip("Список объектов"))
@@ -142,7 +140,7 @@ class WindowController {
         objects()
     }
 
-    private fun imageViewVisible(visible: Boolean){
+    private fun imageViewVisible(visible: Boolean) {
         indicatorImageView.isVisible = visible
         chartImageView.isVisible = visible
         movingImageView.isVisible = visible
@@ -154,15 +152,13 @@ class WindowController {
      * Обновляет тему окна
      */
     private fun updateTheme() {
-        mainPane.style = getMainColor()
-        headerPane.style = getAdditionalColor()
+        themePane(mainPane, headerPane)
+        shadowPane(headerPane)
+
         indicatorPane.style = getMainColor()
         chartPane.style = getMainColor()
         devicesList.style = getAdditionalColor()
         devicesList.effect = dropShadow()
-
-        for (ch in headerPane.children)
-            ch.effect = dropShadow()
     }
 
     /**
@@ -173,28 +169,29 @@ class WindowController {
         val slider = TranslateTransition()
         slider.duration = Duration.seconds(0.4)
         slider.node = panelSlide
-        if (!devicesFlag) {
-            action(slider, "home", 0.0,  -195.0)
+        devicesFlag = if (!devicesFlag) {
+            action(slider, "home", 0.0, -195.0)
+            true
         } else {
-            action(slider, "open-menu", -195.0,  0.0)
+            action(slider, "open-menu", -195.0, 0.0)
+            false
         }
     }
 
-    private fun action(slider:TranslateTransition, image: String, toX: Double, translateX: Double){
+    private fun action(slider: TranslateTransition, image: String, toX: Double, translateX: Double) {
         dataImageView.image = Image(FileInputStream(wayToImage(image)))
         slider.toX = toX
         slider.play()
         panelSlide.translateX = translateX
-        devicesFlag = true
         setMargin(panelSlide, Insets(0.0, 0.0, 0.0, toX))
     }
-
 
     /**
      * Считывает все объекты у пользоввателя и загружает в бд если их там нет
      */
     private fun objects() {
-        val strObjects = RequestGeneration().addressAssemblyGET(DEFAULT_ADDRESS, OBJECTS)
+        val strObjects = request.addressAssemblyGET(DEFAULT_ADDRESS, OBJECTS)
+
         val jsonObjects = Gson().fromJson(strObjects, JsonArray::class.java)
         objects = processingJSON.readAllObjects(jsonObjects) as MutableList<Object>
 
@@ -217,29 +214,27 @@ class WindowController {
             nameListObjects.add(obj.getNameObject())
             val namesObjects = FXCollections.observableArrayList(nameListObjects)
             devicesList.items = namesObjects
-            devicesList.isVisible = true
 
             devicesList.onMouseClicked = EventHandler {
 
                 imageViewVisible(true)
 
                 val newValue = devicesList.selectionModel.selectedItem
+                if (newValue != null) {
+                    indicatorPane.children.remove(0, indicatorPane.children.size)
+                    chartPane.children.remove(0, chartPane.children.size)
+                    val objDB = queriesDB.selectObject(objectsTable.NAME_OBJECT.name, newValue)
 
-                indicatorPane.children.remove(0, indicatorPane.children.size)
+                    if (objDB != null) {
+                        objectData = objDB
+                    }
 
-                chartPane.children.remove(0, chartPane.children.size)
-
-                val objDB = queriesDB.selectObject(objectsTable.NAME_OBJECT.name, newValue)
-
-                if (objDB != null) {
-                    objectData = objDB
+                    val values = valuesObject(newValue, objects, address)
+                    val data = objectsData(newValue, objects, address, values)
+                    devicesClick()
+                    uploadObjects(data)
                 }
-
-                val values = valuesObject(newValue, objects, address)
-                val data = objectsData(newValue, objects, address, values)
-                uploadObjects(data)
             }
-
         }
     }
 
@@ -337,28 +332,32 @@ class WindowController {
             )!!.getIdModel()
         )
         val jsonModel = Gson().fromJson(strModel, JsonObject::class.java)
-        val border = processingJSON.readBorder(jsonModel, name).toMutableMap()
+        val borderFrom = processingJSON.readBorderFrom(jsonModel, name).toMutableMap()
+        val borderTo = processingJSON.readBorderTo(jsonModel, name).toMutableMap()
+        val borderColor = processingJSON.readBorderColor(jsonModel, name).toMutableMap()
+        val keys = borderColor.keys.toList()
 
         val gaugeBuilder = GaugeBuilder.create()
             .skinType(SkinType.SIMPLE)
             .sectionsVisible(true)
             .title(unitText)
-            .threshold(border[MAX]!!.toDouble()) //TODO
             .animated(true)
+        val sections = mutableListOf<Section>()
 
-        if (border.containsKey(MIN) && border.containsKey(MID) && border.containsKey(MAX))
-            gaugeBuilder.sections(
-                Section(border[MIN]!!.toDouble() - 10, border[MIN]!!.toDouble(), "0", Color.web("#ff4e33")),
-                Section(border[MIN]!!.toDouble(), border[MID]!!.toDouble(), "1", Color.web("#6bdb6b")),
-                Section(border[MID]!!.toDouble(), border[MAX]!!.toDouble(), "2", Color.web("#ffba42")),
-                Section(border[MAX]!!.toDouble(), border[MAX]!!.toDouble() + 10, "3", Color.web("#ff4e33"))
+        for (i in keys.indices) {
+            sections.add(
+                Section(
+                    borderFrom[keys[i]]!!.toDouble(),
+                    borderTo[keys[i]]!!.toDouble(),
+                    i.toString(),
+                    Color.web(borderColor[keys[i]])
+                )
             )
+        }
 
-        val gauge = gaugeBuilder.build()
-        if (border.containsKey(MIN))
-            gauge.minValue = border[MIN]!!.toDouble() - 10
-        if (border.containsKey(MAX))
-            gauge.maxValue = border[MAX]!!.toDouble() + 10
+        val gauge = gaugeBuilder.sections(sections).build()
+        gauge.minValue = borderFrom[keys[0]]!!.toDouble()
+        gauge.maxValue = borderTo[keys[keys.size - 1]]!!.toDouble()
 
         if (data != null)
             gauge.value = data.toDouble()
@@ -373,30 +372,67 @@ class WindowController {
         return gauge
     }
 
-    private fun createString(data: String?): Label {
+    private fun createString(data: String?, name: String): Label {
         val stringLabel = Label(data)
         stringLabel.alignment = Pos.CENTER
-        stringLabel.style = decoration.NAME.style
         stringLabel.effect = dropShadow()
+        val address = request.addressGeneration(DEFAULT_ADDRESS, MODELS)
+        val getData = request.addressAssemblyGET(address, objectData.getIdModel())
+        val model = Gson().fromJson(getData, JsonObject::class.java)
+        val border = ProcessingJSON().readBorderBoolean(model, name)
+
+        if (border.isNotEmpty()) {
+            val borderColor = ProcessingJSON().readBorderColor(model, name)
+            if (data != null) {
+                if (borderColor.containsKey(data)) {
+                    stringLabel.style = textStyle(
+                        "white",
+                        14
+                    ) + "-fx-background-color: ${borderColor[data]}; -fx-border-color: white; -fx-border-width: 3;"
+                } else stringLabel.style = textStyle("white", 14)
+            }
+        }
 
         AnchorPane.setTopAnchor(stringLabel, 25.0)
-        AnchorPane.setBottomAnchor(stringLabel, 25.0)
+        AnchorPane.setBottomAnchor(stringLabel, 30.0)
         AnchorPane.setRightAnchor(stringLabel, 15.0)
         AnchorPane.setLeftAnchor(stringLabel, 15.0)
 
         return stringLabel
     }
 
-    private fun createCircle(data: String?, radius: Double, top: Double, bottom: Double, right: Double, left: Double): Circle {
+    private fun createCircle(
+        data: String?,
+        radius: Double,
+        top: Double,
+        bottom: Double,
+        right: Double,
+        left: Double,
+        name: String
+    ): Circle {
         val circle = Circle()
-        if(data!=null) {
-            if (data.toBoolean()) {
-                circle.fill = Paint.valueOf("#6bdb6b")
+        val address = request.addressGeneration(DEFAULT_ADDRESS, MODELS)
+        val getData = request.addressAssemblyGET(address, objectData.getIdModel())
+        val model = Gson().fromJson(getData, JsonObject::class.java)
+        val border = ProcessingJSON().readBorderBoolean(model, name)
+
+        if (data != null) {
+            if (border.isNotEmpty()) {
+                val borderColor = ProcessingJSON().readBorderColor(model, name)
+
+                if (data.toBoolean()) {
+                    circle.fill = Paint.valueOf(borderColor["True"])
+                } else {
+                    circle.fill = Paint.valueOf(borderColor["False"])
+                }
             } else {
-                circle.fill = Paint.valueOf("#ff4e33")
+                if (data.toBoolean()) {
+                    circle.fill = Paint.valueOf("#6bdb6b")
+                } else {
+                    circle.fill = Paint.valueOf("#ff4e33")
+                }
             }
-        }
-        else{
+        } else {
             circle.fill = Paint.valueOf("#636161")
         }
         circle.radius = radius
@@ -436,6 +472,7 @@ class WindowController {
         val setting = ImageView(Image(FileInputStream(decoration.SETTING.style)))
         setting.fitWidth = decoration.SETTING.prefWidth
         setting.fitHeight = decoration.SETTING.prefHeight
+
         setting.layoutX = prefWidth - decoration.SETTING.layoutX
         setting.layoutY = prefHeight - decoration.SETTING.layoutY
         setting.effect = dropShadow()
@@ -467,16 +504,20 @@ class WindowController {
         controller.load(objectData.getIdModel(), nameIndicator, type)
 
         stage.showAndWait()
-        reloadClick()
-        if (controller.delete) {
-            indicatorPane.children.remove(panel)
-            queriesDB.deleteIndicator(pos[0], pos[1])
-        } else {
-            val dataWidget = controller.dataWidget
-            if (dataWidget != null) {
-                updateObject(pos[0], pos[1], dataWidget.getName(), dataWidget.getUnit(), "")
-                if (dataWidget.getName() != "") name.text = dataWidget.getName()
+
+        if (controller.save) {
+            if (controller.delete) {
+                indicatorPane.children.remove(panel)
+                queriesDB.deleteIndicator(pos[0], pos[1])
+            } else {
+                val dataWidget = controller.dataWidget
+                if (dataWidget != null) {
+                    updateObject(pos[0], pos[1], dataWidget.getName(), dataWidget.getUnit(), "")
+                    reloadClick()
+                    if (dataWidget.getName() != "") name.text = dataWidget.getName()
+                }
             }
+            reloadClick()
         }
     }
 
@@ -511,7 +552,7 @@ class WindowController {
         if (controller.delete) {
             chartPane.children.remove(panel)
             queriesDB.deleteChart(layoutX, layoutY)
-        } else {
+        } else if (controller.save) {
             val dataWidget = controller.dataWidget
 
             updateObject(layoutX, layoutY, dataWidget.getName(), dataWidget.getUnit(), dataWidget.getType())
@@ -522,18 +563,19 @@ class WindowController {
                 name.text.substring(0, name.text.indexOf(",", 0) + 1) + dataWidget.getUnit()
 
             if (dataWidget.getDate() != "") {
-                val datas = Series<String, Number>()
-                val simpleDateFormat = SimpleDateFormat("dd MMM yyy")
+                val series = Series<String, Number>()
+                val simpleDateFormat = SimpleDateFormat(DATA_FORMAT)
                 val simpleDate = simpleDateFormat.format(Date(dataWidget.getDate().toLong()))
 
-                datas.name = simpleDate
+                series.name = simpleDate
                 areaChart.data.remove(0, areaChart.data.size)
-                areaChart.data.add(datas)
-                for (t in data) {
-                    val time = Date(t[0].toLong())
-                    if (simpleDateFormat.format(time) == simpleDate) {
-                        val simpleDateFormatOther = SimpleDateFormat("HH:mm")
+                areaChart.data.add(series)
 
+                for (d in data) {
+                    val time = Date(d[0].toLong())
+
+                    if (simpleDateFormat.format(time) == simpleDate) {
+                        val simpleDateFormatOther = SimpleDateFormat(TIME_FORMAT)
                         val thisTime = LocalTime.parse(simpleDateFormatOther.format(time))
                         if (dataWidget.getFrom() != "") {
                             val fromTime = LocalTime.parse(dataWidget.getFrom())
@@ -542,28 +584,28 @@ class WindowController {
                                     val toTime = LocalTime.parse(dataWidget.getTo())
 
                                     if (thisTime.isBefore(toTime)) {
-                                        datas.data.add(
+                                        series.data.add(
                                             XYChart.Data(
                                                 simpleDateFormatOther.format(time),
-                                                t[1].toDouble()
+                                                d[1].toDouble()
                                             )
                                         )
                                     }
 
                                 } else {
-                                    datas.data.add(
+                                    series.data.add(
                                         XYChart.Data(
                                             simpleDateFormatOther.format(time),
-                                            t[1].toDouble()
+                                            d[1].toDouble()
                                         )
                                     )
                                 }
                             }
                         } else {
-                            datas.data.add(
+                            series.data.add(
                                 XYChart.Data(
                                     simpleDateFormatOther.format(time),
-                                    t[1].toDouble()
+                                    d[1].toDouble()
                                 )
                             )
                         }
@@ -571,7 +613,6 @@ class WindowController {
                 }
             }
         }
-
     }
 
     /**
@@ -579,7 +620,7 @@ class WindowController {
      */
     private fun dataSeries(data: List<List<Number>>): Series<String, Number> {
         val dataChart = Series<String, Number>()
-        val df1: DateFormat = SimpleDateFormat("dd MMM yyy")
+        val df1: DateFormat = SimpleDateFormat(DATA_FORMAT)
         val day: String
         if (data.isNotEmpty()) {
             day = df1.format(Date(data[data.size - 1][0].toLong()))
@@ -588,7 +629,7 @@ class WindowController {
             for (t in data) {
                 val time = Date(t[0].toLong())
                 if (df1.format(time) == day) {
-                    val df2 = SimpleDateFormat("HH:mm")
+                    val df2 = SimpleDateFormat(TIME_FORMAT)
                     dataChart.data.add(XYChart.Data(df2.format(time), t[1].toDouble()))
                 }
             }
@@ -604,18 +645,23 @@ class WindowController {
     private fun createChart(chartType: String, data: List<List<Number>>): XYChart<String, Number> {
         val dataChart = dataSeries(data)
         val xAxis = CategoryAxis()
+        xAxis.side = Side.BOTTOM
+        xAxis.tickLabelFill = Paint.valueOf("white")
+        xAxis.tickLabelFont = Font("Segoe UI Semibold", 12.0)
         val yAxis = NumberAxis()
+        yAxis.side = Side.BOTTOM
+        yAxis.tickLabelFill = Paint.valueOf("white")
         val areaChart = when (chartType) {
-            "AreaChart" -> {
+            AREA_CHART -> {
                 AreaChart(xAxis, yAxis)
             }
-            "BarChart" -> {
+            BAR_CHART -> {
                 BarChart(xAxis, yAxis)
             }
-            "LineChart" -> {
+            LINE_CHART -> {
                 LineChart(xAxis, yAxis)
             }
-            "ScatterChart" -> {
+            SCATTER_CHART -> {
                 ScatterChart(xAxis, yAxis)
             }
             else -> {
@@ -648,15 +694,15 @@ class WindowController {
             val obj = queriesDB.selectObject(objectsTable.ID.name, objectData.getId().toString())
             val data = objectData(addWidget.getWidget(), obj!!.getIdObject(), address)
 
-            val information = when (addWidget.getWidget()) {
+            val information = when (addWidget.getType()) {
                 typeIndicator.NUMBER.type -> {
                     createGauge(data, addWidget.getUnit(), addWidget.getWidget())
                 }
                 typeIndicator.STRING.type -> {
-                    createString(data)
+                    createString(data, addWidget.getName())
                 }
                 typeIndicator.BOOLEAN.type -> {
-                    createCircle(data, 74.0, 24.0, 19.0, 23.0, 23.0)
+                    createCircle(data, 74.0, 24.0, 19.0, 23.0, 23.0, addWidget.getName())
                 }
                 else -> {
                     null
@@ -665,7 +711,7 @@ class WindowController {
             panel.children.add(information)
 
             if (addWidget.getType() == typeIndicator.BOOLEAN.type) {
-                panel.children.add(createCircle(null, 34.0, 65.0, 62.0, 64.0, 64.0))
+                panel.children.add(createCircle(null, 34.0, 65.0, 62.0, 64.0, 64.0, ""))
                 panel.children.add(createCircleText(data))
             }
 
@@ -755,10 +801,18 @@ class WindowController {
                             )
                         }
                         typeIndicator.STRING.type -> {
-                            createString(data[indicator.getNameIndicator()])
+                            createString(data[indicator.getNameIndicator()], indicator.getNameIndicator())
                         }
                         typeIndicator.BOOLEAN.type -> {
-                            createCircle(data[indicator.getNameIndicator()], 74.0, 24.0, 19.0, 23.0, 23.0)
+                            createCircle(
+                                data[indicator.getNameIndicator()],
+                                74.0,
+                                24.0,
+                                19.0,
+                                23.0,
+                                23.0,
+                                indicator.getNameIndicator()
+                            )
                         }
                         else -> {
                             null
@@ -767,7 +821,7 @@ class WindowController {
                     panel.children.add(information)
 
                     if (indicator.getType() == typeIndicator.BOOLEAN.type) {
-                        panel.children.add(createCircle(null, 34.0, 65.0, 62.0, 64.0, 64.0))
+                        panel.children.add(createCircle(null, 34.0, 65.0, 62.0, 64.0, 64.0, ""))
                         panel.children.add(createCircleText(data[indicator.getNameIndicator()]))
                     }
 
@@ -857,7 +911,6 @@ class WindowController {
                 queriesDB.updateChart(layoutX, layoutY, chartsTable.TYPE.name, type)
             }
         }
-        reloadClick()
     }
 
     /**
@@ -869,7 +922,7 @@ class WindowController {
     private fun valuesObject(name: String, listObjects: List<Object>, addressAll: String): List<String> {
         val values = mutableListOf<String>()
         for (obj in listObjects) if (name == obj.getNameObject()) {
-            val str = RequestGeneration().addressAssemblyGET(addressAll, obj.getIdObject())
+            val str = request.addressAssemblyGET(addressAll, obj.getIdObject())
             var json = Gson().fromJson(str, JsonObject::class.java)
 
             val state = processingJSON.read(json, STATE)
@@ -901,7 +954,7 @@ class WindowController {
     ): Map<String, String> {
         val data: MutableMap<String, String> = mutableMapOf()
         for (obj in listObjects) if (name == obj.getNameObject()) {
-            val str = RequestGeneration().addressAssemblyGET(addressAll, obj.getIdObject())
+            val str = request.addressAssemblyGET(addressAll, obj.getIdObject())
             var json = Gson().fromJson(str, JsonObject::class.java)
 
             val state = processingJSON.read(json, STATE)
@@ -918,7 +971,7 @@ class WindowController {
 
     //выгружает показатель для определенного данного
     private fun objectData(name: String, objects: String, addressAll: String): String? {
-        val str = RequestGeneration().addressAssemblyGET(addressAll, objects)
+        val str = request.addressAssemblyGET(addressAll, objects)
         var json = Gson().fromJson(str, JsonObject::class.java)
 
         val state = processingJSON.read(json, STATE)
@@ -934,7 +987,7 @@ class WindowController {
     private fun chartData(name: String, idObjects: String): List<List<Number>> {
         val address = request.addressGeneration(request.addressGeneration(DEFAULT_ADDRESS, OBJECTS), idObjects)
 
-        val str = RequestGeneration().addressAssemblyGET(address, "packets")
+        val str = request.addressAssemblyGET(address, "packets")
         val json = Gson().fromJson(str, JsonArray::class.java)
         val topic = "$TOPIC$name"
         return processingJSON.readForChart(json, topic)
@@ -943,7 +996,9 @@ class WindowController {
     //addBlock
     @FXML
     private fun clickIndicators() {
-        val fxmlLoader = FXMLLoader(javaClass.getResource("addWidget.fxml"))
+        val fxmlLoader = if (indicatorPane.isVisible)
+            FXMLLoader(javaClass.getResource("addWidgetIndicator.fxml"))
+        else FXMLLoader(javaClass.getResource("addWidgetChart.fxml"))
         val stage = Stage()
         stage.initModality(Modality.WINDOW_MODAL)
         stage.isResizable = false
@@ -956,9 +1011,10 @@ class WindowController {
             controller.load(objectData.getIdModel(), false)
 
         stage.showAndWait()
-        val addWidget = controller.returnData
-
-        addObjects(addWidget)
+        if (controller.add) {
+            val addWidget = controller.returnData
+            addObjects(addWidget)
+        }
     }
 
     private fun getPositionIndicator(): List<Double> {
@@ -1029,6 +1085,7 @@ class WindowController {
 
     @FXML
     private fun accountClick() {
+        val oldTheme = THEME
         val fxmlLoader = FXMLLoader(javaClass.getResource("account.fxml"))
         val stage = Stage()
         stage.initModality(Modality.WINDOW_MODAL)
@@ -1037,7 +1094,10 @@ class WindowController {
         val controller: AccountController = fxmlLoader.getController()
         controller.load(user)
         stage.showAndWait()
-
+        if (THEME != oldTheme) {
+            queriesDB.updateUser(ID_USER, usersTable.THEME.name, THEME)
+            updateTheme()
+        }
         if (controller.save) {
             val saveUser = controller.user
             var token = user.getToken()
@@ -1056,11 +1116,22 @@ class WindowController {
                 queriesDB.updateUser(ID_USER, usersTable.ICON.name, icon.toString())
             }
 
-            user = User(user.getId(), user.getIdUser(), user.getUsername(), user.getLogin(), addressDev, token, user.getCastle(), icon, user.getTheme())
+            user = User(
+                user.getId(),
+                user.getIdUser(),
+                user.getUsername(),
+                user.getLogin(),
+                addressDev,
+                token,
+                user.getCastle(),
+                icon,
+                user.getTheme()
+            )
         }
 
         if (controller.exit) {
             queriesDB.updateUser(ID_USER, usersTable.CASTLE.name, false.toString())
+            database.closeBD()
             var newStage: Stage = username.scene.window as Stage
             newStage.close()
             val newFxmlLoader = FXMLLoader(javaClass.getResource("loginWindow.fxml"))
@@ -1071,22 +1142,6 @@ class WindowController {
             newStage.scene = Scene(newFxmlLoader.load())
             newStage.show()
         }
-    }
-
-    @FXML
-    private fun settingClick() {
-        val oldTheme = THEME
-        val fxmlLoader = FXMLLoader(javaClass.getResource("setting.fxml"))
-        val stage = Stage()
-        stage.initModality(Modality.WINDOW_MODAL)
-        stage.isResizable = false
-        stage.scene = Scene(fxmlLoader.load())
-        stage.showAndWait()
-        if (THEME != oldTheme) {
-            queriesDB.updateUser(ID_USER, usersTable.THEME.name, THEME)
-            updateTheme()
-        }
-
     }
 
     @FXML
