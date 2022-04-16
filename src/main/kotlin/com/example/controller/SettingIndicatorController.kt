@@ -142,6 +142,7 @@ class SettingIndicatorController {
                     valueIntervalTo.isVisible = false
                 }
                 else -> {
+                    fromLabel.text = "Значение"
                     toLabel.isVisible = false
                     valueIntervalTo.isVisible = false
                 }
@@ -185,6 +186,14 @@ class SettingIndicatorController {
      * @field - поле
      * @value - новое значение
      */
+    private fun updateBorderString(field: String, value: String) {
+        var address = RequestGeneration().addressGeneration(DEFAULT_ADDRESS, MODELS)
+        address = RequestGeneration().addressGeneration(address, idModel)
+        val dataGet = RequestGeneration().getRequest(address).toString()
+        val data = ProcessingJSON().updateModelString(dataGet, name, field, value)
+        if (data != "")
+            RequestGeneration().patchRequest(address, data)
+    }
 
     private fun updateBorder(field: String, value: String, level: String) {
         var address = RequestGeneration().addressGeneration(DEFAULT_ADDRESS, MODELS)
@@ -242,7 +251,26 @@ class SettingIndicatorController {
                     oldColor = newColor
                 }
             }
-        } else if (type == "boolean" || type == "string") {
+        } else if (type == "boolean") {
+            if (newColor != "" && oldColor != newColor) {
+                if (newColor.length != 7 || newColor[0] != '#') {
+                    errorLabel.text = "Введена не верная кодировка цвета"
+                } else {
+                    updateBorderColor(nameIntervalComboBox.value, newColor)
+                    colorPane.style = "-fx-background-color:${newColor}"
+                    oldColor = newColor
+                }
+            }
+        } else if (type == "string") {
+            if (newValueFrom != "" && oldValueFrom != newValueFrom) {
+                updateBorderString(nameIntervalComboBox.value, newValueFrom)
+                oldValueFrom = newValueFrom
+            }
+
+            if (newValueFrom == "" && newColor == "") {
+                errorLabel.text = "Заполните поля значение или цвет"
+            }
+
             if (newColor != "" && oldColor != newColor) {
                 if (newColor.length != 7 || newColor[0] != '#') {
                     errorLabel.text = "Введена не верная кодировка цвета"

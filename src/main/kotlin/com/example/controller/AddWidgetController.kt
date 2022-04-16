@@ -41,6 +41,8 @@ class AddWidgetController {
     private var name: String = ""
     lateinit var returnData: Widget
 
+    private var typeWidget: Boolean = false
+
     private val request = RequestGeneration()
     private var dataType: String = ""
     var add = false
@@ -63,6 +65,7 @@ class AddWidgetController {
      * @typeWidget - тип виджета
      */
     fun load(idModel: String, typeWidget: Boolean) {
+        this.typeWidget = typeWidget
         if (!typeWidget) {
             chartsType.items =
                 FXCollections.observableArrayList(mutableListOf("AreaChart", "BarChart", "LineChart", "ScatterChart"))
@@ -79,10 +82,10 @@ class AddWidgetController {
         addIndicators.items = FXCollections.observableArrayList(modelState)
         addIndicators.value = modelState[0]
 
-        addIndicators.onMouseClicked = EventHandler {
-            val newValue = addIndicators.selectionModel.selectedItem
-            if (modelState.contains(newValue)) {
-                name = newValue
+        addIndicators.setOnAction {
+            name = addIndicators.value
+            println(name)
+            if (modelState.contains(name)) {
                 nameTextField.promptText = name
                 dataType = stateType[name].toString()
                 if (dataType == "number"){
@@ -107,8 +110,9 @@ class AddWidgetController {
     @FXML
     private fun addClick() {
         add = true
-        val type = if (chartsType.value != null) chartsType.value
+        val type = if (!typeWidget && chartsType.value != null) chartsType.value
         else dataType
+        println(name)
         returnData = Widget(name, nameTextField.text, unitTextField.text, type)
         val stage: Stage = addImageView.scene.window as Stage
         stage.close()

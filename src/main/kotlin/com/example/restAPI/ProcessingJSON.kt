@@ -97,6 +97,21 @@ class ProcessingJSON {
         return ""
     }
 
+    fun updateModelString(data: String, name: String, value: String, field: String): String {
+        val jsonModel: JsonObject = Gson().fromJson(data, JsonObject::class.java)
+        val values = readBorder(jsonModel, name)
+        if (values != null) {
+            for (i in 0 until values.size()) {
+                if (values[i].asJsonObject.get(NAME).asString == value) {
+                    val jsonValue = values[i].asJsonObject
+                    jsonValue.addProperty(VALUE, field)
+                    return jsonModel.toString()
+                }
+            }
+        }
+        return ""
+    }
+
     fun updateModelColor(data: String, name: String, value: String, field: String): String {
         val jsonModel: JsonObject = Gson().fromJson(data, JsonObject::class.java)
         val values = readBorder(jsonModel, name)
@@ -138,7 +153,7 @@ class ProcessingJSON {
                         values[i].asJsonObject.get(VALUE).asJsonObject.get("a").asString
                 else if (values[i].asJsonObject.get(VALUE).asJsonObject.get("a").asString == "-Infinity") {
                     border[values[i].asJsonObject.get(NAME).asString] =
-                        (values[i].asJsonObject.get(VALUE).asJsonObject.get("b").asInt - 10).toString()
+                        (values[i].asJsonObject.get(VALUE).asJsonObject.get("b").asInt-10).toString()
                 }
             }
         }
