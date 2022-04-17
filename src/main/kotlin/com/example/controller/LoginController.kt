@@ -46,12 +46,6 @@ class LoginController {
      */
     fun initialize() {
         themePane(mainPane, dataPane)
-
-        dataPane.effect = dropShadow()
-        for(ch in dataPane.children){
-            if(ch.layoutY != 203.0)
-                ch.effect = dropShadow()
-        }
     }
 
     /**

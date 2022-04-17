@@ -83,7 +83,6 @@ class SettingIndicatorController {
 
     fun initialise() {
         themePane(mainPane, dataPane, headerPane)
-        shadowPane(dataPane, headerPane)
     }
 
     /**

@@ -64,7 +64,6 @@ class SettingChartController {
      */
     fun initialize() {
         themePane(mainPane, dataPane, headerPane)
-        shadowPane(dataPane, headerPane)
 
         Tooltip.install(saveImageView, Tooltip("Сохранить изменения"))
         chartsType.items =

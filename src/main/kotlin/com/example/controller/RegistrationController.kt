@@ -72,13 +72,7 @@ class RegistrationController {
      * Инициализация окна
      */
     fun initialize() {
-
         themePane(mainPane, dataPane)
-        dataPane.effect = dropShadow()
-        for(ch in dataPane.children){
-            if(ch.layoutY != 399.0)
-                ch.effect = dropShadow()
-        }
         Tooltip.install(nameInfoOne, Tooltip("Справка"))
         Tooltip.install(nameInfoTwo, Tooltip("Справка"))
         Tooltip.install(nameInfoThree, Tooltip("Справка"))

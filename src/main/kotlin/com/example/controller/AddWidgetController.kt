@@ -52,7 +52,6 @@ class AddWidgetController {
      */
     fun initialize() {
         themePane(mainPane, dataPane)
-        shadowPane(dataPane)
 
         Tooltip.install(addImageView, Tooltip("Добавить виджет"))
         unitLabel.isVisible = false

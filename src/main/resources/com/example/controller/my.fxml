@@ -9,7 +9,7 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.WindowController">
-    <AnchorPane fx:id="panel" layoutX="14.0" layoutY="36.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to left, #80c3f2, #459cf7);">
+    <AnchorPane fx:id="panel" layoutX="14.0" layoutY="36.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to left, #DEC476, #A7986C);">
         <children>
             <ImageView fitHeight="30.0" fitWidth="27.0" layoutX="125.0" layoutY="125.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="3.0" AnchorPane.rightAnchor="3.0">
                 <image>
@@ -21,10 +21,19 @@
                     <Font name="Segoe UI Semibold" size="14.0" />
                 </font>
             </Label>
-            <Gauge layoutX="5.0" layoutY="26.0" maxValue="0.0" mediumTickMarksVisible="false" prefHeight="110.0" prefWidth="170.0" skinType="SIMPLE" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="27.0">
+            <Gauge backgroundPaint="#b10a0a00" layoutX="5.0" layoutY="26.0" maxValue="0.0" mediumTickMarksVisible="false" prefHeight="110.0" prefWidth="170.0" skinType="SIMPLE" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="27.0">
                 <minorTickMarkColor>
                     <Color red="0.14000000059604645" green="0.14000000059604645" blue="0.14000000059604645" />
-                </minorTickMarkColor></Gauge>
+                </minorTickMarkColor>
+            <barBorderColor>
+               <Color red="0.6947368383407593" green="0.40654972195625305" blue="0.40654972195625305" opacity="0.0" />
+            </barBorderColor>
+            <barColor>
+               <Color red="0.6431372761726379" green="0.0235294122248888" blue="0.0235294122248888" />
+            </barColor>
+            <knobColor>
+               <Color red="0.7803921699523926" green="0.1411764770746231" blue="0.1411764770746231" />
+            </knobColor></Gauge>
         </children>
     </AnchorPane>
    <AnchorPane fx:id="panel1" layoutX="14.0" layoutY="253.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #b3b3b3;">

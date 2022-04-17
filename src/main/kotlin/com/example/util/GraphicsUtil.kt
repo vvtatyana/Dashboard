@@ -6,10 +6,9 @@ import javafx.scene.paint.Color
 
 var THEME = "light"
 
-const val STYLE_PANEL = "-fx-background-color: linear-gradient(to left, #80c3f2, #459cf7);"
+val STYLE_PANEL = panelTheme()
 const val DATA_FORMAT = "dd MMM yyy"
 const val TIME_FORMAT = "HH:mm"
-const val FONT = "Segoe UI Semibold"
 
 const val AREA_CHART = "AreaChart"
 const val BAR_CHART = "BarChart"
@@ -22,14 +21,14 @@ enum class pref(val prefWidth: Double, val prefHeight: Double){
 }
 
 enum class decoration (val prefWidth: Double, val prefHeight: Double, val layoutX: Double, val layoutY: Double, val style: String){
-    NAME (0.0, 0.0,14.0, 4.0, textStyle("white",16)),
-    SETTING (25.0,25.0,27.0,27.0, wayToImage("setting")),
+    NAME (0.0, 0.0,14.0, 4.0, textStyle(16)),
+    SETTING (25.0,25.0,27.0,27.0, wayToImage("other/settings")),
     CHARTS (307.0,255.0,0.0,24.0, "")
 }
 
 enum class themeSystem (val theme: String, val mainColor: String, val additionalColor: String, val shadowColor: String){
-    LIGHT("light", "#ffffff",  "#b3b3b3", "#666666"),
-    DARK("dark", "#000000",  "#333333", "#000000")
+    LIGHT("light", "linear-gradient(to left, #c5d0e6, #a3b4d6)",  "linear-gradient(to left, #c5d0e6, #a3b4d6)", "#253554"),
+    DARK("dark", "linear-gradient(to left, #2b4b6e, #1d334a)",  "linear-gradient(to left, #2b4b6e, #1d334a)", "#000000")
 }
 
 enum class typeIndicator (val type: String){
@@ -60,9 +59,9 @@ fun getAdditionalColor(): String{
 
 fun dropShadow(): DropShadow {
     val dropShadow = DropShadow()
-    dropShadow.radius = 3.0
-    dropShadow.offsetX = 1.0
-    dropShadow.offsetY = 1.0
+    dropShadow.radius = 0.0
+    dropShadow.offsetX = 0.0
+    dropShadow.offsetY = 0.0
     dropShadow.color = when(THEME){
         "light" -> Color.web(themeSystem.LIGHT.shadowColor)
         "dark" -> Color.web(themeSystem.DARK.shadowColor)
@@ -71,12 +70,28 @@ fun dropShadow(): DropShadow {
     return dropShadow
 }
 
-fun textStyle(color: String, size: Int): String{
-    return "-fx-text-fill: $color; -fx-font-size: ${size}px; -fx-font-family: \"Segoe UI Semibold\";"
+fun textStyle(size: Int): String{
+    return "-fx-text-fill: ${textTheme()}; -fx-font-size: ${size}px; -fx-font-family: \"Segoe UI Semibold\";"
+}
+
+fun panelTheme(): String{
+    return when(THEME){
+        "light" -> "-fx-background-color: linear-gradient(to left, #e9edf5, #ced9ed);"
+        "dark" -> "-fx-background-color: linear-gradient(to left, #6d99c7, #487eb8);"
+        else -> "-fx-background-color: linear-gradient(to left, #e9edf5, #ced9ed);"
+    }
+}
+
+fun textTheme(): String{
+    return when(THEME){
+        "light" -> "#3b507b"
+        "dark" -> "#dae5f2"
+        else -> "#3b507b"
+    }
 }
 
 fun themePane(mainPane: AnchorPane, dataPane: AnchorPane, headerPane: AnchorPane? = null){
-    mainPane.style = getMainColor()
+    mainPane.style = getAdditionalColor()
 
     dataPane.style = getAdditionalColor()
 

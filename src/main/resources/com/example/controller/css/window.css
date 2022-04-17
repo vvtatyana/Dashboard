@@ -1,28 +1,23 @@
 .list-cell {
-    -fx-control-inner-background: #459cf7;
-    -fx-control-inner-background-alt: #459cf7;
-    -fx-text-fill: white;
+    -fx-control-inner-background: linear-gradient(to left, #e9edf5, #ced9ed);
+    -fx-control-inner-background-alt: linear-gradient(to left, #e9edf5, #ced9ed);
+    -fx-text-fill: #44619c;
     -fx-font-size: 16px;
     -fx-font-family: "Segoe UI Semibold";
-    -fx-effect: dropshadow(one-pass-box, #666666, 5.0, 3.0, 3.0, 3.0);
 }
 
 .chart {
     -fx-padding: 10px;
-    -fx-stroke: white;
 }
 
-/*.chart-plot-background {*/
-/*    -fx-background-color: white;*/
-/*}*/
 
 .chart-vertical-grid-lines {
-    -fx-stroke: white;
+    -fx-stroke: #44619c;
     -fx-stroke-width: 1;
 }
 
 .chart-horizontal-grid-lines {
-    -fx-stroke: white;
+    -fx-stroke: #44619c;
     -fx-stroke-width: 1;
 }
 

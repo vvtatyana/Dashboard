@@ -65,9 +65,8 @@ class AccountController {
      */
     fun initialize() {
         themePane(mainPane, dataPane, headerPane)
-        shadowPane(dataPane, headerPane)
 
-        dayNight.image = Image(FileInputStream(wayToImage(THEME)))
+        dayNight.image = Image(FileInputStream(wayToImage("other/$THEME")))
 
         Tooltip.install(saveImageView, Tooltip("Сохранить изменения"))
         Tooltip.install(exitImageView, Tooltip("Выйти из аккаунта"))
@@ -140,17 +139,15 @@ class AccountController {
     private fun dayNightClick() {
         THEME = when (THEME) {
             "light" -> {
-                dayNight.image = Image(FileInputStream(wayToImage("dark")))
                 "dark"
             }
             "dark" -> {
-                dayNight.image = Image(FileInputStream(wayToImage("light")))
                 "light"
             }
             else -> {
-                dayNight.image = Image(FileInputStream(wayToImage("light")))
                 "light"
             }
         }
+        dayNight.image = Image(FileInputStream(wayToImage("other/$THEME")))
     }
 }

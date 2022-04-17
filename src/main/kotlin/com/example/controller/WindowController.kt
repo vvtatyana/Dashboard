@@ -16,6 +16,7 @@ import eu.hansolo.medusa.Gauge.SkinType
 import eu.hansolo.medusa.GaugeBuilder
 import eu.hansolo.medusa.Section
 import javafx.animation.TranslateTransition
+import javafx.application.Platform
 import javafx.collections.FXCollections
 import javafx.event.EventHandler
 import javafx.fxml.FXML
@@ -161,16 +162,16 @@ class WindowController {
         slider.duration = Duration.seconds(0.4)
         slider.node = panelSlide
         devicesFlag = if (!devicesFlag) {
-            action(slider, "home", 0.0, -195.0)
+            action(slider, 0.0, -195.0)
             true
         } else {
-            action(slider, "open-menu", -195.0, 0.0)
+            action(slider,-195.0, 0.0)
             false
         }
     }
 
-    private fun action(slider: TranslateTransition, image: String, toX: Double, translateX: Double) {
-        dataImageView.image = Image(FileInputStream(wayToImage(image)))
+    private fun action(slider: TranslateTransition, toX: Double, translateX: Double) {
+
         slider.toX = toX
         slider.play()
         panelSlide.translateX = translateX
@@ -285,12 +286,11 @@ class WindowController {
      */
     private fun createPanel(layoutX: Double, layoutY: Double, prefWidth: Double, prefHeight: Double): AnchorPane {
         val panel = AnchorPane()
-        panel.style = STYLE_PANEL
+        panel.style = panelTheme()
         panel.layoutX = layoutX
         panel.layoutY = layoutY
         panel.prefWidth = prefWidth
         panel.prefHeight = prefHeight
-        panel.effect = dropShadow()
 
         mouseDraggedPanel(panel, layoutX, layoutY)
         return panel
@@ -356,11 +356,9 @@ class WindowController {
         }
 
         val gauge = gaugeBuilder.sections(sections).build()
-
+        gauge.ledColor = Color.web(textTheme())
         if (data != null)
             gauge.value = data.toDouble()
-
-        gauge.effect = dropShadow()
 
         AnchorPane.setTopAnchor(gauge, 27.0)
         AnchorPane.setBottomAnchor(gauge, 19.0)
@@ -383,14 +381,11 @@ class WindowController {
             val borderColor = ProcessingJSON().readBorderColor(model, name)
             if (data != null) {
                 if (borderColor.containsKey(data)) {
-                    stringLabel.style = textStyle(
-                        "white",
-                        14
-                    ) + "-fx-background-color: ${borderColor[data]}; -fx-border-color: white; -fx-border-width: 3;"
-                } else stringLabel.style = textStyle("white", 14)
+                    stringLabel.style = textStyle(14) + "-fx-background-color: ${borderColor[data]}; -fx-border-color: ${textTheme()}; -fx-border-width: 3;"
+                } else stringLabel.style = textStyle( 14)
             }
         }
-        else stringLabel.style = textStyle("white",14)
+        else stringLabel.style = textStyle(14)
 
         AnchorPane.setTopAnchor(stringLabel, 25.0)
         AnchorPane.setBottomAnchor(stringLabel, 30.0)
@@ -435,7 +430,7 @@ class WindowController {
             circle.fill = Paint.valueOf("#636161")
         }
         circle.radius = radius
-        circle.stroke = Paint.valueOf("WHITE")
+        circle.stroke = Paint.valueOf(textTheme())
         circle.strokeWidth = 3.0
         circle.effect = dropShadow()
         AnchorPane.setTopAnchor(circle, top)
@@ -453,7 +448,7 @@ class WindowController {
             circleLabel.text = "Нет"
         }
         circleLabel.alignment = Pos.CENTER
-        circleLabel.style = textStyle("white", 20)
+        circleLabel.style = textStyle(20)
 
         AnchorPane.setTopAnchor(circleLabel, 70.0)
         AnchorPane.setBottomAnchor(circleLabel, 70.0)
@@ -649,12 +644,12 @@ class WindowController {
         val dataChart = dataSeries(data)
         val xAxis = CategoryAxis()
         xAxis.side = Side.BOTTOM
-        xAxis.tickLabelFill = Paint.valueOf("white")
+        xAxis.tickLabelFill = Paint.valueOf(textTheme())
         xAxis.tickLabelFont = Font("Segoe UI Semibold", 12.0)
 
         val yAxis = NumberAxis()
         yAxis.side = Side.BOTTOM
-        yAxis.tickLabelFill = Paint.valueOf("white")
+        yAxis.tickLabelFill = Paint.valueOf(textTheme())
 
         val areaChart = when (chartType) {
             AREA_CHART -> {
@@ -1238,19 +1233,13 @@ class WindowController {
         if (mouseFlag) {
             mouseFlag = false
             movingImageView.image =
-                Image(FileInputStream(wayToImage("shrink")))
+                Image(FileInputStream(wayToImage("other/lock")))
         } else {
             mouseFlag = true
             movingImageView.image =
-                Image(FileInputStream(wayToImage("expand")))
+                Image(FileInputStream(wayToImage("other/unlock")))
         }
 
     }
-    /* override fun run() {
-         while (true) {
-             println("run")
-             Thread.sleep(600)
-             reloadClick()
-         }
-     }*/
+
 }
