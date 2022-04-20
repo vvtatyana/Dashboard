@@ -15,9 +15,6 @@ import com.example.util.themePane
 import com.example.util.wayToImage
 import java.io.FileInputStream
 
-/**
- * Класс создает окно аккаунта пользователя
- */
 class AccountController {
 
     @FXML
@@ -73,10 +70,6 @@ class AccountController {
         Tooltip.install(dayNight, Tooltip("Тема приложения"))
     }
 
-    /**
-     * Получение данных о пользователе из основного окна
-     * @user - данные о пользователе
-     */
     fun load(user: User) {
         this.user = user
         username.text = user.getUsername()
@@ -84,9 +77,6 @@ class AccountController {
         accountIcon.image = Image(FileInputStream(wayToImage("animals\\${user.getIcon()}")))
     }
 
-    /**
-     * Обработка нажатия кнопки сохранения
-     */
     @FXML
     private fun saveClick() {
         save = true
@@ -118,9 +108,6 @@ class AccountController {
         stage.close()
     }
 
-    /**
-     * Обработка нажатия кнопки выхода из аккаунта
-     */
     @FXML
     private fun exitClick() {
         exit = true

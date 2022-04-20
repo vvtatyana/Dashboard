@@ -14,9 +14,6 @@ import javafx.scene.image.ImageView
 import javafx.scene.layout.AnchorPane
 import javafx.stage.Stage
 
-/**
-* Класс создает окно для добавления нового виджета
-*/
 class AddWidgetController {
 
     @FXML
@@ -47,9 +44,6 @@ class AddWidgetController {
     private var dataType: String = ""
     var add = false
 
-    /**
-     * Инициализация окна
-     */
     fun initialize() {
         themePane(mainPane, dataPane)
 
@@ -58,11 +52,6 @@ class AddWidgetController {
         unitTextField.isVisible = false
     }
 
-    /**
-     * Получение данных из основного окна
-     * @obj - данные об объекте
-     * @typeWidget - тип виджета
-     */
     fun load(idModel: String, typeWidget: Boolean) {
         this.typeWidget = typeWidget
         if (!typeWidget) {
@@ -103,9 +92,6 @@ class AddWidgetController {
         }
     }
 
-    /**
-     * Обработка нажатия кнопки добавтить
-     */
     @FXML
     private fun addClick() {
         add = true

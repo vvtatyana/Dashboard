@@ -19,22 +19,22 @@
             </font>
         </Label>
         <ImageView fx:id="addImageView" fitHeight="30.0" fitWidth="30.0" layoutX="929.0" layoutY="6.0" onMouseClicked="#clickIndicators" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.600000000000001" AnchorPane.rightAnchor="41.0" AnchorPane.topAnchor="6.0">
-            <Image url="@images/other/pharmacy.png" />
+            <Image url="@images/other/Add_ring.png" />
         </ImageView>
         <ImageView fx:id="reloadImageView" fitHeight="30.0" fitWidth="30.0" layoutX="894.0" layoutY="6.0" onMouseClicked="#reloadClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.600000000000001" AnchorPane.rightAnchor="76.0" AnchorPane.topAnchor="6.0">
-            <Image url="@images/other/cloud-download.png" />
+            <Image url="@images/other/Refresh_2.png" />
         </ImageView>
         <ImageView fx:id="accountImageView" fitHeight="30.0" fitWidth="30.0" layoutX="964.0" layoutY="6.0" onMouseClicked="#accountClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.600000000000001" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="6.0">
-            <Image url="@images/other/user.png" />
+            <Image url="@images/other/User%20(1).png" />
         </ImageView>
         <ImageView fx:id="chartImageView" fitHeight="30.0" fitWidth="30.0" layoutX="859.0" layoutY="6.0" onMouseClicked="#chartClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.600000000000001" AnchorPane.rightAnchor="111.0" AnchorPane.topAnchor="6.0">
-            <Image url="@images/other/chart-pie.png" />
+            <Image url="@images/other/Line_up.png" />
         </ImageView>
-        <ImageView fx:id="indicatorImageView" fitHeight="30.0" fitWidth="30.0" layoutX="824.0" layoutY="6.0" onMouseClicked="#indicatorClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.600000000000001" AnchorPane.rightAnchor="146.0" AnchorPane.topAnchor="6.0">
-            <Image url="@images/other/dashboard.png" />
+        <ImageView fx:id="indicatorImageView" fitHeight="32.0" fitWidth="30.0" layoutX="824.0" layoutY="6.0" onMouseClicked="#indicatorClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="4.0" AnchorPane.rightAnchor="146.0" AnchorPane.topAnchor="6.0">
+            <Image url="@images/other/doughnut_chart.png" />
         </ImageView>
         <ImageView fx:id="dataImageView" fitHeight="30.0" fitWidth="30.0" layoutX="35.0" layoutY="12.0" onMouseClicked="#devicesClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
-            <Image url="@images/other/database.png" />
+            <Image url="@images/other/Layers.png" />
         </ImageView>
         <ImageView fx:id="movingImageView" fitHeight="30.0" fitWidth="30.0" layoutX="789.0" layoutY="6.0" onMouseClicked="#movingClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.600000000000001" AnchorPane.rightAnchor="181.0" AnchorPane.topAnchor="6.0">
             <Image url="@images/other/lock.png" />
@@ -42,8 +42,8 @@
     </AnchorPane>
 
     <AnchorPane fx:id="indicatorPane" layoutX="344.0" layoutY="84.0" prefHeight="576.0" prefWidth="801.0" style="-fx-background-color: White;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="47.0" />
-    <AnchorPane fx:id="chartPane" layoutX="204.0" layoutY="55.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="47.0">
-      </AnchorPane>
+    <AnchorPane fx:id="chartPane" layoutX="204.0" layoutY="55.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="47.0" />
+
 
     <AnchorPane fx:id="panelSlide" layoutX="-195.0" layoutY="45.0" prefHeight="615.0" prefWidth="190.0" style="-fx-background-color: #b3b3b3; -fx-background-radius: 0;" translateX="-195.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="45.0">
         <JFXListView fx:id="devicesList" layoutY="31.0" prefHeight="584.0" prefWidth="190.0" style="-fx-background-color: #b3b3b3; -fx-background-radius: 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />

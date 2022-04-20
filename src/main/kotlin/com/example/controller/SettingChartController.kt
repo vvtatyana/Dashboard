@@ -15,9 +15,6 @@ import javafx.stage.Stage
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-/**
-* Класс создает окно для настройки графика
-*/
 class SettingChartController {
     @FXML
     lateinit var toTimePicker: JFXTimePicker
@@ -59,30 +56,19 @@ class SettingChartController {
     var delete = false
     var save = true
 
-    /**
-     * Инициализация окна
-     */
     fun initialize() {
         themePane(mainPane, dataPane, headerPane)
 
         Tooltip.install(saveImageView, Tooltip("Сохранить изменения"))
         chartsType.items =
-            FXCollections.observableArrayList(mutableListOf(AREA_CHART, BAR_CHART, LINE_CHART, SCATTER_CHART))
+            FXCollections.observableArrayList(mutableListOf(ChartType.AREA_CHART.type, ChartType.BAR_CHART.type, ChartType.LINE_CHART.type, ChartType.SCATTER_CHART.type))
     }
 
-    /**
-    * Получение данных из основного окна
-    * @layoutX - позиция по оси X
-    * @layoutY - позиция по оси Y
-    */
     fun load(layoutX: Double, layoutY: Double) {
         this.layoutX = layoutX
         this.layoutY = layoutY
     }
 
-    /**
-     * Обработка нажатия кнопки сохранения
-     */
     @FXML
     private fun saveClick() {
         save = true
@@ -109,9 +95,6 @@ class SettingChartController {
         stage.close()
     }
 
-    /**
-     * Обработка нажатия кнопки удалить
-     */
     @FXML
     private fun deleteClick() {
         delete = true

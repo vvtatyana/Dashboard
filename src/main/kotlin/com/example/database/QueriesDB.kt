@@ -1,7 +1,7 @@
 package com.example.database
 
 import com.example.building.*
-import com.example.util.tableBD
+import com.example.util.TableBD
 import java.sql.Connection
 import java.sql.Statement
 import kotlin.system.exitProcess
@@ -52,7 +52,7 @@ class QueriesDB(private val connection: Connection, private val statement: State
 
     /*USERS*/
     fun selectUser(field: String, value: String): User?{
-        val result = select("SELECT * from USERS where $field='$value'", tableBD.USERS.column)
+        val result = select("SELECT * from USERS where $field='$value'", TableBD.USERS.column)
         return if (result.isNotEmpty())
             User(result[0][0].toInt(), result[0][1], result[0][2], result[0][3], result[0][4], result[0][5], result[0][6].toBoolean(), result[0][7].toInt(), result[0][8])
         else null
@@ -100,7 +100,7 @@ class QueriesDB(private val connection: Connection, private val statement: State
 
     /*OBJECTS*/
     fun selectObject(field: String, value: String): Object?{
-        val result = select("SELECT * from OBJECTS where $field='$value'", tableBD.OBJECTS.column)
+        val result = select("SELECT * from OBJECTS where $field='$value'", TableBD.OBJECTS.column)
         return if (result.isNotEmpty())
             Object(result[0][0].toInt(), result[0][1], result[0][2].toInt(), result[0][3], result[0][4])
         else null
@@ -136,14 +136,21 @@ class QueriesDB(private val connection: Connection, private val statement: State
 
     /*INDICATORS*/
     fun selectIndicator(layoutX: Double, layoutY: Double, idObj: String): Indicator?{
-        val result = select("SELECT * from INDICATORS where LAYOUT_X=$layoutX and LAYOUT_Y=$layoutY and ID_OBJECT='$idObj'", tableBD.INDICATORS.column)
+        val result = select("SELECT * from INDICATORS where LAYOUT_X=$layoutX and LAYOUT_Y=$layoutY and ID_OBJECT='$idObj'", TableBD.INDICATORS.column)
         return if (result.isNotEmpty())
             Indicator(result[0][0].toInt(), result[0][1], result[0][2], result[0][3].toDouble(), result[0][4].toDouble(), result[0][5], result[0][6], result[0][7])
         else null
     }
 
-    fun selectIndicators(): List<Indicator>? {
-        val resultList = select("SELECT * from INDICATORS", tableBD.INDICATORS.column)
+    fun selectIndicatorId(id: Int): Indicator?{
+        val result = select("SELECT * from INDICATORS where ID=$id", TableBD.INDICATORS.column)
+        return if (result.isNotEmpty())
+            Indicator(result[0][0].toInt(), result[0][1], result[0][2], result[0][3].toDouble(), result[0][4].toDouble(), result[0][5], result[0][6], result[0][7])
+        else null
+    }
+
+    fun selectIndicators(idObj: String): List<Indicator>? {
+        val resultList = select("SELECT * from INDICATORS where ID_OBJECT='$idObj'", TableBD.INDICATORS.column)
         return if (resultList.isNotEmpty()) {
             val indicators = mutableListOf<Indicator>()
             for (result in resultList) {
@@ -188,14 +195,14 @@ class QueriesDB(private val connection: Connection, private val statement: State
 
     /*CHARTS*/
     fun selectChart(layoutX: Double, layoutY: Double, idObj: String): Chart?{
-        val result = select("SELECT * from CHARTS where LAYOUT_X=$layoutX and LAYOUT_Y=$layoutY and ID_OBJECT='$idObj'", tableBD.CHARTS.column)
+        val result = select("SELECT * from CHARTS where LAYOUT_X=$layoutX and LAYOUT_Y=$layoutY and ID_OBJECT='$idObj'", TableBD.CHARTS.column)
         return if (result.isNotEmpty())
             Chart(result[0][0].toInt(), result[0][1], result[0][2], result[0][3].toDouble(), result[0][4].toDouble(), result[0][5], result[0][6], result[0][6])
         else null
     }
 
-    fun selectCharts(): List<Chart>? {
-        val resultList = select("SELECT * from CHARTS", tableBD.CHARTS.column)
+    fun selectCharts(idObj: String): List<Chart>? {
+        val resultList = select("SELECT * from CHARTS where ID_OBJECT='$idObj'", TableBD.CHARTS.column)
         return if (resultList.isNotEmpty()) {
             val charts = mutableListOf<Chart>()
             for (result in resultList) {

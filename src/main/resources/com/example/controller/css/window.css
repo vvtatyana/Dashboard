@@ -1,9 +1,6 @@
 .list-cell {
-    -fx-control-inner-background: linear-gradient(to left, #e9edf5, #ced9ed);
-    -fx-control-inner-background-alt: linear-gradient(to left, #e9edf5, #ced9ed);
-    -fx-text-fill: #44619c;
-    -fx-font-size: 16px;
-    -fx-font-family: "Segoe UI Semibold";
+    -fx-control-inner-background: transparent;
+    -fx-control-inner-background-alt: transparent;
 }
 
 .chart {

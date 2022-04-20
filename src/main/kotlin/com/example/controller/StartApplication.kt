@@ -10,19 +10,16 @@ import javafx.scene.Scene
 import javafx.scene.image.Image
 import javafx.stage.Stage
 import com.example.util.wayToImage
+import javafx.stage.StageStyle
 import java.io.FileInputStream
 
-
-/**
-* Точка входа в приложение
-*/
 class StartApplication : Application() {
 
     override fun start(stage: Stage) {
         val database = Database()
         val queriesDB = QueriesDB(database.getConnection(), database.getStatement())
 
-        val user = queriesDB.selectUser(usersTable.CASTLE.name, true.toString())
+        val user = queriesDB.selectUser(UsersTable.CASTLE.name, true.toString())
         database.closeBD()
 
         if(user != null) {
@@ -46,7 +43,9 @@ class StartApplication : Application() {
     private fun showWindow(stage: Stage, nameFile: String, title: String){
         val fxmlLoader = FXMLLoader(javaClass.getResource(nameFile))
         val scene = Scene(fxmlLoader.load())
-        stage.icons.add(Image(FileInputStream(wayToImage("iot"))))
+        stage.initStyle(StageStyle.DECORATED)
+
+        stage.icons.add(Image(FileInputStream(wayToImage("other/smart_house"))))
         stage.title = title
         stage.scene = scene
         stage.show()

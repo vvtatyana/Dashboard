@@ -16,9 +16,6 @@ import javafx.scene.image.ImageView
 import javafx.scene.layout.AnchorPane
 import javafx.stage.Stage
 
-/**
- * Класс создает окно для настройки индикатора
- */
 class SettingIndicatorController {
 
     lateinit var toLabel: Label
@@ -85,12 +82,7 @@ class SettingIndicatorController {
         themePane(mainPane, dataPane, headerPane)
     }
 
-    /**
-     * Получение данных из основного окна
-     * @idModel - id модели
-     */
-    fun load(idModel: String, name: String, type: String) {
-        this.name = name
+    fun load(idModel: String, type: String) {
         this.idModel = idModel
         this.type = type
 
@@ -168,10 +160,6 @@ class SettingIndicatorController {
         else  borderPane.isVisible = false
     }
 
-
-    /**
-     * Обработка нажатия кнопки сохранения
-     */
     @FXML
     private fun saveClick() {
         save = true
@@ -180,11 +168,6 @@ class SettingIndicatorController {
         stage.close()
     }
 
-    /**
-     * Изменяет данные о границах модели
-     * @field - поле
-     * @value - новое значение
-     */
     private fun updateBorderString(field: String, value: String) {
         var address = RequestGeneration().addressGeneration(DEFAULT_ADDRESS, MODELS)
         address = RequestGeneration().addressGeneration(address, idModel)
@@ -212,9 +195,6 @@ class SettingIndicatorController {
             RequestGeneration().patchRequest(address, data)
     }
 
-    /**
-     * Обработка нажатия кнопки удаления
-     */
     @FXML
     private fun deleteClick() {
         delete = true

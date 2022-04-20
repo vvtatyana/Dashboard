@@ -60,7 +60,7 @@
             <Image url="@images/other/trash.png" />
         </ImageView>
         <ImageView fx:id="saveImageView" fitHeight="30.0" fitWidth="30.0" layoutX="87.0" layoutY="4.0" onMouseClicked="#saveClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="5.0">
-            <Image url="@images/other/disk.png" />
+            <Image url="@images/other/Save.png" />
         </ImageView>
     </AnchorPane>
 </AnchorPane>

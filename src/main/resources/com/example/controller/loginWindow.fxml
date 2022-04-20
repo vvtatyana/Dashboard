@@ -43,7 +43,7 @@
             </font>
         </Button>
         <ImageView fitHeight="46.0" fitWidth="42.0" layoutX="137.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="137.0" AnchorPane.rightAnchor="249.0" AnchorPane.topAnchor="24.0">
-            <Image url="@images/other/user.png" />
+            <Image url="@images/other/Sign_in_squre.png" />
         </ImageView>
     </AnchorPane>
 </AnchorPane>

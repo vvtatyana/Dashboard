@@ -6,32 +6,33 @@ import javafx.scene.paint.Color
 
 var THEME = "light"
 
-val STYLE_PANEL = panelTheme()
 const val DATA_FORMAT = "dd MMM yyy"
 const val TIME_FORMAT = "HH:mm"
 
-const val AREA_CHART = "AreaChart"
-const val BAR_CHART = "BarChart"
-const val LINE_CHART = "LineChart"
-const val SCATTER_CHART = "ScatterChart"
+enum class ChartType(val type: String){
+    AREA_CHART ("AreaChart"),
+    BAR_CHART ("BarChart"),
+    LINE_CHART ("LineChart"),
+    SCATTER_CHART ("ScatterChart")
+}
 
-enum class pref(val prefWidth: Double, val prefHeight: Double){
+enum class Pref(val prefWidth: Double, val prefHeight: Double){
     INDICATOR (200.0, 200.0),
     CHART (305.0, 305.0)
 }
 
-enum class decoration (val prefWidth: Double, val prefHeight: Double, val layoutX: Double, val layoutY: Double, val style: String){
-    NAME (0.0, 0.0,14.0, 4.0, textStyle(16)),
-    SETTING (25.0,25.0,27.0,27.0, wayToImage("other/settings")),
-    CHARTS (307.0,255.0,0.0,24.0, "")
+enum class Decoration(val pref: Double, val layoutX: Double, val layoutY: Double, val style: String){
+    NAME (0.0, 14.0, 4.0, textStyle(16)),
+    SETTING (25.0,27.0,27.0, wayToImage("other/settings")),
+    CHARTS (307.0,0.0,24.0, "")
 }
 
-enum class themeSystem (val theme: String, val mainColor: String, val additionalColor: String, val shadowColor: String){
-    LIGHT("light", "linear-gradient(to left, #c5d0e6, #a3b4d6)",  "linear-gradient(to left, #c5d0e6, #a3b4d6)", "#253554"),
+enum class ThemeSystem(val theme: String, val mainColor: String, val additionalColor: String, val shadowColor: String){
+    LIGHT("light", "linear-gradient(to left, #d0daf0, #bac9e8)",  "linear-gradient(to left, #d0daf0, #bac9e8)", "#253554"),
     DARK("dark", "linear-gradient(to left, #2b4b6e, #1d334a)",  "linear-gradient(to left, #2b4b6e, #1d334a)", "#000000")
 }
 
-enum class typeIndicator (val type: String){
+enum class TypeIndicator(val type: String){
     NUMBER ("number"),
     STRING ("string"),
     BOOLEAN ("boolean")
@@ -43,17 +44,17 @@ fun wayToImage(image: String): String{
 
 fun getMainColor(): String{
     return when(THEME){
-        "light" -> "-fx-background-color: ${themeSystem.LIGHT.mainColor}"
-        "dark" -> "-fx-background-color: ${themeSystem.DARK.mainColor}"
-        else -> "-fx-background-color: ${themeSystem.LIGHT.mainColor}"
+        "light" -> "-fx-background-color: ${ThemeSystem.LIGHT.mainColor}"
+        "dark" -> "-fx-background-color: ${ThemeSystem.DARK.mainColor}"
+        else -> "-fx-background-color: ${ThemeSystem.LIGHT.mainColor}"
     }
 }
 
 fun getAdditionalColor(): String{
     return when(THEME){
-        "light" -> "-fx-background-color: ${themeSystem.LIGHT.additionalColor}"
-        "dark" -> "-fx-background-color: ${themeSystem.DARK.additionalColor}"
-        else -> "-fx-background-color: ${themeSystem.LIGHT.additionalColor}"
+        "light" -> "-fx-background-color: ${ThemeSystem.LIGHT.additionalColor};"
+        "dark" -> "-fx-background-color: ${ThemeSystem.DARK.additionalColor};"
+        else -> "-fx-background-color: ${ThemeSystem.LIGHT.additionalColor};"
     }
 }
 
@@ -63,22 +64,22 @@ fun dropShadow(): DropShadow {
     dropShadow.offsetX = 0.0
     dropShadow.offsetY = 0.0
     dropShadow.color = when(THEME){
-        "light" -> Color.web(themeSystem.LIGHT.shadowColor)
-        "dark" -> Color.web(themeSystem.DARK.shadowColor)
-        else -> Color.web(themeSystem.LIGHT.shadowColor)
+        "light" -> Color.web(ThemeSystem.LIGHT.shadowColor)
+        "dark" -> Color.web(ThemeSystem.DARK.shadowColor)
+        else -> Color.web(ThemeSystem.LIGHT.shadowColor)
     }
     return dropShadow
 }
 
-fun textStyle(size: Int): String{
-    return "-fx-text-fill: ${textTheme()}; -fx-font-size: ${size}px; -fx-font-family: \"Segoe UI Semibold\";"
+fun textStyle(size: Int, color: String = textTheme()): String{
+    return "-fx-text-fill: $color; -fx-font-size: ${size}px; -fx-font-family: \"Segoe UI Semibold\";"
 }
 
 fun panelTheme(): String{
     return when(THEME){
-        "light" -> "-fx-background-color: linear-gradient(to left, #e9edf5, #ced9ed);"
-        "dark" -> "-fx-background-color: linear-gradient(to left, #6d99c7, #487eb8);"
-        else -> "-fx-background-color: linear-gradient(to left, #e9edf5, #ced9ed);"
+        "light" -> "-fx-background-color: linear-gradient(to left, #e9edf5, #ced9ed); -fx-background-radius: 2;"
+        "dark" -> "-fx-background-color: linear-gradient(to left, #2f649d, #224c77); -fx-background-radius: 2;"
+        else -> "-fx-background-color: linear-gradient(to left, #e9edf5, #ced9ed); -fx-background-radius: 2;"
     }
 }
 

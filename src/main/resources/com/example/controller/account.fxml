@@ -8,13 +8,13 @@
 <AnchorPane fx:id="mainPane" prefHeight="394.0" prefWidth="438.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.AccountController">
     <AnchorPane fx:id="headerPane" layoutX="-17.0" layoutY="-86.0" prefHeight="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <ImageView fx:id="exitImageView" fitHeight="30.0" fitWidth="30.0" layoutX="199.0" layoutY="12.0" onMouseClicked="#exitClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-            <Image url="@images/other/running.png" />
+            <Image url="@images/other/Sign_in_squre.png" />
         </ImageView>
         <ImageView fx:id="saveImageView" fitHeight="30.0" fitWidth="30.0" layoutX="87.0" layoutY="4.0" onMouseClicked="#saveClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="5.0">
-            <Image url="@images/other/disk.png" />
+            <Image url="@images/other/Save.png" />
         </ImageView>
         <ImageView fx:id="dayNight" fitHeight="30.0" fitWidth="30.0" layoutX="359.0" layoutY="-2.0" onMouseClicked="#dayNightClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="5.0">
-            <Image url="@images/other/sun.png" />
+            <Image url="@images/other/light.png" />
         </ImageView>
     </AnchorPane>
 

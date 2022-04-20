@@ -24,9 +24,7 @@ import javafx.stage.Stage
 import com.example.util.wayToImage
 import java.io.FileInputStream
 
-/**
-* Класс создает окно для регистрации
-*/
+
 class RegistrationController {
 
     @FXML
@@ -68,9 +66,6 @@ class RegistrationController {
     @FXML
     private lateinit var nameInfoFour: ImageView
 
-    /**
-     * Инициализация окна
-     */
     fun initialize() {
         themePane(mainPane, dataPane)
         Tooltip.install(nameInfoOne, Tooltip("Справка"))
@@ -79,9 +74,6 @@ class RegistrationController {
         Tooltip.install(nameInfoFour, Tooltip("Справка"))
     }
 
-    /**
-     * Обработка нажатия кнопки зарегестрироваться
-     */
     @FXML
     private fun onRegistrationButtonClick() {
         val database = Database()
@@ -147,17 +139,11 @@ class RegistrationController {
         hostText.text = ""
     }
 
-    /**
-     * Обработка нажатия кнопки войти
-     */
     @FXML
     private fun onLoginButtonClick() {
         showWindow("loginWindow.fxml", "Login")
     }
 
-    /**
-     * Совершает переход в другие окна
-     */
     private fun showWindow(nameFile: String, title: String) {
         var stage: Stage = loginButton.scene.window as Stage
         stage.icons.add(Image(FileInputStream(wayToImage("iot"))))
@@ -170,9 +156,6 @@ class RegistrationController {
         stage.show()
     }
 
-    /**
-     * Обработка нажатия кнопки справки
-     */
     @FXML
     private fun nameInfoClick() {
         showAlert(
@@ -181,9 +164,6 @@ class RegistrationController {
         )
     }
 
-    /**
-     * Обработка нажатия кнопки справки
-     */
     @FXML
     private fun loginInfoClick() {
         showAlert(
@@ -192,9 +172,6 @@ class RegistrationController {
         )
     }
 
-    /**
-     * Обработка нажатия кнопки справки
-     */
     @FXML
     private fun tokenInfoClick() {
         showAlert(
@@ -203,9 +180,6 @@ class RegistrationController {
         )
     }
 
-    /**
-     * Обработка нажатия кнопки справки
-     */
     @FXML
     private fun addressInfoClick() {
         showAlert(
@@ -214,9 +188,6 @@ class RegistrationController {
         )
     }
 
-    /**
-     * Показ справки
-     */
     private fun showAlert(name: String, text: String) {
         val alert = Alert(AlertType.INFORMATION)
         alert.dialogPane.style = getAdditionalColor()

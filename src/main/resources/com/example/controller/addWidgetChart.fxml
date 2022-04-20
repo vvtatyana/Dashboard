@@ -28,7 +28,7 @@
             </font>
         </TextField>
         <ImageView fx:id="addImageView" fitHeight="97.0" fitWidth="47.0" layoutX="191.0" layoutY="263.0" onMouseClicked="#addClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="190.5" AnchorPane.rightAnchor="190.5">
-            <Image url="@images/other/checkbox.png" />
+            <Image url="@images/other/Check_ring.png" />
         </ImageView>
         <ComboBox fx:id="chartsType" layoutX="50.0" layoutY="159.0" prefWidth="150.0" style="-fx-background-color: linear-gradient(to left, #e9edf5, #ced9ed); -fx-background-radius: 0;" AnchorPane.bottomAnchor="163.4" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
       <Label layoutX="50.0" layoutY="139.0" text="Тип диаграммы" textFill="#3b507b" AnchorPane.bottomAnchor="189.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">

@@ -1,13 +1,13 @@
 package com.example.util
 
-enum class tableBD (val column: Int){
+enum class TableBD (val column: Int){
     USERS(9),
     OBJECTS(5),
     INDICATORS(8),
-    CHARTS(8),
+    CHARTS(8)
 }
 
-enum class usersTable{
+enum class UsersTable{
     ID,
     ID_USER,
     USERNAME,
@@ -19,7 +19,7 @@ enum class usersTable{
     THEME
 }
 
-enum class objectsTable{
+enum class ObjectsTable{
     ID,
     ID_OBJECT,
     ID_USER,
@@ -27,7 +27,7 @@ enum class objectsTable{
     NAME_OBJECT
 }
 
-enum class indicatorsTable{
+enum class IndicatorsTable{
     ID,
     ID_OBJECT,
     NAME_INDICATOR,
@@ -38,7 +38,7 @@ enum class indicatorsTable{
     TYPE
 }
 
-enum class chartsTable{
+enum class ChartsTable{
     ID,
     ID_OBJECT,
     NAME_INDICATOR,
@@ -46,6 +46,6 @@ enum class chartsTable{
     LAYOUT_Y,
     NAME,
     UNIT,
-    TYPE,
+    TYPE
 }
 

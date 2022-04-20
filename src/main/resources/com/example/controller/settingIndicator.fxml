@@ -40,7 +40,7 @@
                 </font>
             </TextField>
             <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="132.0" layoutY="192.0" onMouseClicked="#updateLevelClick" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="132.0">
-                <Image url="@images/other/checkbox.png" />
+                <Image url="@images/other/Check_ring.png" />
             </ImageView>
             <TextField fx:id="colorInterval" layoutX="141.0" layoutY="65.0" prefHeight="27.0" prefWidth="94.0" style="-fx-background-color: linear-gradient(to left, #e9edf5, #ced9ed); -fx-background-radius: 0;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="71.0">
                 <font>
@@ -81,7 +81,7 @@
             <Image url="@images/other/trash.png" />
         </ImageView>
         <ImageView fx:id="saveImageView" fitHeight="30.0" fitWidth="30.0" layoutX="87.0" layoutY="4.0" onMouseClicked="#saveClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="5.0">
-            <Image url="@images/other/disk.png" />
+            <Image url="@images/other/Save.png" />
         </ImageView>
     </AnchorPane>
 </AnchorPane>
