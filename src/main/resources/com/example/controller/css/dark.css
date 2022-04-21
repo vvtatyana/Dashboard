@@ -1,0 +1,14 @@
+#dataPane {
+    -fx-background-color: linear-gradient(to left, #2b4b6e, #1d334a);
+}
+
+.text-field, .combo-box {
+    -fx-background-color:  linear-gradient(to left, #2f649d, #224c77);
+    -fx-background-radius: 0;
+}
+
+.label{
+    -fx-text-fill: #dae5f2;
+    -fx-font-size: 16px;
+    -fx-font-family: "Segoe UI Semibold";
+}

@@ -82,7 +82,7 @@ class ProcessingJSON {
      * @value - поле для изменения
      * @field - новое значение
      */
-    fun updateModel(data: String, name: String, value: String, field: String, level: String): String {
+    fun updateBorder(data: String, name: String, value: String, field: String, level: String): String {
         val jsonModel: JsonObject = Gson().fromJson(data, JsonObject::class.java)
         val values = readBorder(jsonModel, name)
         if (values != null) {
@@ -97,29 +97,15 @@ class ProcessingJSON {
         return ""
     }
 
-    fun updateModelString(data: String, name: String, value: String, field: String): String {
-        val jsonModel: JsonObject = Gson().fromJson(data, JsonObject::class.java)
-        val values = readBorder(jsonModel, name)
-        if (values != null) {
-            for (i in 0 until values.size()) {
-                if (values[i].asJsonObject.get(NAME).asString == value) {
-                    val jsonValue = values[i].asJsonObject
-                    jsonValue.addProperty(VALUE, field)
-                    return jsonModel.toString()
-                }
-            }
-        }
-        return ""
-    }
 
-    fun updateModelColor(data: String, name: String, value: String, field: String): String {
+    fun updateModel(data: String, name: String, value: String, field: String, property: String): String {
         val jsonModel: JsonObject = Gson().fromJson(data, JsonObject::class.java)
         val values = readBorder(jsonModel, name)
         if (values != null) {
             for (i in 0 until values.size()) {
                 if (values[i].asJsonObject.get(NAME).asString == value) {
                     val jsonValue = values[i].asJsonObject
-                    jsonValue.addProperty("color", field)
+                    jsonValue.addProperty(property, field)
                     return jsonModel.toString()
                 }
             }

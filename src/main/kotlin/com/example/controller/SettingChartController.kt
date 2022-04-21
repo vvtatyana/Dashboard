@@ -23,12 +23,6 @@ class SettingChartController {
     lateinit var fromTimePicker: JFXTimePicker
 
     @FXML
-    private lateinit var mainPane: AnchorPane
-
-    @FXML
-    private lateinit var headerPane: AnchorPane
-
-    @FXML
     private lateinit var dataPane: AnchorPane
 
     @FXML
@@ -57,7 +51,7 @@ class SettingChartController {
     var save = true
 
     fun initialize() {
-        themePane(mainPane, dataPane, headerPane)
+        themePane(dataPane)
 
         Tooltip.install(saveImageView, Tooltip("Сохранить изменения"))
         chartsType.items =

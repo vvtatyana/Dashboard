@@ -21,7 +21,6 @@ class StartApplication : Application() {
 
         val user = queriesDB.selectUser(UsersTable.CASTLE.name, true.toString())
         database.closeBD()
-
         if(user != null) {
             ID_USER = user.getId()!!
             HEADERS_AUTH += user.getToken()
@@ -47,6 +46,7 @@ class StartApplication : Application() {
 
         stage.icons.add(Image(FileInputStream(wayToImage("other/smart_house"))))
         stage.title = title
+        scene.stylesheets.add(wayToImage("/css/$THEME.css"))
         stage.scene = scene
         stage.show()
     }

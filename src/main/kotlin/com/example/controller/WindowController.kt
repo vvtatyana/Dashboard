@@ -45,9 +45,6 @@ class WindowController : Initializable {
     private lateinit var mainPane: AnchorPane
 
     @FXML
-    private lateinit var headerPane: AnchorPane
-
-    @FXML
     private lateinit var accountImageView: ImageView
 
     @FXML
@@ -125,7 +122,7 @@ class WindowController : Initializable {
 
     private fun initializeScheduler() {
         executorService = Executors.newSingleThreadScheduledExecutor()
-        executorService.scheduleAtFixedRate(this::schedule, 0, 15, TimeUnit.SECONDS)
+        executorService.scheduleAtFixedRate(this::schedule, 0, 120, TimeUnit.SECONDS)
     }
 
     private fun schedule() {
@@ -163,8 +160,7 @@ class WindowController : Initializable {
      * Обновляет тему окна
      */
     private fun updateTheme() {
-        themePane(mainPane, headerPane)
-        shadowPane(headerPane)
+        themePane(mainPane)
 
         indicatorPane.style = getMainColor()
         chartPane.style = getMainColor()
@@ -240,6 +236,8 @@ class WindowController : Initializable {
                         objectData = objDB
                         initializeScheduler()
                     }
+
+                    widgets.removeAll(widgets)
 
                     val values = valuesObject(newValue, objects, address)
                     val data = objectsData(newValue, objects, address, values)
@@ -347,6 +345,7 @@ class WindowController : Initializable {
     private fun settingIndicatorClick(
         panel: AbstractWidget,
         pos: List<Double>,
+        name: String,
         type: String
     ) {
         val fxmlLoader = FXMLLoader(javaClass.getResource("settingIndicator.fxml"))
@@ -357,7 +356,8 @@ class WindowController : Initializable {
         stage.scene = Scene(fxmlLoader.load())
 
         val controller: SettingIndicatorController = fxmlLoader.getController()
-        controller.load(objectData.getIdModel(), type)
+
+        controller.load(objectData.getIdModel(), name, type)
 
         stage.showAndWait()
 
@@ -528,7 +528,7 @@ class WindowController : Initializable {
 
             val setting = panel.getSetting()
             setting.onMouseClicked = EventHandler {
-                settingIndicatorClick(panel, pos, addWidget.getWidget())
+                settingIndicatorClick(panel, pos, addWidget.getWidget(), addWidget.getType())
             }
 
             indicatorPane.children.add(panel.getPanel())
@@ -648,8 +648,9 @@ class WindowController : Initializable {
                     setting.onMouseClicked = EventHandler {
                         settingIndicatorClick(
                             panel,
-                            listOf(indicator.getLayoutX(), indicator.getLayoutY()),
-                            indicator.getNameIndicator()
+                            listOf(indicator.getLayoutX(), indicator.getLayoutY())
+                            , indicator.getNameIndicator(),
+                            indicator.getType()
                         )
                     }
                     widgets.add(panel)
@@ -932,7 +933,7 @@ class WindowController : Initializable {
             stage.isResizable = false
             newStage.initModality(Modality.APPLICATION_MODAL)
             stage.icons.add(Image(FileInputStream(wayToImage("other/smart_house"))))
-            newStage.title = "Window"
+            newStage.title = "login"
             newStage.scene = Scene(newFxmlLoader.load())
             newStage.show()
         }

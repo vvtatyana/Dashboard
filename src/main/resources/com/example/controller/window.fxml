@@ -25,13 +25,13 @@
             <Image url="@images/other/Refresh_2.png" />
         </ImageView>
         <ImageView fx:id="accountImageView" fitHeight="30.0" fitWidth="30.0" layoutX="964.0" layoutY="6.0" onMouseClicked="#accountClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.600000000000001" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="6.0">
-            <Image url="@images/other/User%20(1).png" />
+            <Image url="@images/other/User.png" />
         </ImageView>
         <ImageView fx:id="chartImageView" fitHeight="30.0" fitWidth="30.0" layoutX="859.0" layoutY="6.0" onMouseClicked="#chartClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.600000000000001" AnchorPane.rightAnchor="111.0" AnchorPane.topAnchor="6.0">
             <Image url="@images/other/Line_up.png" />
         </ImageView>
         <ImageView fx:id="indicatorImageView" fitHeight="32.0" fitWidth="30.0" layoutX="824.0" layoutY="6.0" onMouseClicked="#indicatorClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="4.0" AnchorPane.rightAnchor="146.0" AnchorPane.topAnchor="6.0">
-            <Image url="@images/other/doughnut_chart.png" />
+            <Image url="@images/other/speed%20test.png" />
         </ImageView>
         <ImageView fx:id="dataImageView" fitHeight="30.0" fitWidth="30.0" layoutX="35.0" layoutY="12.0" onMouseClicked="#devicesClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
             <Image url="@images/other/Layers.png" />

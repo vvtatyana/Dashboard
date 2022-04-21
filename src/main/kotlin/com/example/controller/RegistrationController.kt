@@ -31,9 +31,6 @@ class RegistrationController {
     private lateinit var dataPane: AnchorPane
 
     @FXML
-    private lateinit var mainPane: AnchorPane
-
-    @FXML
     private lateinit var hostText: TextField
 
     @FXML
@@ -67,7 +64,7 @@ class RegistrationController {
     private lateinit var nameInfoFour: ImageView
 
     fun initialize() {
-        themePane(mainPane, dataPane)
+        themePane(dataPane)
         Tooltip.install(nameInfoOne, Tooltip("Справка"))
         Tooltip.install(nameInfoTwo, Tooltip("Справка"))
         Tooltip.install(nameInfoThree, Tooltip("Справка"))

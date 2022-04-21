@@ -18,12 +18,6 @@ import java.io.FileInputStream
 class AccountController {
 
     @FXML
-    private lateinit var mainPane: AnchorPane
-
-    @FXML
-    private lateinit var headerPane: AnchorPane
-
-    @FXML
     private lateinit var dataPane: AnchorPane
 
     @FXML
@@ -61,7 +55,7 @@ class AccountController {
      * Инициализация окна
      */
     fun initialize() {
-        themePane(mainPane, dataPane, headerPane)
+        themePane(dataPane)
 
         dayNight.image = Image(FileInputStream(wayToImage("other/$THEME")))
 

@@ -19,8 +19,6 @@ class AddWidgetController {
     @FXML
     private lateinit var dataPane: AnchorPane
     @FXML
-    private lateinit var mainPane: AnchorPane
-    @FXML
     private lateinit var chartsType: ComboBox<String>
     @FXML
     private lateinit var unitTextField: TextField
@@ -45,7 +43,7 @@ class AddWidgetController {
     var add = false
 
     fun initialize() {
-        themePane(mainPane, dataPane)
+        themePane(dataPane)
 
         Tooltip.install(addImageView, Tooltip("Добавить виджет"))
         unitLabel.isVisible = false

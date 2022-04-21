@@ -91,9 +91,7 @@ fun textTheme(): String{
     }
 }
 
-fun themePane(mainPane: AnchorPane, dataPane: AnchorPane, headerPane: AnchorPane? = null){
-    mainPane.style = getAdditionalColor()
-
+fun themePane(dataPane: AnchorPane, headerPane: AnchorPane? = null){
     dataPane.style = getAdditionalColor()
 
     if (headerPane != null) {

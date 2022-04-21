@@ -3,7 +3,10 @@ package com.example.controller
 import com.example.building.Widget
 import com.example.restAPI.ProcessingJSON
 import com.example.restAPI.RequestGeneration
-import com.example.util.*
+import com.example.util.DEFAULT_ADDRESS
+import com.example.util.MODELS
+import com.example.util.NAME
+import com.example.util.themePane
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import javafx.collections.FXCollections
@@ -18,19 +21,13 @@ import javafx.stage.Stage
 
 class SettingIndicatorController {
 
+    lateinit var nameLevel: TextField
     lateinit var toLabel: Label
     lateinit var fromLabel: Label
     lateinit var valueIntervalTo: TextField
 
     @FXML
     private lateinit var borderPane: AnchorPane
-
-    @FXML
-    private lateinit var mainPane: AnchorPane
-
-    @FXML
-    private lateinit var headerPane: AnchorPane
-
     @FXML
     private lateinit var dataPane: AnchorPane
 
@@ -65,6 +62,7 @@ class SettingIndicatorController {
     private lateinit var borderTo: Map<String, String>
     private lateinit var borderColor: Map<String, String>
 
+    private var oldNameLevel = ""
     private var oldValueFrom = ""
     private var oldValueTo = ""
     private var oldColor = ""
@@ -79,11 +77,12 @@ class SettingIndicatorController {
     var save = false
 
     fun initialise() {
-        themePane(mainPane, dataPane, headerPane)
+        themePane(dataPane)
     }
 
-    fun load(idModel: String, type: String) {
+    fun load(idModel: String, name: String, type: String) {
         this.idModel = idModel
+        this.name = name
         this.type = type
 
         Tooltip.install(saveImageView, Tooltip("Сохранить изменения"))
@@ -93,31 +92,29 @@ class SettingIndicatorController {
         val model = Gson().fromJson(getData, JsonObject::class.java)
 
         when (type) {
-            "number" -> {
-                settingData(model)
-            }
-            "boolean", "string" -> {
+            "number", "boolean", "string" -> {
                 settingData(model)
             }
             else -> borderPane.isVisible = false
         }
     }
 
-    private fun settingData(model: JsonObject){
+    private fun settingData(model: JsonObject) {
         borderFrom = if (type == "number") {
             borderTo = ProcessingJSON().readBorderTo(model, name)
             ProcessingJSON().readBorderFrom(model, name)
-        }
-        else{
+        } else {
             ProcessingJSON().readBorderBoolean(model, name)
         }
         if (borderFrom.isNotEmpty()) {
             borderColor = ProcessingJSON().readBorderColor(model, name)
 
-            val nameInterval = FXCollections.observableArrayList(borderFrom.keys.toList())
+            val nameInterval = FXCollections.observableArrayList(borderFrom.keys.toList()/*.plus("Добавить уровень")*/)
             nameIntervalComboBox.items = nameInterval
             nameIntervalComboBox.value = borderFrom.keys.toList()[0]
 
+            nameLevel.text = nameIntervalComboBox.value
+            oldNameLevel = nameLevel.text
             valueIntervalFrom.text = borderFrom[nameIntervalComboBox.value]
             oldValueFrom = valueIntervalFrom.text
 
@@ -144,20 +141,28 @@ class SettingIndicatorController {
 
             colorPane.style = "-fx-background-color:${oldColor}"
             nameIntervalComboBox.setOnAction {
-                valueIntervalFrom.text = borderFrom[nameIntervalComboBox.value]
-                oldValueFrom = valueIntervalFrom.text
+                if (nameIntervalComboBox.value == "Добавить уровень") {
+                    nameLevel.text = ""
+                    colorInterval.text = ""
+                    colorPane.style = "-fx-background-color: #ffffff"
+                    valueIntervalFrom.text = ""
+                    valueIntervalTo.text = ""
+                } else {
+                    valueIntervalFrom.text = borderFrom[nameIntervalComboBox.value]
+                    oldValueFrom = valueIntervalFrom.text
+                    nameLevel.text = nameIntervalComboBox.value
+                    oldNameLevel = nameLevel.text
+                    if (type == "number") {
+                        valueIntervalTo.text = borderTo[nameIntervalComboBox.value]
+                        oldValueTo = valueIntervalTo.text
+                    }
 
-                if (type == "number") {
-                    valueIntervalTo.text = borderTo[nameIntervalComboBox.value]
-                    oldValueTo = valueIntervalTo.text
+                    colorInterval.text = borderColor[nameIntervalComboBox.value]
+                    oldColor = colorInterval.text
+                    colorPane.style = "-fx-background-color:${oldColor}"
                 }
-
-                colorInterval.text = borderColor[nameIntervalComboBox.value]
-                oldColor = colorInterval.text
-                colorPane.style = "-fx-background-color:${oldColor}"
             }
-        }
-        else  borderPane.isVisible = false
+        } else borderPane.isVisible = false
     }
 
     @FXML
@@ -168,29 +173,12 @@ class SettingIndicatorController {
         stage.close()
     }
 
-    private fun updateBorderString(field: String, value: String) {
+    private fun update(field: String, value: String, property: String, border: Boolean = false) {
         var address = RequestGeneration().addressGeneration(DEFAULT_ADDRESS, MODELS)
         address = RequestGeneration().addressGeneration(address, idModel)
         val dataGet = RequestGeneration().getRequest(address).toString()
-        val data = ProcessingJSON().updateModelString(dataGet, name, field, value)
-        if (data != "")
-            RequestGeneration().patchRequest(address, data)
-    }
-
-    private fun updateBorder(field: String, value: String, level: String) {
-        var address = RequestGeneration().addressGeneration(DEFAULT_ADDRESS, MODELS)
-        address = RequestGeneration().addressGeneration(address, idModel)
-        val dataGet = RequestGeneration().getRequest(address).toString()
-        val data = ProcessingJSON().updateModel(dataGet, name, field, value, level)
-        if (data != "")
-            RequestGeneration().patchRequest(address, data)
-    }
-
-    private fun updateBorderColor(field: String, value: String) {
-        var address = RequestGeneration().addressGeneration(DEFAULT_ADDRESS, MODELS)
-        address = RequestGeneration().addressGeneration(address, idModel)
-        val dataGet = RequestGeneration().getRequest(address).toString()
-        val data = ProcessingJSON().updateModelColor(dataGet, name, field, value)
+        val data = if (border)ProcessingJSON().updateBorder(dataGet, name, field, value, property)
+        else ProcessingJSON().updateModel(dataGet, name, field, value, property)
         if (data != "")
             RequestGeneration().patchRequest(address, data)
     }
@@ -204,20 +192,26 @@ class SettingIndicatorController {
 
     @FXML
     private fun updateLevelClick() {
+        val newNameLevel = nameLevel.text
         val newColor = colorInterval.text
         val newValueFrom = valueIntervalFrom.text
+
+        if (newNameLevel != "" && newNameLevel != oldNameLevel) {
+            update(nameIntervalComboBox.value, newNameLevel, NAME)
+        }
+
         if (type == "number") {
             val newValueTo = valueIntervalTo.text
             if (newValueFrom != "" && oldValueFrom != newValueFrom) {
-                updateBorder(nameIntervalComboBox.value, newValueFrom, "a")
+                update(nameIntervalComboBox.value, newValueFrom, "a", true)
                 oldValueFrom = newValueFrom
             }
             if (newValueTo != "" && oldValueTo != newValueTo) {
-                updateBorder(nameIntervalComboBox.value, newValueTo, "b")
+                update(nameIntervalComboBox.value, newValueTo, "b", true)
                 oldValueTo = newValueTo
             }
 
-            if (newValueFrom == "" && newColor == "" && newValueTo == "") {
+            if (newValueFrom == "" && newColor == "" && newValueTo == "" && newNameLevel == "") {
                 errorLabel.text = "Заполните поля значение или цвет"
             }
 
@@ -225,7 +219,7 @@ class SettingIndicatorController {
                 if (newColor.length != 7 || newColor[0] != '#') {
                     errorLabel.text = "Введена не верная кодировка цвета"
                 } else {
-                    updateBorderColor(nameIntervalComboBox.value, newColor)
+                    update(nameIntervalComboBox.value, newColor, "color")
                     colorPane.style = "-fx-background-color:${newColor}"
                     oldColor = newColor
                 }
@@ -235,18 +229,18 @@ class SettingIndicatorController {
                 if (newColor.length != 7 || newColor[0] != '#') {
                     errorLabel.text = "Введена не верная кодировка цвета"
                 } else {
-                    updateBorderColor(nameIntervalComboBox.value, newColor)
+                    update(nameIntervalComboBox.value, newColor, "color")
                     colorPane.style = "-fx-background-color:${newColor}"
                     oldColor = newColor
                 }
             }
         } else if (type == "string") {
             if (newValueFrom != "" && oldValueFrom != newValueFrom) {
-                updateBorderString(nameIntervalComboBox.value, newValueFrom)
+                update(nameIntervalComboBox.value, newValueFrom, "color")
                 oldValueFrom = newValueFrom
             }
 
-            if (newValueFrom == "" && newColor == "") {
+            if (newValueFrom == "" && newColor == "" && newNameLevel == "") {
                 errorLabel.text = "Заполните поля значение или цвет"
             }
 
@@ -254,7 +248,7 @@ class SettingIndicatorController {
                 if (newColor.length != 7 || newColor[0] != '#') {
                     errorLabel.text = "Введена не верная кодировка цвета"
                 } else {
-                    updateBorderColor(nameIntervalComboBox.value, newColor)
+                    update(nameIntervalComboBox.value, newColor, "color")
                     colorPane.style = "-fx-background-color:${newColor}"
                     oldColor = newColor
                 }

@@ -20,9 +20,6 @@ class LoginController {
     private lateinit var dataPane: AnchorPane
 
     @FXML
-    private lateinit var mainPane: AnchorPane
-
-    @FXML
     private lateinit var registrationButton: Button
 
     @FXML
@@ -38,7 +35,7 @@ class LoginController {
     private lateinit var errorLabel: Label
 
     fun initialize() {
-        themePane(mainPane, dataPane)
+        themePane(dataPane)
     }
 
     @FXML
@@ -48,7 +45,7 @@ class LoginController {
         val user = queriesDB.selectUser(UsersTable.LOGIN.name, loginText.text)
         if (user != null) {
             ID_USER = user.getId()!!
-            HEADERS_AUTH += user.getToken()
+            HEADERS_AUTH = "Bearer ${user.getToken()}"
             if (memoryCheck.isSelected) {
                 queriesDB.updateUser(ID_USER, UsersTable.CASTLE.name, true.toString())
             }
@@ -59,7 +56,7 @@ class LoginController {
             stage.close()
             val fxmlLoader = FXMLLoader(javaClass.getResource("window.fxml"))
             stage = Stage()
-            stage.icons.add(Image(FileInputStream(wayToImage("iot"))))
+            stage.icons.add(Image(FileInputStream(wayToImage("other/smart_house"))))
             stage.initModality(Modality.APPLICATION_MODAL)
             stage.title = "Window"
             stage.scene = Scene(fxmlLoader.load())
@@ -74,7 +71,7 @@ class LoginController {
         var stage: Stage = registrationButton.scene.window as Stage
         stage.close()
         val fxmlLoader = FXMLLoader(javaClass.getResource("registrationWindow.fxml"))
-        stage.icons.add(Image(FileInputStream(wayToImage("iot"))))
+        stage.icons.add(Image(FileInputStream(wayToImage("other/smart_house"))))
         stage = Stage()
         stage.initModality(Modality.APPLICATION_MODAL)
         stage.title = "Registration"
