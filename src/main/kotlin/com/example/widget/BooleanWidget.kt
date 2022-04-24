@@ -78,13 +78,13 @@ class BooleanWidget(
 
     private fun createCircleText(): Label {
         val circleLabel = Label()
+        circleLabel.id = "circleLabel"
         if (data.toBoolean()) {
             circleLabel.text = "Да"
         } else {
             circleLabel.text = "Нет"
         }
         circleLabel.alignment = Pos.CENTER
-        circleLabel.style = textStyle(20, "white")
 
         AnchorPane.setTopAnchor(circleLabel, 70.0)
         AnchorPane.setBottomAnchor(circleLabel, 70.0)

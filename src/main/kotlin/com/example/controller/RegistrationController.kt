@@ -8,8 +8,6 @@ import com.example.database.QueriesDB
 import com.example.util.*
 import com.google.gson.Gson
 import com.google.gson.JsonArray
-import com.example.util.dropShadow
-import com.example.util.getAdditionalColor
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
@@ -64,7 +62,6 @@ class RegistrationController {
     private lateinit var nameInfoFour: ImageView
 
     fun initialize() {
-        themePane(dataPane)
         Tooltip.install(nameInfoOne, Tooltip("Справка"))
         Tooltip.install(nameInfoTwo, Tooltip("Справка"))
         Tooltip.install(nameInfoThree, Tooltip("Справка"))
@@ -149,7 +146,9 @@ class RegistrationController {
         stage = Stage()
         stage.initModality(Modality.APPLICATION_MODAL)
         stage.title = title
-        stage.scene = Scene(fxmlLoader.load())
+        val scene = Scene(fxmlLoader.load())
+        scene.stylesheets.add(this.javaClass.getResource("\\css\\$THEME.css")!!.toExternalForm())
+        stage.scene = scene
         stage.show()
     }
 
@@ -187,7 +186,6 @@ class RegistrationController {
 
     private fun showAlert(name: String, text: String) {
         val alert = Alert(AlertType.INFORMATION)
-        alert.dialogPane.style = getAdditionalColor()
         alert.dialogPane.minWidth = Region.USE_PREF_SIZE
         alert.dialogPane.minHeight = Region.USE_PREF_SIZE
         alert.title = "Справка"

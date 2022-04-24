@@ -28,6 +28,9 @@ class NumericWidget(
     private val request = RequestGeneration()
     private val processingJSON = ProcessingJSON()
     private var gauge: Gauge
+    private var type: Boolean = false
+
+    private var rang: Double = 0.0
 
     init {
         gauge = createGauge()
@@ -45,52 +48,80 @@ class NumericWidget(
             )!!.getIdModel()
         )
         val jsonModel = Gson().fromJson(strModel, JsonObject::class.java)
+        val typeGauge = processingJSON.typeNumeric(jsonModel, typeWidget)
+        type = typeGauge
+
         val borderFrom = processingJSON.readBorderFrom(jsonModel, typeWidget).toMutableMap()
-        val borderTo = processingJSON.readBorderTo(jsonModel, typeWidget).toMutableMap()
         val borderColor = processingJSON.readBorderColor(jsonModel, typeWidget).toMutableMap()
         val keys = borderColor.keys.toList()
         if (borderFrom[keys[0]]!!.toDouble() < 0.0)
             borderFrom[keys[0]] = (borderFrom[keys[0]]!!.toDouble() + 10.0).toString()
-
         val gaugeBuilder = GaugeBuilder.create()
             .skinType(Gauge.SkinType.SIMPLE)
             .sectionsVisible(true)
             .title(unitText)
             .animated(true)
-            .tickLabelDecimals(1)
-            .decimals(1)
             .minValue(borderFrom[keys[0]]!!.toDouble())
-            .maxValue(borderTo[keys[keys.size - 1]]!!.toDouble())
-
         val sections = mutableListOf<Section>()
-        borderFrom[keys[0]] = gaugeBuilder.build().minValue.toString()
+        borderFrom[keys[0]] = gaugeBuilder.build().minValue.toInt().toString()
+        if (typeGauge) {
+            val borderTo = processingJSON.readBorderTo(jsonModel, typeWidget).toMutableMap()
 
-        for (i in keys.indices) {
-            sections.add(
-                Section(
-                    borderFrom[keys[i]]!!.toDouble(),
-                    borderTo[keys[i]]!!.toDouble(),
-                    i.toString(),
-                    Color.web(borderColor[keys[i]])
+            gaugeBuilder.tickLabelDecimals(1)
+                .decimals(1)
+                .maxValue(borderTo[keys[keys.size - 1]]!!.toDouble())
+
+
+            for (i in keys.indices) {
+                sections.add(
+                    Section(
+                        borderFrom[keys[i]]!!.toDouble(),
+                        borderTo[keys[i]]!!.toDouble(),
+                        i.toString(),
+                        Color.web(borderColor[keys[i]])
+                    )
                 )
-            )
+            }
+        } else {
+            gaugeBuilder.maxValue(borderFrom[keys[keys.size - 1]]!!.toDouble()).sectionTextVisible(true)
+
+            rang = (borderFrom[keys[keys.size - 1]]!!.toDouble() - borderFrom[keys[0]]!!.toDouble()) / keys.size
+            val c = borderColor.values.toList()
+            var start = borderFrom[keys[0]]!!.toDouble()
+            for (y in keys.indices) {
+                val stop: Double = start + rang
+                println(borderFrom[keys[y]]!!.toString())
+                sections.add(
+                    Section(
+                        start,
+                        stop,
+                        borderFrom[keys[y]]!!.toString(),
+                        Color.web(c[y])
+                    )
+                )
+                start = stop
+            }
         }
 
         val gauge = gaugeBuilder.sections(sections).build()
-        gauge.ledColor = Color.web(textTheme())
-        if (data != null)
-            gauge.value = data.toDouble()
-
+        if (data != null) {
+            if (typeGauge)
+                gauge.value = data.toDouble()
+            else gauge.value = data.toDouble()// + rang/2
+        }
         AnchorPane.setTopAnchor(gauge, 27.0)
         AnchorPane.setBottomAnchor(gauge, 19.0)
         AnchorPane.setRightAnchor(gauge, 5.0)
         AnchorPane.setLeftAnchor(gauge, 5.0)
-
         return gauge
     }
 
     fun setValue(newValue: Double) {
-        gauge.value = newValue
+        if (type) {
+            gauge.value = newValue
+        } else {
+            gauge.value = newValue //+ rang/2
+        }
     }
 
     fun setUnit(unit: String) {

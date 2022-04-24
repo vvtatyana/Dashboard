@@ -34,10 +34,6 @@ class LoginController {
     @FXML
     private lateinit var errorLabel: Label
 
-    fun initialize() {
-        themePane(dataPane)
-    }
-
     @FXML
     private fun onEnterButtonClick() {
         val database = Database()
@@ -59,7 +55,9 @@ class LoginController {
             stage.icons.add(Image(FileInputStream(wayToImage("other/smart_house"))))
             stage.initModality(Modality.APPLICATION_MODAL)
             stage.title = "Window"
-            stage.scene = Scene(fxmlLoader.load())
+            val scene = Scene(fxmlLoader.load())
+            scene.stylesheets.add(this.javaClass.getResource("\\css\\$THEME.css")!!.toExternalForm())
+            stage.scene = scene
             stage.show()
         } else {
             errorLabel.text = "Не верный логин"
@@ -75,7 +73,9 @@ class LoginController {
         stage = Stage()
         stage.initModality(Modality.APPLICATION_MODAL)
         stage.title = "Registration"
-        stage.scene = Scene(fxmlLoader.load())
+        val scene = Scene(fxmlLoader.load())
+        scene.stylesheets.add(this.javaClass.getResource("\\css\\$THEME.css")!!.toExternalForm())
+        stage.scene = scene
         stage.show()
     }
 }

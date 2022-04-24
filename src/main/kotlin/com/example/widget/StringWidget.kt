@@ -36,7 +36,6 @@ class StringWidget(
     private fun createString(): Label {
         val stringLabel = Label(data)
         stringLabel.alignment = Pos.CENTER
-        stringLabel.effect = dropShadow()
 
         AnchorPane.setTopAnchor(stringLabel, 25.0)
         AnchorPane.setBottomAnchor(stringLabel, 30.0)
@@ -56,14 +55,14 @@ class StringWidget(
         val model = Gson().fromJson(getData, JsonObject::class.java)
         val border = ProcessingJSON().readBorderBoolean(model, typeWidget)
 
-        if (border.isNotEmpty()) {
-            val borderColor = ProcessingJSON().readBorderColor(model, typeWidget)
-            if (data != null) {
-                if (borderColor.containsKey(data)) {
-                    string.style =
-                        textStyle(14) + "-fx-background-color: ${borderColor[data]}; -fx-border-color: ${textTheme()}; -fx-border-width: 3;"
-                } else string.style = textStyle(14)
-            }
-        } else string.style = textStyle(14)
+//        if (border.isNotEmpty()) {
+//            val borderColor = ProcessingJSON().readBorderColor(model, typeWidget)
+//            if (data != null) {
+//                if (borderColor.containsKey(data)) {
+//                    string.style =
+//                        textStyle(14) + "-fx-background-color: ${borderColor[data]}; -fx-border-color: ${textTheme()}; -fx-border-width: 3;"
+//                } else string.style = textStyle(14)
+//            }
+//        } else string.style = textStyle(14)
     }
 }

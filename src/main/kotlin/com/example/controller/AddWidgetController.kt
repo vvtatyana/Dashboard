@@ -7,7 +7,6 @@ import com.example.util.*
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import javafx.collections.FXCollections
-import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.scene.control.*
 import javafx.scene.image.ImageView
@@ -43,8 +42,6 @@ class AddWidgetController {
     var add = false
 
     fun initialize() {
-        themePane(dataPane)
-
         Tooltip.install(addImageView, Tooltip("Добавить виджет"))
         unitLabel.isVisible = false
         unitTextField.isVisible = false

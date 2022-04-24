@@ -21,7 +21,7 @@
                     <Font name="Segoe UI Semibold" size="14.0" />
                 </font>
             </Label>
-            <Gauge backgroundPaint="#b00b0b" foregroundPaint="#ff0303" layoutX="5.0" layoutY="26.0" mediumTickMarksVisible="false" prefHeight="110.0" prefWidth="170.0" skinType="SIMPLE" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="27.0">
+            <Gauge accessibleRole="BUTTON" backgroundPaint="#b00b0b" blendMode="SRC_ATOP" cache="true" cacheHint="ROTATE" cacheShape="false" centerShape="false" depthTest="DISABLE" foregroundPaint="#ff0303" knobType="METAL" layoutX="5.0" layoutY="26.0" mediumTickMarksVisible="false" minorTickMarkType="TRAPEZOID" nodeOrientation="LEFT_TO_RIGHT" orientation="VERTICAL" pickOnBounds="false" prefHeight="110.0" prefWidth="170.0" scaleShape="false" sectionTextVisible="true" sectionsAlwaysVisible="true" sectionsVisible="true" shadowsEnabled="true" skinType="SIMPLE" smoothing="true" startFromZero="true" thresholdVisible="true" tickLabelSectionsVisible="true" tickMarkRingVisible="true" tickMarkSectionsVisible="true" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="27.0">
                 <minorTickMarkColor>
                     <Color red="1.0" />
                 </minorTickMarkColor>

@@ -9,15 +9,9 @@
 
 <AnchorPane fx:id="mainPane" prefHeight="665.0" prefWidth="1000.0" stylesheets="@css/window.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.WindowController">
 
-    <AnchorPane fx:id="headerPane" prefWidth="985.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <opaqueInsets>
-            <Insets />
-        </opaqueInsets>
-        <Label fx:id="username" layoutX="122.0" layoutY="5.0" text="username" textFill="#3b507b" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="5.0">
-            <font>
-                <Font name="Segoe UI Semibold" size="20.0" />
-            </font>
-        </Label>
+    <AnchorPane prefWidth="985.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+        <Label fx:id="username" layoutX="122.0" layoutY="5.0" text="username" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="5.0"/>
         <ImageView fx:id="addImageView" fitHeight="30.0" fitWidth="30.0" layoutX="929.0" layoutY="6.0" onMouseClicked="#clickIndicators" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.600000000000001" AnchorPane.rightAnchor="41.0" AnchorPane.topAnchor="6.0">
             <Image url="@images/other/Add_ring.png" />
         </ImageView>
@@ -41,11 +35,11 @@
         </ImageView>
     </AnchorPane>
 
-    <AnchorPane fx:id="indicatorPane" layoutX="344.0" layoutY="84.0" prefHeight="576.0" prefWidth="801.0" style="-fx-background-color: White;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="47.0" />
+    <AnchorPane fx:id="indicatorPane" layoutX="344.0" layoutY="84.0" prefHeight="576.0" prefWidth="801.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="47.0" />
     <AnchorPane fx:id="chartPane" layoutX="204.0" layoutY="55.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="47.0" />
 
 
-    <AnchorPane fx:id="panelSlide" layoutX="-195.0" layoutY="45.0" prefHeight="615.0" prefWidth="190.0" style="-fx-background-color: #b3b3b3; -fx-background-radius: 0;" translateX="-195.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="45.0">
-        <JFXListView fx:id="devicesList" layoutY="31.0" prefHeight="584.0" prefWidth="190.0" style="-fx-background-color: #b3b3b3; -fx-background-radius: 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+    <AnchorPane fx:id="panelSlide" layoutX="-195.0" layoutY="45.0" prefHeight="615.0" prefWidth="190.0" translateX="-195.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="45.0">
+        <JFXListView fx:id="devicesList" layoutY="31.0" prefHeight="584.0" prefWidth="190.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
     </AnchorPane>
 </AnchorPane>

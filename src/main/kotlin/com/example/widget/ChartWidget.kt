@@ -52,12 +52,10 @@ class ChartWidget(
         val dataChart = dataSeries()
         val xAxis = CategoryAxis()
         xAxis.side = Side.BOTTOM
-        xAxis.tickLabelFill = Paint.valueOf(textTheme())
         xAxis.tickLabelFont = Font("Segoe UI Semibold", 12.0)
 
         val yAxis = NumberAxis()
         yAxis.side = Side.BOTTOM
-        yAxis.tickLabelFill = Paint.valueOf(textTheme())
 
         val areaChart = when (chartType) {
             ChartType.AREA_CHART.type -> {

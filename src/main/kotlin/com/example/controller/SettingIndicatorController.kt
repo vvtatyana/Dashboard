@@ -6,7 +6,6 @@ import com.example.restAPI.RequestGeneration
 import com.example.util.DEFAULT_ADDRESS
 import com.example.util.MODELS
 import com.example.util.NAME
-import com.example.util.themePane
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import javafx.collections.FXCollections
@@ -75,10 +74,6 @@ class SettingIndicatorController {
     var dataWidget: Widget? = null
     var delete = false
     var save = false
-
-    fun initialise() {
-        themePane(dataPane)
-    }
 
     fun load(idModel: String, name: String, type: String) {
         this.idModel = idModel

@@ -11,7 +11,6 @@ import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.layout.AnchorPane
 import javafx.stage.Stage
-import com.example.util.themePane
 import com.example.util.wayToImage
 import java.io.FileInputStream
 
@@ -55,8 +54,6 @@ class AccountController {
      * Инициализация окна
      */
     fun initialize() {
-        themePane(dataPane)
-
         dayNight.image = Image(FileInputStream(wayToImage("other/$THEME")))
 
         Tooltip.install(saveImageView, Tooltip("Сохранить изменения"))

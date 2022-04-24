@@ -1,6 +1,5 @@
 package com.example.controller
 
-import com.example.util.THEME
 import com.example.database.Database
 import com.example.database.QueriesDB
 import com.example.util.*
@@ -9,7 +8,6 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
 import javafx.scene.image.Image
 import javafx.stage.Stage
-import com.example.util.wayToImage
 import javafx.stage.StageStyle
 import java.io.FileInputStream
 
@@ -46,7 +44,7 @@ class StartApplication : Application() {
 
         stage.icons.add(Image(FileInputStream(wayToImage("other/smart_house"))))
         stage.title = title
-        scene.stylesheets.add(wayToImage("/css/$THEME.css"))
+        scene.stylesheets.add(this.javaClass.getResource("\\css\\$THEME.css")!!.toExternalForm())
         stage.scene = scene
         stage.show()
     }

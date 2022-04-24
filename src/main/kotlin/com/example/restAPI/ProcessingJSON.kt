@@ -129,17 +129,41 @@ class ProcessingJSON {
         return border
     }
 
+    fun typeNumeric(jsonObject: JsonObject, name: String): Boolean{
+        val border = mutableMapOf<String, String>()
+        val values = readBorder(jsonObject, name)
+        if (values != null) {
+            try {
+                if (values[0].asJsonObject.get(VALUE).asJsonObject.get("a").asString != null) {
+                    return true
+                }
+            } catch (ill: IllegalStateException){
+                return false
+            }
+        }
+        return false
+    }
+
     fun readBorderFrom(jsonObject: JsonObject, name: String): Map<String, String> {
         val border = mutableMapOf<String, String>()
         val values = readBorder(jsonObject, name)
         if (values != null) {
-            for (i in 0 until values.size()) {
-                if (values[i].asJsonObject.get(VALUE).asJsonObject.get("a").asString != "-Infinity")
+            try {
+                if (values[0].asJsonObject.get(VALUE).asJsonObject.get("a").asString != null) {
+                    for (i in 0 until values.size()) {
+                        if (values[i].asJsonObject.get(VALUE).asJsonObject.get("a").asString != "-Infinity")
+                            border[values[i].asJsonObject.get(NAME).asString] =
+                                values[i].asJsonObject.get(VALUE).asJsonObject.get("a").asString
+                        else if (values[i].asJsonObject.get(VALUE).asJsonObject.get("a").asString == "-Infinity") {
+                            border[values[i].asJsonObject.get(NAME).asString] =
+                                (values[i].asJsonObject.get(VALUE).asJsonObject.get("b").asInt - 10).toString()
+                        }
+                    }
+                }
+            } catch (ill: IllegalStateException){
+                for (i in 0 until values.size()) {
                     border[values[i].asJsonObject.get(NAME).asString] =
-                        values[i].asJsonObject.get(VALUE).asJsonObject.get("a").asString
-                else if (values[i].asJsonObject.get(VALUE).asJsonObject.get("a").asString == "-Infinity") {
-                    border[values[i].asJsonObject.get(NAME).asString] =
-                        (values[i].asJsonObject.get(VALUE).asJsonObject.get("b").asInt-10).toString()
+                        values[i].asJsonObject.get(VALUE).asString
                 }
             }
         }
@@ -150,14 +174,18 @@ class ProcessingJSON {
         val border = mutableMapOf<String, String>()
         val values = readBorder(jsonObject, name)
         if (values != null) {
+            try {
             for (i in 0 until values.size()) {
                 if (values[i].asJsonObject.get(VALUE).asJsonObject.get("b").asString != "Infinity")
                     border[values[i].asJsonObject.get(NAME).asString] =
                         values[i].asJsonObject.get(VALUE).asJsonObject.get("b").asString
                 else if (values[i].asJsonObject.get(VALUE).asJsonObject.get("b").asString == "Infinity") {
                     border[values[i].asJsonObject.get(NAME).asString] =
-                        (values[i].asJsonObject.get(VALUE).asJsonObject.get("a").asInt + 10).toString()
+                        ((values[i].asJsonObject.get(VALUE).asJsonObject.get("a").asInt/10 + 2)*10).toString()
                 }
+            }
+            } catch (ill: IllegalStateException){
+                return border
             }
         }
         return border

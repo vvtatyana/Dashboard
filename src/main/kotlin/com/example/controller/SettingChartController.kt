@@ -51,8 +51,6 @@ class SettingChartController {
     var save = true
 
     fun initialize() {
-        themePane(dataPane)
-
         Tooltip.install(saveImageView, Tooltip("Сохранить изменения"))
         chartsType.items =
             FXCollections.observableArrayList(mutableListOf(ChartType.AREA_CHART.type, ChartType.BAR_CHART.type, ChartType.LINE_CHART.type, ChartType.SCATTER_CHART.type))

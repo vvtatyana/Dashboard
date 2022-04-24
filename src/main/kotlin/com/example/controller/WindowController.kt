@@ -42,9 +42,6 @@ import java.util.concurrent.TimeUnit
 class WindowController : Initializable {
 
     @FXML
-    private lateinit var mainPane: AnchorPane
-
-    @FXML
     private lateinit var accountImageView: ImageView
 
     @FXML
@@ -106,7 +103,6 @@ class WindowController : Initializable {
         Tooltip.install(accountImageView, Tooltip("Аккаунт"))
         Tooltip.install(reloadImageView, Tooltip("Обновить данные"))
 
-        updateTheme()
         queriesDB = QueriesDB(database.getConnection(), database.getStatement())
 
         chartPane.isVisible = false
@@ -160,12 +156,9 @@ class WindowController : Initializable {
      * Обновляет тему окна
      */
     private fun updateTheme() {
-        themePane(mainPane)
-
-        indicatorPane.style = getMainColor()
-        chartPane.style = getMainColor()
-        devicesList.style = getAdditionalColor() + textStyle(16)
-
+        val stage: Stage = username.scene.window as Stage
+        stage.scene.stylesheets.remove(0, stage.scene.stylesheets.size-1)
+        stage.scene.stylesheets.add(this.javaClass.getResource("\\css\\$THEME.css")!!.toExternalForm())
     }
 
     /**
@@ -261,7 +254,9 @@ class WindowController : Initializable {
         stage.initModality(Modality.WINDOW_MODAL)
         stage.icons.add(Image(FileInputStream(wayToImage("other/smart_house"))))
         stage.isResizable = false
-        stage.scene = Scene(fxmlLoader.load())
+        val scene = Scene(fxmlLoader.load())
+        scene.stylesheets.add(this.javaClass.getResource("\\css\\$THEME.css")!!.toExternalForm())
+        stage.scene = scene
 
         val controller: SettingChartController = fxmlLoader.getController()
         controller.load(layoutX, layoutY)
@@ -353,7 +348,9 @@ class WindowController : Initializable {
         stage.initModality(Modality.WINDOW_MODAL)
         stage.icons.add(Image(FileInputStream(wayToImage("other/smart_house"))))
         stage.isResizable = false
-        stage.scene = Scene(fxmlLoader.load())
+        val scene = Scene(fxmlLoader.load())
+        scene.stylesheets.add(this.javaClass.getResource("\\css\\$THEME.css")!!.toExternalForm())
+        stage.scene = scene
 
         val controller: SettingIndicatorController = fxmlLoader.getController()
 
@@ -788,7 +785,9 @@ class WindowController : Initializable {
         stage.icons.add(Image(FileInputStream(wayToImage("other/smart_house"))))
         stage.isResizable = false
         stage.title = "addWidget"
-        stage.scene = Scene(fxmlLoader.load())
+        val scene = Scene(fxmlLoader.load())
+        scene.stylesheets.add(this.javaClass.getResource("\\css\\$THEME.css")!!.toExternalForm())
+        stage.scene = scene
         val controller: AddWidgetController = fxmlLoader.getController()
         if (indicatorPane.isVisible)
             controller.load(objectData.getIdModel(), true)
@@ -876,15 +875,15 @@ class WindowController : Initializable {
         stage.initModality(Modality.WINDOW_MODAL)
         stage.icons.add(Image(FileInputStream(wayToImage("other/smart_house"))))
         stage.isResizable = false
-        stage.scene = Scene(fxmlLoader.load())
+        val scene = Scene(fxmlLoader.load())
+        scene.stylesheets.add(this.javaClass.getResource("\\css\\$THEME.css")!!.toExternalForm())
+        stage.scene = scene
         val controller: AccountController = fxmlLoader.getController()
         controller.load(user)
         stage.showAndWait()
         if (THEME != oldTheme) {
             queriesDB.updateUser(ID_USER, UsersTable.THEME.name, THEME)
             updateTheme()
-            username.style = textStyle(20)
-            devicesList.style = getAdditionalColor() + textStyle(16)
             for (widget in widgets) {
                 widget.updateColor()
                 if (widget is StringWidget) {
@@ -934,7 +933,9 @@ class WindowController : Initializable {
             newStage.initModality(Modality.APPLICATION_MODAL)
             stage.icons.add(Image(FileInputStream(wayToImage("other/smart_house"))))
             newStage.title = "login"
-            newStage.scene = Scene(newFxmlLoader.load())
+            val newScene = Scene(newFxmlLoader.load())
+            newScene.stylesheets.add(this.javaClass.getResource("\\css\\$THEME.css")!!.toExternalForm())
+            newStage.scene = newScene
             newStage.show()
         }
     }

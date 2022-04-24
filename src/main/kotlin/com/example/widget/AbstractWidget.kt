@@ -21,7 +21,7 @@ abstract class AbstractWidget(
 
     private fun createPanel(): AnchorPane {
         val panel = AnchorPane()
-        panel.style = panelTheme()
+        panel.id = "pane"
         panel.layoutX = layoutX
         panel.layoutY = layoutY
         panel.prefWidth = size
@@ -33,7 +33,6 @@ abstract class AbstractWidget(
         val nameLabel = Label(name)
         nameLabel.alignment = Pos.CENTER
         nameLabel.style = Decoration.NAME.style
-        nameLabel.effect = dropShadow()
         AnchorPane.setRightAnchor(nameLabel, 5.0)
         AnchorPane.setLeftAnchor(nameLabel, 5.0)
         return nameLabel
@@ -46,7 +45,6 @@ abstract class AbstractWidget(
 
         setting.layoutX = size - Decoration.SETTING.layoutX
         setting.layoutY = size - Decoration.SETTING.layoutY
-        setting.effect = dropShadow()
 
         return setting
     }
@@ -67,7 +65,5 @@ abstract class AbstractWidget(
     fun getIndicator(): Int = indicator
 
     fun updateColor() {
-        panel.style = panelTheme()
-        title.style = textStyle(16)
     }
 }

@@ -1,14 +1,76 @@
-#dataPane {
+#dataPane, #headerPane, #mainPane, #chartPane, #indicatorPane{
     -fx-background-color: linear-gradient(to left, #d0daf0, #bac9e8);
 }
 
-.text-field, .combo-box {
-    -fx-background-color:  linear-gradient(to left, #e9edf5, #ced9ed);
+.text-field, .combo-box, #pane {
+    -fx-background-color:  linear-gradient(to left, #e1e6f0, #ced9ed);
     -fx-background-radius: 0;
 }
 
 .label{
     -fx-text-fill: #3b507b;
     -fx-font-size: 16px;
+    -fx-font-family: "Segoe UI Semibold";
+}
+
+#circleLabel{
+    -fx-text-fill: #e1e6f0;
+    -fx-font-size: 20px;
+    -fx-font-family: "Segoe UI Semibold";
+}
+
+#errorLabel{
+    -fx-text-fill: "RED";
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI Semibold";
+}
+
+.list-cell {
+    -fx-control-inner-background: transparent;
+    -fx-control-inner-background-alt: transparent;
+    -fx-text-fill: #3b507b;
+    -fx-font-size: 13px;
+    -fx-font-family: "Segoe UI Semibold";
+}
+
+#devicesList{
+    -fx-background-color:  linear-gradient(to left, #e9edf5, #ced9ed);
+}
+
+.chart {
+    -fx-padding: 10px;
+}
+
+.chart-vertical-grid-lines {
+    -fx-stroke: #44619c;
+    -fx-stroke-width: 1;
+}
+
+.chart-horizontal-grid-lines {
+    -fx-stroke: #44619c;
+    -fx-stroke-width: 1;
+}
+
+.chart-plot-background, .chart-legend {
+    -fx-background-color: transparent;
+}
+
+.default-color0.chart-area-symbol {
+    -fx-background-color: #deaa87, #f5f5dc;
+}
+
+.default-color0.chart-series-area-line {
+    -fx-stroke: #deaa87;
+    -fx-effect: dropshadow(one-pass-box, #a15a2b, 1.0, 0.5, 0.5, 0.5);
+}
+
+.default-color0.chart-series-area-fill {
+    -fx-fill: #f5f5dc;
+    -fx-opacity: 0.5
+}
+
+#username, #text{
+    -fx-text-fill: #3b507b;
+    -fx-font-size: 22px;
     -fx-font-family: "Segoe UI Semibold";
 }
