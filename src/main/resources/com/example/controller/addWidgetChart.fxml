@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="dataPane" prefHeight="285.0" prefWidth="438.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.AddWidgetController">
+<AnchorPane fx:id="dataPane" prefHeight="285.0" prefWidth="438.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.AddWidgetController">
     <Label fx:id="nameLabel" layoutX="50.0" layoutY="118.0" text="Название" textFill="#3b507b" AnchorPane.bottomAnchor="141.4" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />

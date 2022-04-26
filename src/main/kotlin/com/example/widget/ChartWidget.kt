@@ -16,7 +16,7 @@ class ChartWidget(
     pref: Double,
     name: String,
     private val data: List<List<Number>>,
-    private val chartType: String
+    private var chartType: String
 ) : AbstractWidget(indicator, layoutX, layoutY, pref, name) {
 
     private var chart: XYChart<String, Number>
@@ -48,8 +48,8 @@ class ChartWidget(
         return dataChart
     }
 
-    private fun createChart(): XYChart<String, Number> {
-        val dataChart = dataSeries()
+    private fun createChart(series: XYChart.Series<String, Number>? = null): XYChart<String, Number> {
+        val dataChart = series ?: dataSeries()
         val xAxis = CategoryAxis()
         xAxis.side = Side.BOTTOM
         xAxis.tickLabelFont = Font("Segoe UI Semibold", 12.0)
@@ -83,4 +83,17 @@ class ChartWidget(
     }
 
     fun getChart(): XYChart<String, Number> = chart
+
+    fun updateChart(series: XYChart.Series<String, Number>){
+        panel.children.remove(chart)
+        chart = createChart(series)
+        panel.children.add(chart)
+    }
+
+    fun updateType(chartType: String){
+        this.chartType = chartType
+        panel.children.remove(chart)
+        chart = createChart()
+        panel.children.add(chart)
+    }
 }

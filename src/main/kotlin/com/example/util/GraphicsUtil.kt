@@ -20,7 +20,7 @@ enum class Pref(val prefWidth: Double, val prefHeight: Double){
 enum class Decoration(val pref: Double, val layoutX: Double, val layoutY: Double, val style: String){
     NAME (0.0, 14.0, 4.0,""),
     SETTING (25.0,27.0,27.0, wayToImage("other/settings")),
-    CHARTS (307.0,0.0,24.0, "")
+    CHARTS (295.0,0.0,7.0, "")
 }
 
 

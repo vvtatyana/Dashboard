@@ -8,7 +8,6 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.scene.image.Image
-import javafx.scene.layout.AnchorPane
 import javafx.stage.Modality
 import javafx.stage.Stage
 import com.example.util.wayToImage
@@ -16,8 +15,10 @@ import java.io.FileInputStream
 
 class LoginController {
 
+    lateinit var passwordReset: Button
+
     @FXML
-    private lateinit var dataPane: AnchorPane
+    private lateinit var passwordText: PasswordField
 
     @FXML
     private lateinit var registrationButton: Button
@@ -34,12 +35,18 @@ class LoginController {
     @FXML
     private lateinit var errorLabel: Label
 
+    private lateinit var database: Database
+
+    fun initialize() {
+        passwordReset.isVisible = false
+    }
+
     @FXML
     private fun onEnterButtonClick() {
-        val database = Database()
+        database = Database()
         val queriesDB = QueriesDB(database.getConnection(), database.getStatement())
         val user = queriesDB.selectUser(UsersTable.LOGIN.name, loginText.text)
-        if (user != null) {
+        if (user != null && passwordText.text == user.getPassword()) {
             ID_USER = user.getId()!!
             HEADERS_AUTH = "Bearer ${user.getToken()}"
             if (memoryCheck.isSelected) {
@@ -60,7 +67,8 @@ class LoginController {
             stage.scene = scene
             stage.show()
         } else {
-            errorLabel.text = "Не верный логин"
+            errorLabel.text = "Не верный логин или пароль."
+            passwordReset.isVisible = true
         }
     }
 
@@ -73,6 +81,22 @@ class LoginController {
         stage = Stage()
         stage.initModality(Modality.APPLICATION_MODAL)
         stage.title = "Registration"
+        val scene = Scene(fxmlLoader.load())
+        scene.stylesheets.add(this.javaClass.getResource("\\css\\$THEME.css")!!.toExternalForm())
+        stage.scene = scene
+        stage.show()
+    }
+
+    @FXML
+    fun onPasswordResetClick(){
+        database.closeBD()
+        var stage: Stage = passwordReset.scene.window as Stage
+        stage.close()
+        val fxmlLoader = FXMLLoader(javaClass.getResource("passwordReset.fxml"))
+        stage = Stage()
+        stage.initModality(Modality.WINDOW_MODAL)
+        stage.icons.add(Image(FileInputStream(wayToImage("other/smart_house"))))
+        stage.isResizable = false
         val scene = Scene(fxmlLoader.load())
         scene.stylesheets.add(this.javaClass.getResource("\\css\\$THEME.css")!!.toExternalForm())
         stage.scene = scene

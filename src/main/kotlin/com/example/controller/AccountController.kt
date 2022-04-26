@@ -9,15 +9,11 @@ import javafx.scene.control.TextField
 import javafx.scene.control.Tooltip
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
-import javafx.scene.layout.AnchorPane
 import javafx.stage.Stage
 import com.example.util.wayToImage
 import java.io.FileInputStream
 
 class AccountController {
-
-    @FXML
-    private lateinit var dataPane: AnchorPane
 
     @FXML
     private lateinit var accountIcon: ImageView
@@ -88,9 +84,11 @@ class AccountController {
                 user.getIdUser(),
                 user.getUsername(),
                 user.getLogin(),
+                user.getPassword(),
                 host,
                 token,
                 user.getCastle(),
+                user.getAlarm(),
                 icon,
                 user.getTheme()
             )

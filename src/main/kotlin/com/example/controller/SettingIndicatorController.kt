@@ -27,8 +27,6 @@ class SettingIndicatorController {
 
     @FXML
     private lateinit var borderPane: AnchorPane
-    @FXML
-    private lateinit var dataPane: AnchorPane
 
     @FXML
     private lateinit var saveImageView: ImageView

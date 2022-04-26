@@ -15,7 +15,6 @@ import javafx.scene.control.*
 import javafx.scene.control.Alert.AlertType
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
-import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.Region
 import javafx.stage.Modality
 import javafx.stage.Stage
@@ -26,7 +25,10 @@ import java.io.FileInputStream
 class RegistrationController {
 
     @FXML
-    private lateinit var dataPane: AnchorPane
+    private lateinit var passwordTextTwo: TextField
+
+    @FXML
+    private lateinit var passwordTextOne: TextField
 
     @FXML
     private lateinit var hostText: TextField
@@ -90,47 +92,51 @@ class RegistrationController {
 
             for (user in users)
                 if (user.getUsername() == username && user.getLogin() == login) {
-
                     val animal = (1..30).random()
-                    if (memoryCheck.isSelected)
-                        queriesDB.insertIntoUser(
-                            User(
-                                null,
-                                user.getIdUser(),
-                                username,
-                                login,
-                                DEFAULT_ADDRESS,
-                                token,
-                                true,
-                                animal,
-                                THEME
+                    if (passwordTextOne.text == passwordTextTwo.text) {
+                        if (memoryCheck.isSelected)
+                            queriesDB.insertIntoUser(
+                                User(
+                                    null,
+                                    user.getIdUser(),
+                                    username,
+                                    login,
+                                    passwordTextOne.text,
+                                    DEFAULT_ADDRESS,
+                                    token,
+                                    castle = true,
+                                    alarm = false,
+                                    icon = animal,
+                                    theme = THEME
+                                )
                             )
-                        )
-                    else
-                        queriesDB.insertIntoUser(
-                            User(
-                                null,
-                                user.getIdUser(),
-                                username,
-                                login,
-                                DEFAULT_ADDRESS,
-                                token,
-                                false,
-                                animal,
-                                THEME
+                        else
+                            queriesDB.insertIntoUser(
+                                User(
+                                    null,
+                                    user.getIdUser(),
+                                    username,
+                                    login,
+                                    passwordTextOne.text,
+                                    DEFAULT_ADDRESS,
+                                    token,
+                                    false,
+                                    alarm = false,
+                                    icon = animal,
+                                    theme = THEME
+                                )
                             )
-                        )
-
-                    database.closeBD()
-                    showWindow("window.fxml", "Window")
-                }
-            errorLabel.text = "Не верные имя или логин."
+                        database.closeBD()
+                        showWindow("window.fxml", "Window")
+                    } else errorLabel.text = "Пароли не совпадают."
+                } else errorLabel.text = "Не верные имя или логин."
+        } else {
+            errorLabel.text = "Не верные токен или хост."
+            nameText.text = ""
+            loginText.text = ""
+            tokenText.text = ""
+            hostText.text = ""
         }
-        errorLabel.text = "Не верные токен или хост."
-        nameText.text = ""
-        loginText.text = ""
-        tokenText.text = ""
-        hostText.text = ""
     }
 
     @FXML

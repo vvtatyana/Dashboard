@@ -12,7 +12,6 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.jfoenix.controls.JFXListView
 import javafx.animation.TranslateTransition
-import javafx.application.Platform
 import javafx.collections.FXCollections
 import javafx.event.EventHandler
 import javafx.fxml.FXML
@@ -122,7 +121,7 @@ class WindowController : Initializable {
     }
 
     private fun schedule() {
-        Platform.runLater {
+        /*Platform.runLater {
             val address = request.addressGeneration(DEFAULT_ADDRESS, OBJECTS)
             val values = valuesObject(objectData.getNameObject(), objects, address)
             val data = objectsData(objectData.getNameObject(), objects, address, values)
@@ -141,7 +140,7 @@ class WindowController : Initializable {
                     }
                 }
             }
-        }
+        }*/
     }
 
     private fun imageViewVisible(visible: Boolean) {
@@ -259,7 +258,8 @@ class WindowController : Initializable {
         stage.scene = scene
 
         val controller: SettingChartController = fxmlLoader.getController()
-        controller.load(layoutX, layoutY)
+        val chart = queriesDB.selectChart(layoutX, layoutY, objectData.getId())!!
+        controller.load(layoutX, layoutY, chart)
 
         stage.showAndWait()
         if (controller.delete) {
@@ -268,13 +268,16 @@ class WindowController : Initializable {
         } else if (controller.save) {
             val dataWidget = controller.dataWidget
 
+            if (chart.getType() != dataWidget.getType())
+                panel.updateType(dataWidget.getType())
+
             updateObject(layoutX, layoutY, dataWidget.getName(), dataWidget.getUnit(), dataWidget.getType())
-            if (dataWidget.getName() != "") panel.setTitle(
+            if (dataWidget.getName() != "" && dataWidget.getName() != chart.getName()) panel.setTitle(
                 dataWidget.getName() + name.text.substring(
                     name.text.indexOf(",", 0), name.text.length
                 )
             )
-            if (dataWidget.getUnit() != "") panel.setTitle(
+            if (dataWidget.getUnit() != "" && dataWidget.getName() != chart.getUnit()) panel.setTitle(
                 name.text.substring(
                     0,
                     name.text.indexOf(",", 0) + 1
@@ -331,7 +334,7 @@ class WindowController : Initializable {
                         }
                     }
                 }
-
+                panel.updateChart(series)
             }
         }
     }
@@ -458,7 +461,7 @@ class WindowController : Initializable {
             queriesDB.insertIntoIndicator(
                 Indicator(
                     null,
-                    objectData.getIdObject(),
+                    objectData.getId(),
                     addWidget.getWidget(),
                     pos[0],
                     pos[1],
@@ -467,7 +470,7 @@ class WindowController : Initializable {
                     addWidget.getType()
                 )
             )
-            val indicator = queriesDB.selectIndicator(pos[0], pos[1], objectData.getIdObject())
+            val indicator = queriesDB.selectIndicator(pos[0], pos[1], objectData.getId().toString())
 
             val panel = when (addWidget.getType()) {
                 TypeIndicator.NUMBER.type -> {
@@ -539,7 +542,7 @@ class WindowController : Initializable {
             queriesDB.insertIntoChart(
                 Chart(
                     null,
-                    objectData.getIdObject(),
+                    objectData.getId(),
                     addWidget.getWidget(),
                     pos[0],
                     pos[1],
@@ -549,7 +552,7 @@ class WindowController : Initializable {
                 )
             )
 
-            val chart = queriesDB.selectChart(pos[0], pos[1], objectData.getIdObject())
+            val chart = queriesDB.selectChart(pos[0], pos[1], objectData.getId())
 
             val panel = ChartWidget(
                 chart!!.getId(),
@@ -581,10 +584,10 @@ class WindowController : Initializable {
      * @data - данные
      */
     private fun uploadObjects(data: Map<String, String>) {
-        val indicators = queriesDB.selectIndicators(objectData.getIdObject())
+        val indicators = queriesDB.selectIndicators(objectData.getId().toString())
         if (indicators != null) {
             for (indicator in indicators) {
-                if (indicator.getIdObject() == objectData.getIdObject() && !positionFree(
+                if (indicator.getIdObject() == objectData.getId() && !positionFree(
                         indicator.getLayoutX(), indicator.getLayoutY()
                     )
                 ) {
@@ -656,11 +659,11 @@ class WindowController : Initializable {
             }
         }
 
-        val charts = queriesDB.selectCharts(objectData.getIdObject())
+        val charts = queriesDB.selectCharts(objectData.getId().toString())
 
         if (charts != null) {
             for (chart in charts) {
-                if (chart.getIdObject() == objectData.getIdObject() && !positionFree(
+                if (chart.getIdObject() == objectData.getId() && !positionFree(
                         chart.getLayoutX(), chart.getLayoutY()
                     )
                 ) {
@@ -676,7 +679,7 @@ class WindowController : Initializable {
                     )
                     val setting = panel.getSetting()
                     setting.onMouseClicked = EventHandler {
-                        val areaChart = panel.getChart()
+                        val areaChart = panel.getPanel()
                         settingChartClick(
                             panel,
                             tp,
@@ -690,8 +693,6 @@ class WindowController : Initializable {
 
                 }
             }
-//        val thread = WindowController()
-//        thread.start()
         }
     }
 
@@ -914,9 +915,11 @@ class WindowController : Initializable {
                 user.getIdUser(),
                 user.getUsername(),
                 user.getLogin(),
+                user.getPassword(),
                 addressDev,
                 token,
                 user.getCastle(),
+                user.getAlarm(),
                 icon,
                 user.getTheme()
             )
@@ -1012,9 +1015,9 @@ class WindowController : Initializable {
             posY += 310.0
         }
 
-        val chart = queriesDB.selectChart(layoutX, layoutY, objectData.getIdObject())
+        val chart = queriesDB.selectChart(layoutX, layoutY, objectData.getId())
         if (positionFree(posX, posY)) {
-            val anotherChart = queriesDB.selectChart(posX, posY, objectData.getIdObject())
+            val anotherChart = queriesDB.selectChart(posX, posY, objectData.getId())
             if (anotherChart != null) {
                 queriesDB.updateChartId(anotherChart.getId(), IndicatorsTable.LAYOUT_X.name, layoutX.toString())
                 queriesDB.updateChartId(anotherChart.getId(), IndicatorsTable.LAYOUT_Y.name, layoutY.toString())

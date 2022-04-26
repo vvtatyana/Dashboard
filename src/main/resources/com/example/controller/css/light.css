@@ -69,8 +69,14 @@
     -fx-opacity: 0.5
 }
 
-#username, #text{
+#username{
     -fx-text-fill: #3b507b;
     -fx-font-size: 22px;
+    -fx-font-family: "Segoe UI Semibold";
+}
+
+#text{
+    -fx-text-fill: #3b507b;
+    -fx-font-size: 30px;
     -fx-font-family: "Segoe UI Semibold";
 }

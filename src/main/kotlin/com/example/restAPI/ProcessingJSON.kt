@@ -38,11 +38,13 @@ class ProcessingJSON {
                     slide.get(_ID).asString,
                     slide.get(NAME).asString,
                     slide.get(LOGIN).asString,
+                    "",
                     DEFAULT_ADDRESS,
                     TOKEN,
-                    true,
-                    1,
-                    THEME
+                    castle = true,
+                    alarm = false,
+                    icon = 1,
+                    theme = THEME
                 )
             )
         }
@@ -130,7 +132,6 @@ class ProcessingJSON {
     }
 
     fun typeNumeric(jsonObject: JsonObject, name: String): Boolean{
-        val border = mutableMapOf<String, String>()
         val values = readBorder(jsonObject, name)
         if (values != null) {
             try {

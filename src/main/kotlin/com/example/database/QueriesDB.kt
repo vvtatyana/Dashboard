@@ -7,15 +7,15 @@ import java.sql.Statement
 import kotlin.system.exitProcess
 
 /**
-* Класс для работы с бд
-*/
+ * Класс для работы с бд
+ */
 class QueriesDB(private val connection: Connection, private val statement: Statement) {
 
     /**
-    * Возвращает выборку данных из бд
-    * @sql - запрос
-    * @column - количество столбцов в таблице
-    */
+     * Возвращает выборку данных из бд
+     * @sql - запрос
+     * @column - количество столбцов в таблице
+     */
     private fun select(sql: String, column: Int): List<List<String>> {
         val result = mutableListOf<List<String>>()
 
@@ -33,13 +33,13 @@ class QueriesDB(private val connection: Connection, private val statement: State
             System.err.println(sql + " " + e.javaClass.name + ": " + e.message)
             exitProcess(0)
         }
-       return result
+        return result
     }
 
     /**
-    * Выполняет запросы для операторов вставить, изменить, удалить данные из таблицы
-    * @sql - запрос
-    */
+     * Выполняет запросы для операторов вставить, изменить, удалить данные из таблицы
+     * @sql - запрос
+     */
     private fun insertUpdateDelete(sql: String) {
         try {
             statement.executeUpdate(sql)
@@ -51,55 +51,38 @@ class QueriesDB(private val connection: Connection, private val statement: State
     }
 
     /*USERS*/
-    fun selectUser(field: String, value: String): User?{
+    fun selectUser(field: String, value: String): User? {
         val result = select("SELECT * from USERS where $field='$value'", TableBD.USERS.column)
         return if (result.isNotEmpty())
-            User(result[0][0].toInt(), result[0][1], result[0][2], result[0][3], result[0][4], result[0][5], result[0][6].toBoolean(), result[0][7].toInt(), result[0][8])
+            User(
+                result[0][0].toInt(),
+                result[0][1],
+                result[0][2],
+                result[0][3],
+                result[0][4],
+                result[0][5],
+                result[0][6],
+                result[0][7].toBoolean(),
+                result[0][8].toBoolean(),
+                result[0][9].toInt(),
+                result[0][10]
+            )
         else null
     }
 
-    fun selectUsers(): List<User>? {
-        val resultList = select("SELECT * from USERS", 7)
-        return if (resultList.isNotEmpty()) {
-            val users = mutableListOf<User>()
-            for (result in resultList) {
-                users.add(
-                    User(
-                        result[0].toInt(),
-                        result[1],
-                        result[2],
-                        result[3],
-                        result[4],
-                        result[5],
-                        result[6].toBoolean(),
-                        result[7].toInt(),
-                        result[8]
-                    )
-                )
-            }
-            users
-        }
-        else null
-    }
-
-    fun insertIntoUser(user: User){
-        val sql = "INSERT INTO USERS (ID_USER,USERNAME,LOGIN,ADDRESS,TOKEN,CASTLE,ICON,com.example.util.getTHEME)" +
-                "VALUES ('${user.getIdUser()}' , '${user.getUsername()}', '${user.getLogin()}', '${user.getAddress()}', '${user.getToken()}', '${user.getCastle()}', '${user.getIcon()}', '${user.getTheme()}');"
+    fun insertIntoUser(user: User) {
+        val sql = "INSERT INTO USERS (ID_USER,USERNAME,LOGIN,PASSWORD,ADDRESS,TOKEN,CASTLE,ALARM,ICON,THEME)" +
+                "VALUES ('${user.getIdUser()}' , '${user.getUsername()}', '${user.getLogin()}', '${user.getPassword()}', '${user.getAddress()}', '${user.getToken()}', '${user.getCastle()}', '${user.getAlarm()}', '${user.getIcon()}', '${user.getTheme()}');"
         insertUpdateDelete(sql)
     }
 
-    fun updateUser(id: Int, field: String, value: String){
+    fun updateUser(id: Int, field: String, value: String) {
         val sql = "UPDATE USERS set $field='$value' where ID=$id"
         insertUpdateDelete(sql)
     }
 
-    fun deleteUser(id: Int){
-        val sql = "DELETE from USERS where ID=$id"
-        insertUpdateDelete(sql)
-    }
-
     /*OBJECTS*/
-    fun selectObject(field: String, value: String): Object?{
+    fun selectObject(field: String, value: String): Object? {
         val result = select("SELECT * from OBJECTS where $field='$value'", TableBD.OBJECTS.column)
         return if (result.isNotEmpty())
             Object(result[0][0].toInt(), result[0][1], result[0][2].toInt(), result[0][3], result[0][4])
@@ -114,38 +97,48 @@ class QueriesDB(private val connection: Connection, private val statement: State
                 objects.add(Object(result[0].toInt(), result[1], result[2].toInt(), result[3], result[4]))
             }
             objects
-        }
-        else null
+        } else null
     }
 
-    fun insertIntoObject(obj: Object){
+    fun insertIntoObject(obj: Object) {
         val sql = "INSERT INTO OBJECTS (ID_OBJECT,ID_USER,ID_MODEL,NAME_OBJECT)" +
                 "VALUES ('${obj.getIdObject()}' , '${obj.getIdUser()}', '${obj.getIdModel()}', '${obj.getNameObject()}');"
         insertUpdateDelete(sql)
     }
 
-    fun updateObject(idObj: String, field: String, value: String){
-        val sql = "UPDATE OBJECTS set $field = '$value' where ID_OBJECT=$idObj"
-        insertUpdateDelete(sql)
-    }
-
-    fun deleteObject(idObj: String){
-        val sql = "DELETE from OBJECTS where ID_OBJECT='$idObj'"
-        insertUpdateDelete(sql)
-    }
-
     /*INDICATORS*/
-    fun selectIndicator(layoutX: Double, layoutY: Double, idObj: String): Indicator?{
-        val result = select("SELECT * from INDICATORS where LAYOUT_X=$layoutX and LAYOUT_Y=$layoutY and ID_OBJECT='$idObj'", TableBD.INDICATORS.column)
+    fun selectIndicator(layoutX: Double, layoutY: Double, idObj: String): Indicator? {
+        val result = select(
+            "SELECT * from INDICATORS where LAYOUT_X=$layoutX and LAYOUT_Y=$layoutY and ID_OBJECT='$idObj'",
+            TableBD.INDICATORS.column
+        )
         return if (result.isNotEmpty())
-            Indicator(result[0][0].toInt(), result[0][1], result[0][2], result[0][3].toDouble(), result[0][4].toDouble(), result[0][5], result[0][6], result[0][7])
+            Indicator(
+                result[0][0].toInt(),
+                result[0][1].toInt(),
+                result[0][2],
+                result[0][3].toDouble(),
+                result[0][4].toDouble(),
+                result[0][5],
+                result[0][6],
+                result[0][7]
+            )
         else null
     }
 
-    fun selectIndicatorId(id: Int): Indicator?{
+    fun selectIndicatorId(id: Int): Indicator? {
         val result = select("SELECT * from INDICATORS where ID=$id", TableBD.INDICATORS.column)
         return if (result.isNotEmpty())
-            Indicator(result[0][0].toInt(), result[0][1], result[0][2], result[0][3].toDouble(), result[0][4].toDouble(), result[0][5], result[0][6], result[0][7])
+            Indicator(
+                result[0][0].toInt(),
+                result[0][1].toInt(),
+                result[0][2],
+                result[0][3].toDouble(),
+                result[0][4].toDouble(),
+                result[0][5],
+                result[0][6],
+                result[0][7]
+            )
         else null
     }
 
@@ -157,7 +150,7 @@ class QueriesDB(private val connection: Connection, private val statement: State
                 indicators.add(
                     Indicator(
                         result[0].toInt(),
-                        result[1],
+                        result[1].toInt(),
                         result[2],
                         result[3].toDouble(),
                         result[4].toDouble(),
@@ -168,36 +161,47 @@ class QueriesDB(private val connection: Connection, private val statement: State
                 )
             }
             indicators
-        }
-        else null
+        } else null
     }
 
-    fun insertIntoIndicator(indicator: Indicator){
+    fun insertIntoIndicator(indicator: Indicator) {
         val sql = "INSERT INTO INDICATORS (ID_OBJECT,NAME_INDICATOR,LAYOUT_X,LAYOUT_Y,NAME,UNIT,TYPE)" +
                 "VALUES ('${indicator.getIdObject()}' , '${indicator.getNameIndicator()}', '${indicator.getLayoutX()}', '${indicator.getLayoutY()}', '${indicator.getName()}', '${indicator.getUnit()}', '${indicator.getType()}');"
         insertUpdateDelete(sql)
     }
 
-    fun updateIndicator(layoutX: Double, layoutY: Double, field: String, value: String){
+    fun updateIndicator(layoutX: Double, layoutY: Double, field: String, value: String) {
         val sql = "UPDATE INDICATORS set $field = '$value' where LAYOUT_X=$layoutX and LAYOUT_Y=$layoutY"
         insertUpdateDelete(sql)
     }
 
-    fun updateIndicatorId(id: Int, field: String, value: String){
+    fun updateIndicatorId(id: Int, field: String, value: String) {
         val sql = "UPDATE INDICATORS set $field = '$value' where ID=$id"
         insertUpdateDelete(sql)
     }
 
-    fun deleteIndicator(layoutX: Double, layoutY: Double){
+    fun deleteIndicator(layoutX: Double, layoutY: Double) {
         val sql = "DELETE from INDICATORS where LAYOUT_X=$layoutX and LAYOUT_Y=$layoutY"
         insertUpdateDelete(sql)
     }
 
     /*CHARTS*/
-    fun selectChart(layoutX: Double, layoutY: Double, idObj: String): Chart?{
-        val result = select("SELECT * from CHARTS where LAYOUT_X=$layoutX and LAYOUT_Y=$layoutY and ID_OBJECT='$idObj'", TableBD.CHARTS.column)
+    fun selectChart(layoutX: Double, layoutY: Double, idObj: Int): Chart? {
+        val result = select(
+            "SELECT * from CHARTS where LAYOUT_X=$layoutX and LAYOUT_Y=$layoutY and ID_OBJECT=$idObj",
+            TableBD.CHARTS.column
+        )
         return if (result.isNotEmpty())
-            Chart(result[0][0].toInt(), result[0][1], result[0][2], result[0][3].toDouble(), result[0][4].toDouble(), result[0][5], result[0][6], result[0][6])
+            Chart(
+                result[0][0].toInt(),
+                result[0][1].toInt(),
+                result[0][2],
+                result[0][3].toDouble(),
+                result[0][4].toDouble(),
+                result[0][5],
+                result[0][6],
+                result[0][7]
+            )
         else null
     }
 
@@ -209,7 +213,7 @@ class QueriesDB(private val connection: Connection, private val statement: State
                 charts.add(
                     Chart(
                         result[0].toInt(),
-                        result[1],
+                        result[1].toInt(),
                         result[2],
                         result[3].toDouble(),
                         result[4].toDouble(),
@@ -220,27 +224,26 @@ class QueriesDB(private val connection: Connection, private val statement: State
                 )
             }
             charts
-        }
-        else null
+        } else null
     }
 
-    fun insertIntoChart(chart: Chart){
+    fun insertIntoChart(chart: Chart) {
         val sql = "INSERT INTO CHARTS (ID_OBJECT,NAME_CHART,LAYOUT_X,LAYOUT_Y,NAME,UNIT,TYPE)" +
                 "VALUES ('${chart.getIdObject()}' , '${chart.getNameChart()}', '${chart.getLayoutX()}', '${chart.getLayoutY()}', '${chart.getName()}', '${chart.getUnit()}', '${chart.getType()}');"
         insertUpdateDelete(sql)
     }
 
-    fun updateChart(layoutX: Double, layoutY: Double, field: String, value: String){
+    fun updateChart(layoutX: Double, layoutY: Double, field: String, value: String) {
         val sql = "UPDATE CHARTS set $field = '$value' where LAYOUT_X=$layoutX and LAYOUT_Y=$layoutY"
         insertUpdateDelete(sql)
     }
 
-    fun updateChartId(id: Int, field: String, value: String){
+    fun updateChartId(id: Int, field: String, value: String) {
         val sql = "UPDATE CHARTS set $field = '$value' where ID=$id"
         insertUpdateDelete(sql)
     }
 
-    fun deleteChart(layoutX: Double, layoutY: Double){
+    fun deleteChart(layoutX: Double, layoutY: Double) {
         val sql = "DELETE from CHARTS where LAYOUT_X=$layoutX and LAYOUT_Y=$layoutY"
         insertUpdateDelete(sql)
     }

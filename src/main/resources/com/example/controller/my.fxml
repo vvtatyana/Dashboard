@@ -21,9 +21,9 @@
                     <Font name="Segoe UI Semibold" size="14.0" />
                 </font>
             </Label>
-            <Gauge accessibleRole="BUTTON" backgroundPaint="#b00b0b" blendMode="SRC_ATOP" cache="true" cacheHint="ROTATE" cacheShape="false" centerShape="false" depthTest="DISABLE" foregroundPaint="#ff0303" knobType="METAL" layoutX="5.0" layoutY="26.0" mediumTickMarksVisible="false" minorTickMarkType="TRAPEZOID" nodeOrientation="LEFT_TO_RIGHT" orientation="VERTICAL" pickOnBounds="false" prefHeight="110.0" prefWidth="170.0" scaleShape="false" sectionTextVisible="true" sectionsAlwaysVisible="true" sectionsVisible="true" shadowsEnabled="true" skinType="SIMPLE" smoothing="true" startFromZero="true" thresholdVisible="true" tickLabelSectionsVisible="true" tickMarkRingVisible="true" tickMarkSectionsVisible="true" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="27.0">
+            <Gauge accessibleRole="BUTTON" autoScale="false" backgroundPaint="#b00b0b" blendMode="SRC_ATOP" borderPaint="#4508ff" borderWidth="0.0" cache="true" cacheHint="ROTATE" depthTest="DISABLE" foregroundPaint="#ff0303" gradientBarEnabled="true" highlightAreas="true" highlightSections="true" innerShadowEnabled="true" interactive="true" knobPosition="TOP_LEFT" knobType="PLAIN" layoutX="5.0" layoutY="26.0" lcdCrystalEnabled="true" lcdFont="STANDARD" lcdVisible="true" ledBlinking="true" ledOn="true" ledVisible="true" majorTickMarkType="TRIANGLE" maxMeasuredValueVisible="true" mediumTickMarkType="TRIANGLE" mediumTickMarksVisible="false" minMeasuredValueVisible="true" minorTickMarkType="DOT" needleBehavior="OPTIMIZED" needleSize="THICK" needleType="BIG" nodeOrientation="LEFT_TO_RIGHT" oldValueVisible="true" onlyFirstAndLastTickLabelVisible="true" pickOnBounds="false" prefHeight="110.0" prefWidth="170.0" returnToZero="true" scaleDirection="COUNTER_CLOCKWISE" sectionIconsVisible="true" sectionTextVisible="true" sectionsAlwaysVisible="true" sectionsVisible="true" shadowsEnabled="true" skinType="SIMPLE" style="-fx-text-fill: RED;" tickLabelSectionsVisible="true" tickMarkRingVisible="true" tickMarkSectionsVisible="true" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="27.0">
                 <minorTickMarkColor>
-                    <Color red="1.0" />
+                    <Color red="0.1894736886024475" green="0.12140350788831711" blue="0.12140350788831711" />
                 </minorTickMarkColor>
             <barBorderColor>
                <Color red="0.6299999952316284" green="0.14489999413490295" blue="0.14489999413490295" />
@@ -34,12 +34,24 @@
             <knobColor>
                <Color red="1.0" />
             </knobColor>
-            <ledColor>
-               <Color red="1.0" opacity="0.0" />
-            </ledColor>
             <needleBorderColor>
-               <Color red="1.0" green="1.0" blue="1.0" opacity="0.0" />
-            </needleBorderColor></Gauge>
+               <Color red="0.20000000298023224" green="1.0" />
+            </needleBorderColor>
+            <customFont>
+               <Font name="Roboto Regular" size="16.0" />
+            </customFont>
+            <ledColor>
+               <Color red="0.1791907548904419" green="1.0" />
+            </ledColor>
+            <mediumTickMarkColor>
+               <Color red="0.7789473533630371" green="0.5885379910469055" blue="0.5885379910469055" />
+            </mediumTickMarkColor>
+            <needleColor>
+               <Color green="0.7799999713897705" blue="0.3201155960559845" />
+            </needleColor>
+            <majorTickMarkColor>
+               <Color red="0.6736842393875122" green="0.3642885088920593" blue="0.3642885088920593" />
+            </majorTickMarkColor></Gauge>
         </children>
     </AnchorPane>
    <AnchorPane fx:id="panel1" layoutX="14.0" layoutY="253.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #b3b3b3;">

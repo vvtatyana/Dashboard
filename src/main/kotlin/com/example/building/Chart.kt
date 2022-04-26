@@ -4,7 +4,7 @@ package com.example.building
 * Класс для графика
 */
 class Chart (private val id: Int?,
-             private val idObject: String,
+             private val idObject: Int,
              private val nameChart: String,
              private val layoutX: Double,
              private val layoutY: Double,
@@ -16,7 +16,7 @@ class Chart (private val id: Int?,
         return id!!
     }
 
-    fun getIdObject(): String {
+    fun getIdObject(): Int {
         return idObject
     }
 

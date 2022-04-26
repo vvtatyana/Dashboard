@@ -1,7 +1,7 @@
 package com.example.util
 
 enum class TableBD (val column: Int){
-    USERS(9),
+    USERS(11),
     OBJECTS(5),
     INDICATORS(8),
     CHARTS(8)
@@ -12,9 +12,11 @@ enum class UsersTable{
     ID_USER,
     USERNAME,
     LOGIN,
+    PASSWORD,
     ADDRESS,
     TOKEN,
     CASTLE,
+    ALARM,
     ICON,
     THEME
 }

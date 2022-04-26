@@ -24,10 +24,10 @@ class StartApplication : Application() {
             HEADERS_AUTH += user.getToken()
             THEME = user.getTheme()
 
-            showWindow(stage, "window.fxml", "Window")
+            showWindow(stage, "window.fxml", "RIC")
         }
         else{
-            showWindow(stage, "loginWindow.fxml", "Login")
+            showWindow(stage, "loginWindow.fxml", "Вход")
         }
     }
 
@@ -43,6 +43,9 @@ class StartApplication : Application() {
         stage.initStyle(StageStyle.DECORATED)
 
         stage.icons.add(Image(FileInputStream(wayToImage("other/smart_house"))))
+        if (nameFile == "loginWindow.fxml"){
+            stage.isResizable = false
+        }
         stage.title = title
         scene.stylesheets.add(this.javaClass.getResource("\\css\\$THEME.css")!!.toExternalForm())
         stage.scene = scene

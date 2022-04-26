@@ -8,9 +8,11 @@ class User(
     private val idUser: String,
     private val username: String,
     private val login: String,
+    private val password: String,
     private val address: String,
     private val token: String,
     private val castle: Boolean,
+    private val alarm: Boolean,
     private val icon: Int,
     private val theme: String
 ) {
@@ -30,6 +32,10 @@ class User(
         return login
     }
 
+    fun getPassword(): String {
+        return password
+    }
+
     fun getAddress(): String {
         return address
     }
@@ -40,6 +46,10 @@ class User(
 
     fun getCastle(): Boolean{
         return castle
+    }
+
+    fun getAlarm(): Boolean{
+        return alarm
     }
 
     fun getIcon(): Int{

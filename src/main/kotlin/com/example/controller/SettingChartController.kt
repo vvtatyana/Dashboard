@@ -1,5 +1,6 @@
 package com.example.controller
 
+import com.example.building.Chart
 import com.example.building.Widget
 import com.example.util.*
 import com.jfoenix.controls.JFXTimePicker
@@ -10,7 +11,6 @@ import javafx.scene.control.DatePicker
 import javafx.scene.control.TextField
 import javafx.scene.control.Tooltip
 import javafx.scene.image.ImageView
-import javafx.scene.layout.AnchorPane
 import javafx.stage.Stage
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -21,9 +21,6 @@ class SettingChartController {
 
     @FXML
     lateinit var fromTimePicker: JFXTimePicker
-
-    @FXML
-    private lateinit var dataPane: AnchorPane
 
     @FXML
     private lateinit var chartsType: ComboBox<String>
@@ -56,9 +53,14 @@ class SettingChartController {
             FXCollections.observableArrayList(mutableListOf(ChartType.AREA_CHART.type, ChartType.BAR_CHART.type, ChartType.LINE_CHART.type, ChartType.SCATTER_CHART.type))
     }
 
-    fun load(layoutX: Double, layoutY: Double) {
+    fun load(layoutX: Double, layoutY: Double, chart: Chart) {
         this.layoutX = layoutX
         this.layoutY = layoutY
+        println(chart.getType())
+        chartsType.value = chart.getType()
+        nameChart.text = chart.getName()
+        unitChart.text = chart.getUnit()
+
     }
 
     @FXML

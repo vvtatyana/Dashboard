@@ -74,9 +74,11 @@ class Database {
                 " ID_USER        VARCHAR(50)   NOT NULL," +
                 " USERNAME       VARCHAR(50)   NOT NULL," +
                 " LOGIN          VARCHAR(50)   NOT NULL," +
+                " PASSWORD       VARCHAR(50)   NOT NULL," +
                 " ADDRESS        VARCHAR(50)   NOT NULL," +
                 " TOKEN          VARCHAR(1000) NOT NULL," +
                 " CASTLE         VARCHAR(10)   NOT NULL," +
+                " ALARM          VARCHAR(10)   NOT NULL," +
                 " ICON           VARCHAR(10)   NOT NULL," +
                 " THEME          VARCHAR(20)   NOT NULL)"
     }
@@ -88,7 +90,7 @@ class Database {
         return "CREATE TABLE IF NOT EXISTS OBJECTS" +
                 "(ID             INTEGER       PRIMARY KEY    AUTOINCREMENT   NOT NULL," +
                 " ID_OBJECT      VARCHAR(50)   NOT NULL," +
-                " ID_USER        VARCHAR(50)   NOT NULL," +
+                " ID_USER        INTEGER       NOT NULL," +
                 " ID_MODEL       VARCHAR(50)   NOT NULL," +
                 " NAME_OBJECT    VARCHAR(50)   NOT NULL)"
     }
@@ -99,7 +101,7 @@ class Database {
     private fun indicatorsTable(): String {
         return "CREATE TABLE IF NOT EXISTS INDICATORS" +
                 "(ID                 INTEGER       PRIMARY KEY    AUTOINCREMENT   NOT NULL," +
-                " ID_OBJECT          VARCHAR(50)   NOT NULL," +
+                " ID_OBJECT          INTEGER       NOT NULL," +
                 " NAME_INDICATOR     VARCHAR(50)   NOT NULL," +
                 " LAYOUT_X           DOUBLE        NOT NULL," +
                 " LAYOUT_Y           DOUBLE        NOT NULL," +
@@ -114,7 +116,7 @@ class Database {
     private fun chartsTable(): String {
         return "CREATE TABLE IF NOT EXISTS CHARTS" +
                 "(ID                 INTEGER       PRIMARY KEY    AUTOINCREMENT   NOT NULL," +
-                " ID_OBJECT          VARCHAR(50)   NOT NULL," +
+                " ID_OBJECT          INTEGER       NOT NULL," +
                 " NAME_CHART         VARCHAR(50)   NOT NULL," +
                 " LAYOUT_X           DOUBLE        NOT NULL," +
                 " LAYOUT_Y           DOUBLE        NOT NULL," +

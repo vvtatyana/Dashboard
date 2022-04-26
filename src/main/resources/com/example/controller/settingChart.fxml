@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="dataPane" prefHeight="382.0" prefWidth="324.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.SettingChartController">
+<AnchorPane fx:id="dataPane" prefHeight="382.0" prefWidth="324.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.SettingChartController">
     <Label layoutX="5.0" layoutY="35.0" text="Название" textFill="#3b507b" AnchorPane.bottomAnchor="321.4" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
