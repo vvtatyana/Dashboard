@@ -19,8 +19,8 @@ import javafx.scene.layout.Region
 import javafx.stage.Modality
 import javafx.stage.Stage
 import com.example.util.wayToImage
+import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import java.io.FileInputStream
-
 
 class RegistrationController {
 
@@ -101,7 +101,8 @@ class RegistrationController {
                                     user.getIdUser(),
                                     username,
                                     login,
-                                    passwordTextOne.text,
+                                    PasswordEncoderFactories.createDelegatingPasswordEncoder()
+                                        .encode(passwordTextOne.text),
                                     DEFAULT_ADDRESS,
                                     token,
                                     castle = true,
@@ -110,14 +111,15 @@ class RegistrationController {
                                     theme = THEME
                                 )
                             )
-                        else
+                        else {
                             queriesDB.insertIntoUser(
                                 User(
                                     null,
                                     user.getIdUser(),
                                     username,
                                     login,
-                                    passwordTextOne.text,
+                                    PasswordEncoderFactories.createDelegatingPasswordEncoder()
+                                        .encode(passwordTextOne.text),
                                     DEFAULT_ADDRESS,
                                     token,
                                     false,
@@ -126,6 +128,7 @@ class RegistrationController {
                                     theme = THEME
                                 )
                             )
+                        }
                         database.closeBD()
                         showWindow("window.fxml", "Window")
                     } else errorLabel.text = "Пароли не совпадают."

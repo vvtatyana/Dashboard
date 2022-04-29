@@ -89,10 +89,11 @@ class Database {
     private fun objectsTable(): String {
         return "CREATE TABLE IF NOT EXISTS OBJECTS" +
                 "(ID             INTEGER       PRIMARY KEY    AUTOINCREMENT   NOT NULL," +
-                " ID_OBJECT      VARCHAR(50)   NOT NULL," +
+                " ID_OBJECT      VARCHAR(500)  NOT NULL," +
                 " ID_USER        INTEGER       NOT NULL," +
                 " ID_MODEL       VARCHAR(50)   NOT NULL," +
-                " NAME_OBJECT    VARCHAR(50)   NOT NULL)"
+                " NAME_OBJECT    VARCHAR(50)   NOT NULL," +
+                " FOREIGN KEY (ID_USER) REFERENCES USERS(ID))"
     }
 
     /**
@@ -107,7 +108,8 @@ class Database {
                 " LAYOUT_Y           DOUBLE        NOT NULL," +
                 " NAME               VARCHAR(50)   NOT NULL," +
                 " UNIT               VARCHAR(10)   NOT NULL," +
-                " TYPE               VARCHAR(10)   NOT NULL)"
+                " TYPE               VARCHAR(10)   NOT NULL," +
+                " FOREIGN KEY (ID_OBJECT) REFERENCES OBJECTS(ID))"
     }
 
     /**
@@ -122,7 +124,8 @@ class Database {
                 " LAYOUT_Y           DOUBLE        NOT NULL," +
                 " NAME               VARCHAR(50)   NOT NULL," +
                 " UNIT               VARCHAR(10)   NOT NULL," +
-                " TYPE               VARCHAR(20)   NOT NULL)"
+                " TYPE               VARCHAR(20)   NOT NULL," +
+                " FOREIGN KEY (ID_OBJECT) REFERENCES OBJECTS(ID))"
     }
 }
 

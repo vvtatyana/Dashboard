@@ -20,7 +20,7 @@ class StartApplication : Application() {
         val user = queriesDB.selectUser(UsersTable.CASTLE.name, true.toString())
         database.closeBD()
         if(user != null) {
-            ID_USER = user.getId()!!
+            ID_USER = user.getId()
             HEADERS_AUTH += user.getToken()
             THEME = user.getTheme()
 

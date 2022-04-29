@@ -20,6 +20,7 @@ import javafx.fxml.Initializable
 import javafx.geometry.Insets
 import javafx.scene.Scene
 import javafx.scene.chart.XYChart
+import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.control.Tooltip
 import javafx.scene.image.Image
@@ -56,10 +57,10 @@ class WindowController : Initializable {
     private lateinit var dataImageView: ImageView
 
     @FXML
-    private lateinit var indicatorImageView: ImageView
+    private lateinit var indicatorButton: Button
 
     @FXML
-    private lateinit var chartImageView: ImageView
+    private lateinit var chartButton: Button
 
     @FXML
     private lateinit var username: Label
@@ -95,8 +96,8 @@ class WindowController : Initializable {
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         Tooltip.install(addImageView, Tooltip("Добавить виджет"))
-        Tooltip.install(chartImageView, Tooltip("Показать изменение"))
-        Tooltip.install(indicatorImageView, Tooltip("Показать индикаторы"))
+        Tooltip.install(chartButton, Tooltip("Показать изменение"))
+        Tooltip.install(indicatorButton, Tooltip("Показать индикаторы"))
         Tooltip.install(dataImageView, Tooltip("Список объектов"))
         Tooltip.install(movingImageView, Tooltip("Перемещение виджетов"))
         Tooltip.install(accountImageView, Tooltip("Аккаунт"))
@@ -144,19 +145,17 @@ class WindowController : Initializable {
     }
 
     private fun imageViewVisible(visible: Boolean) {
-        indicatorImageView.isVisible = visible
-        chartImageView.isVisible = visible
+        if (!visible)
+            indicatorButton.isVisible = false
+        chartButton.isVisible = visible
         movingImageView.isVisible = visible
         addImageView.isVisible = visible
         reloadImageView.isVisible = visible
     }
 
-    /**
-     * Обновляет тему окна
-     */
     private fun updateTheme() {
         val stage: Stage = username.scene.window as Stage
-        stage.scene.stylesheets.remove(0, stage.scene.stylesheets.size-1)
+        stage.scene.stylesheets.remove(0, stage.scene.stylesheets.size - 1)
         stage.scene.stylesheets.add(this.javaClass.getResource("\\css\\$THEME.css")!!.toExternalForm())
     }
 
@@ -178,7 +177,6 @@ class WindowController : Initializable {
     }
 
     private fun action(slider: TranslateTransition, toX: Double, translateX: Double) {
-
         slider.toX = toX
         slider.play()
         panelSlide.translateX = translateX
@@ -240,6 +238,17 @@ class WindowController : Initializable {
         }
     }
 
+    private fun createStage(fxmlLoader: FXMLLoader): Stage {
+        val stage = Stage()
+        stage.initModality(Modality.WINDOW_MODAL)
+        stage.icons.add(Image(FileInputStream(wayToImage("other/smart_house"))))
+        stage.isResizable = false
+        val scene = Scene(fxmlLoader.load())
+        scene.stylesheets.add(this.javaClass.getResource("\\css\\$THEME.css")!!.toExternalForm())
+        stage.scene = scene
+        return stage
+    }
+
     @FXML
     private fun settingChartClick(
         panel: ChartWidget,
@@ -249,13 +258,7 @@ class WindowController : Initializable {
         name: Label
     ) {
         val fxmlLoader = FXMLLoader(javaClass.getResource("settingChart.fxml"))
-        val stage = Stage()
-        stage.initModality(Modality.WINDOW_MODAL)
-        stage.icons.add(Image(FileInputStream(wayToImage("other/smart_house"))))
-        stage.isResizable = false
-        val scene = Scene(fxmlLoader.load())
-        scene.stylesheets.add(this.javaClass.getResource("\\css\\$THEME.css")!!.toExternalForm())
-        stage.scene = scene
+        val stage = createStage(fxmlLoader)
 
         val controller: SettingChartController = fxmlLoader.getController()
         val chart = queriesDB.selectChart(layoutX, layoutY, objectData.getId())!!
@@ -304,7 +307,6 @@ class WindowController : Initializable {
                                     val toTime = LocalTime.parse(dataWidget.getTo())
 
                                     if (thisTime.isBefore(toTime)) {
-                                        //     dataList.add(mutableListOf(d[0].toLong(), d[1].toDouble()))
                                         series.data.add(
                                             XYChart.Data(
                                                 simpleDateFormatOther.format(time),
@@ -314,7 +316,6 @@ class WindowController : Initializable {
                                     }
 
                                 } else {
-                                    //   dataList.add(mutableListOf(d[0].toLong(), d[1].toDouble()))
                                     series.data.add(
                                         XYChart.Data(
                                             simpleDateFormatOther.format(time),
@@ -324,7 +325,6 @@ class WindowController : Initializable {
                                 }
                             }
                         } else {
-                            //  dataList.add(mutableListOf(d[0].toLong(), d[1].toDouble()))
                             series.data.add(
                                 XYChart.Data(
                                     simpleDateFormatOther.format(time),
@@ -347,13 +347,8 @@ class WindowController : Initializable {
         type: String
     ) {
         val fxmlLoader = FXMLLoader(javaClass.getResource("settingIndicator.fxml"))
-        val stage = Stage()
-        stage.initModality(Modality.WINDOW_MODAL)
-        stage.icons.add(Image(FileInputStream(wayToImage("other/smart_house"))))
-        stage.isResizable = false
-        val scene = Scene(fxmlLoader.load())
-        scene.stylesheets.add(this.javaClass.getResource("\\css\\$THEME.css")!!.toExternalForm())
-        stage.scene = scene
+
+        val stage = createStage(fxmlLoader)
 
         val controller: SettingIndicatorController = fxmlLoader.getController()
 
@@ -472,73 +467,12 @@ class WindowController : Initializable {
             )
             val indicator = queriesDB.selectIndicator(pos[0], pos[1], objectData.getId().toString())
 
-            val panel = when (addWidget.getType()) {
-                TypeIndicator.NUMBER.type -> {
-                    NumericWidget(
-                        objectData,
-                        indicator!!.getId(),
-                        pos[0],
-                        pos[1],
-                        Pref.INDICATOR.prefHeight,
-                        indicator.getName(),
-                        indicator.getUnit(),
-                        data,
-                        addWidget.getWidget(),
-                        queriesDB
-                    )
-                }
-                TypeIndicator.STRING.type -> {
-                    StringWidget(
-                        objectData,
-                        indicator!!.getId(),
-                        pos[0],
-                        pos[1],
-                        Pref.INDICATOR.prefHeight,
-                        addWidget.getName(),
-                        data,
-                        addWidget.getWidget()
-                    )
-                }
-                TypeIndicator.BOOLEAN.type -> {
-                    BooleanWidget(
-                        objectData,
-                        indicator!!.getId(),
-                        pos[0],
-                        pos[1],
-                        Pref.INDICATOR.prefHeight,
-                        addWidget.getName(),
-                        data,
-                        addWidget.getWidget()
-                    )
-                }
-                else -> {
-                    StringWidget(
-                        objectData,
-                        indicator!!.getId(),
-                        pos[0],
-                        pos[1],
-                        Pref.INDICATOR.prefHeight,
-                        addWidget.getName(),
-                        data,
-                        addWidget.getWidget()
-                    )
-                }
+            if (indicator != null) {
+                addIndicatorToPanel(indicator, data.toString())
             }
-            mouseDraggedPanel(panel.getPanel(), pos[0], pos[1])
-
-            val setting = panel.getSetting()
-            setting.onMouseClicked = EventHandler {
-                settingIndicatorClick(panel, pos, addWidget.getWidget(), addWidget.getType())
-            }
-
-            indicatorPane.children.add(panel.getPanel())
-
-
         }
-
         if (chartPane.isVisible) {
             val pos = getPositionChart()
-            val tp = chartData(addWidget.getWidget(), objectData.getIdObject())
             queriesDB.insertIntoChart(
                 Chart(
                     null,
@@ -554,29 +488,102 @@ class WindowController : Initializable {
 
             val chart = queriesDB.selectChart(pos[0], pos[1], objectData.getId())
 
-            val panel = ChartWidget(
-                chart!!.getId(),
-                pos[0],
-                pos[1],
-                Pref.CHART.prefHeight,
-                "${addWidget.getName()}, ${addWidget.getUnit()}",
-                tp,
-                addWidget.getType()
-            )
-            val setting = panel.getSetting()
-            setting.onMouseClicked = EventHandler {
-                val areaChart = panel.getChart()
-                settingChartClick(
-                    panel,
-                    tp,
-                    areaChart.layoutX,
-                    areaChart.layoutY,
-                    panel.getTitle()
+            if (chart != null) {
+                addChartToPanel(chart)
+            }
+        }
+    }
+
+    private fun addIndicatorToPanel(indicator: Indicator, data: String) {
+        val panel = when (indicator.getType()) {
+            TypeIndicator.NUMBER.type -> {
+                NumericWidget(
+                    objectData,
+                    indicator.getId(),
+                    indicator.getLayoutX(),
+                    indicator.getLayoutY(),
+                    Pref.INDICATOR.prefWidth,
+                    indicator.getName(),
+                    indicator.getUnit(),
+                    data,
+                    indicator.getNameIndicator(),
+                    queriesDB
                 )
             }
-            mouseDraggedPanel(panel.getPanel(), pos[0], pos[1])
-            chartPane.children.add(panel.getPanel())
+            TypeIndicator.STRING.type -> {
+                StringWidget(
+                    objectData,
+                    indicator.getId(),
+                    indicator.getLayoutX(),
+                    indicator.getLayoutY(),
+                    Pref.INDICATOR.prefWidth,
+                    indicator.getName(),
+                    data,
+                    indicator.getNameIndicator()
+                )
+            }
+            TypeIndicator.BOOLEAN.type -> {
+                BooleanWidget(
+                    objectData,
+                    indicator.getId(),
+                    indicator.getLayoutX(),
+                    indicator.getLayoutY(),
+                    Pref.INDICATOR.prefWidth,
+                    indicator.getName(),
+                    data,
+                    indicator.getNameIndicator()
+                )
+            }
+            else -> {
+                StringWidget(
+                    objectData,
+                    indicator.getId(),
+                    indicator.getLayoutX(),
+                    indicator.getLayoutY(),
+                    Pref.INDICATOR.prefWidth,
+                    indicator.getName(),
+                    data,
+                    indicator.getNameIndicator()
+                )
+            }
         }
+        mouseDraggedPanel(panel.getPanel(), indicator.getLayoutX(), indicator.getLayoutY())
+        val setting = panel.getSetting()
+        setting.onMouseClicked = EventHandler {
+            settingIndicatorClick(
+                panel,
+                listOf(indicator.getLayoutX(), indicator.getLayoutY()), indicator.getNameIndicator(),
+                indicator.getType()
+            )
+        }
+        widgets.add(panel)
+        indicatorPane.children.add(panel.getPanel())
+    }
+
+    private fun addChartToPanel(chart: Chart) {
+        val tp = chartData(chart.getNameChart(), objectData.getIdObject())
+        val panel = ChartWidget(
+            chart.getId(),
+            chart.getLayoutX(),
+            chart.getLayoutY(),
+            Pref.CHART.prefHeight,
+            "${chart.getName()}, ${chart.getUnit()}",
+            tp,
+            chart.getType()
+        )
+        val setting = panel.getSetting()
+        setting.onMouseClicked = EventHandler {
+            val areaChart = panel.getPanel()
+            settingChartClick(
+                panel,
+                tp,
+                areaChart.layoutX,
+                areaChart.layoutY,
+                panel.getTitle()
+            )
+        }
+        mouseDraggedPanel(panel.getPanel(), chart.getLayoutX(), chart.getLayoutY())
+        chartPane.children.add(panel.getPanel())
     }
 
     /**
@@ -591,70 +598,7 @@ class WindowController : Initializable {
                         indicator.getLayoutX(), indicator.getLayoutY()
                     )
                 ) {
-                    val panel = when (indicator.getType()) {
-                        TypeIndicator.NUMBER.type -> {
-                            NumericWidget(
-                                objectData,
-                                indicator.getId(),
-                                indicator.getLayoutX(),
-                                indicator.getLayoutY(),
-                                Pref.INDICATOR.prefWidth,
-                                indicator.getName(),
-                                indicator.getUnit(),
-                                data[indicator.getNameIndicator()],
-                                indicator.getNameIndicator(),
-                                queriesDB
-                            )
-                        }
-                        TypeIndicator.STRING.type -> {
-                            StringWidget(
-                                objectData,
-                                indicator.getId(),
-                                indicator.getLayoutX(),
-                                indicator.getLayoutY(),
-                                Pref.INDICATOR.prefWidth,
-                                indicator.getName(),
-                                data[indicator.getNameIndicator()],
-                                indicator.getNameIndicator()
-                            )
-                        }
-                        TypeIndicator.BOOLEAN.type -> {
-                            BooleanWidget(
-                                objectData,
-                                indicator.getId(),
-                                indicator.getLayoutX(),
-                                indicator.getLayoutY(),
-                                Pref.INDICATOR.prefWidth,
-                                indicator.getName(),
-                                data[indicator.getNameIndicator()],
-                                indicator.getNameIndicator()
-                            )
-                        }
-                        else -> {
-                            StringWidget(
-                                objectData,
-                                indicator.getId(),
-                                indicator.getLayoutX(),
-                                indicator.getLayoutY(),
-                                Pref.INDICATOR.prefWidth,
-                                indicator.getName(),
-                                data[indicator.getNameIndicator()],
-                                indicator.getNameIndicator()
-                            )
-                        }
-                    }
-                    mouseDraggedPanel(panel.getPanel(), indicator.getLayoutX(), indicator.getLayoutY())
-                    val setting = panel.getSetting()
-                    setting.onMouseClicked = EventHandler {
-                        settingIndicatorClick(
-                            panel,
-                            listOf(indicator.getLayoutX(), indicator.getLayoutY())
-                            , indicator.getNameIndicator(),
-                            indicator.getType()
-                        )
-                    }
-                    widgets.add(panel)
-                    indicatorPane.children.add(panel.getPanel())
+                    addIndicatorToPanel(indicator, data[indicator.getNameIndicator()].toString())
                 }
             }
         }
@@ -667,30 +611,7 @@ class WindowController : Initializable {
                         chart.getLayoutX(), chart.getLayoutY()
                     )
                 ) {
-                    val tp = chartData(chart.getNameChart(), objectData.getIdObject())
-                    val panel = ChartWidget(
-                        chart.getId(),
-                        chart.getLayoutX(),
-                        chart.getLayoutY(),
-                        Pref.CHART.prefHeight,
-                        "${chart.getName()}, ${chart.getUnit()}",
-                        tp,
-                        chart.getType()
-                    )
-                    val setting = panel.getSetting()
-                    setting.onMouseClicked = EventHandler {
-                        val areaChart = panel.getPanel()
-                        settingChartClick(
-                            panel,
-                            tp,
-                            areaChart.layoutX,
-                            areaChart.layoutY,
-                            panel.getTitle()
-                        )
-                    }
-                    mouseDraggedPanel(panel.getPanel(), chart.getLayoutX(), chart.getLayoutY())
-                    chartPane.children.add(panel.getPanel())
-
+                    addChartToPanel(chart)
                 }
             }
         }
@@ -872,13 +793,8 @@ class WindowController : Initializable {
     private fun accountClick() {
         val oldTheme = THEME
         val fxmlLoader = FXMLLoader(javaClass.getResource("account.fxml"))
-        val stage = Stage()
-        stage.initModality(Modality.WINDOW_MODAL)
-        stage.icons.add(Image(FileInputStream(wayToImage("other/smart_house"))))
-        stage.isResizable = false
-        val scene = Scene(fxmlLoader.load())
-        scene.stylesheets.add(this.javaClass.getResource("\\css\\$THEME.css")!!.toExternalForm())
-        stage.scene = scene
+        val stage = createStage(fxmlLoader)
+
         val controller: AccountController = fxmlLoader.getController()
         controller.load(user)
         stage.showAndWait()
@@ -945,6 +861,8 @@ class WindowController : Initializable {
 
     @FXML
     private fun indicatorClick() {
+        indicatorButton.isVisible = false
+        chartButton.isVisible = true
         indicatorPane.isVisible = true
         chartPane.isVisible = false
         reloadClick()
@@ -952,6 +870,8 @@ class WindowController : Initializable {
 
     @FXML
     private fun chartClick() {
+        indicatorButton.isVisible = true
+        chartButton.isVisible = false
         chartPane.isVisible = true
         indicatorPane.isVisible = false
         reloadClick()
@@ -963,35 +883,22 @@ class WindowController : Initializable {
         translateX: Double,
         translateY: Double
     ): List<Double> {
-        var posX = 0.0
-        var posY = 0.0
-        while (translateX - posX > 200) {
-            posX += 205.0
-        }
-        if (translateX - posX > 102) {
-            posX += 205.0
-        }
-        while (translateY - posY > 200) {
-            posY += 205.0
-        }
-        if (translateY - posY > 102) {
-            posY += 205.0
-        }
+        val newPos= shift(translateX, translateY, 200.0)
 
         val indicator = queriesDB.selectIndicator(layoutX, layoutY, objectData.getIdObject())
-        if (positionFree(posX, posY)) {
-            val anotherIndicator = queriesDB.selectIndicator(posX, posY, objectData.getIdObject())
+        if (positionFree(newPos[0], newPos[1])) {
+            val anotherIndicator = queriesDB.selectIndicator(newPos[0], newPos[1], objectData.getIdObject())
             if (anotherIndicator != null) {
                 queriesDB.updateIndicatorId(anotherIndicator.getId(), IndicatorsTable.LAYOUT_X.name, layoutX.toString())
                 queriesDB.updateIndicatorId(anotherIndicator.getId(), IndicatorsTable.LAYOUT_Y.name, layoutY.toString())
             }
         }
         if (indicator != null) {
-            queriesDB.updateIndicatorId(indicator.getId(), IndicatorsTable.LAYOUT_X.name, posX.toString())
-            queriesDB.updateIndicatorId(indicator.getId(), IndicatorsTable.LAYOUT_Y.name, posY.toString())
+            queriesDB.updateIndicatorId(indicator.getId(), IndicatorsTable.LAYOUT_X.name, newPos[0].toString())
+            queriesDB.updateIndicatorId(indicator.getId(), IndicatorsTable.LAYOUT_Y.name, newPos[1].toString())
         }
 
-        return mutableListOf(posX, posY)
+        return mutableListOf(newPos[0], newPos[1])
     }
 
     private fun updatePositionChart(
@@ -1000,34 +907,42 @@ class WindowController : Initializable {
         translateX: Double,
         translateY: Double
     ): List<Double> {
-        var posX = 0.0
-        var posY = 0.0
-        while (translateX - posX > 305) {
-            posX += 310.0
-        }
-        if (translateX - posX > 155) {
-            posX += 310.0
-        }
-        while (translateY - posY > 305) {
-            posY += 310.0
-        }
-        if (translateY - posY > 155) {
-            posY += 310.0
-        }
+        val newPos= shift(translateX, translateY, 305.0)
 
         val chart = queriesDB.selectChart(layoutX, layoutY, objectData.getId())
-        if (positionFree(posX, posY)) {
-            val anotherChart = queriesDB.selectChart(posX, posY, objectData.getId())
+        if (positionFree(newPos[0], newPos[1])) {
+            val anotherChart = queriesDB.selectChart(newPos[0], newPos[1], objectData.getId())
             if (anotherChart != null) {
                 queriesDB.updateChartId(anotherChart.getId(), IndicatorsTable.LAYOUT_X.name, layoutX.toString())
                 queriesDB.updateChartId(anotherChart.getId(), IndicatorsTable.LAYOUT_Y.name, layoutY.toString())
             }
         }
         if (chart != null) {
-            queriesDB.updateChartId(chart.getId(), IndicatorsTable.LAYOUT_X.name, posX.toString())
-            queriesDB.updateChartId(chart.getId(), IndicatorsTable.LAYOUT_Y.name, posY.toString())
+            queriesDB.updateChartId(chart.getId(), IndicatorsTable.LAYOUT_X.name, newPos[0].toString())
+            queriesDB.updateChartId(chart.getId(), IndicatorsTable.LAYOUT_Y.name, newPos[1].toString())
         }
-        return mutableListOf(posX, posY)
+        return mutableListOf(newPos[0], newPos[1])
+    }
+
+    private fun shift(
+        translateX: Double,
+        translateY: Double,
+        step: Double): List<Double> {
+        var posX = 0.0
+        var posY = 0.0
+        while (translateX - posX > step) {
+            posX += step + 5
+        }
+        if (translateX - posX > step / 2) {
+            posX += step + 5
+        }
+        while (translateY - posY > step) {
+            posY += step + 5
+        }
+        if (translateY - posY > step / 2) {
+            posY += step + 5
+        }
+        return listOf(posX, posY)
     }
 
     @FXML
@@ -1041,7 +956,5 @@ class WindowController : Initializable {
             movingImageView.image =
                 Image(FileInputStream(wayToImage("other/unlock")))
         }
-
     }
-
 }

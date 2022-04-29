@@ -1,8 +1,5 @@
 package com.example.building
 
-/**
-* Класс для пользователя
-*/
 class User(
     private val id: Int?,
     private val idUser: String,
@@ -16,8 +13,8 @@ class User(
     private val icon: Int,
     private val theme: String
 ) {
-    fun getId(): Int? {
-        return id
+    fun getId(): Int {
+        return id ?: 0
     }
 
     fun getIdUser(): String {

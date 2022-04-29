@@ -2,7 +2,7 @@
     -fx-background-color: linear-gradient(to left, #2b4b6e, #1d334a);
 }
 
-.text-field, .combo-box, #pane {
+.combo-box, #pane {
     -fx-background-color:  linear-gradient(to left, #2f649d, #224c77);
     -fx-background-radius: 0;
 }
@@ -10,6 +10,14 @@
 .label{
     -fx-text-fill: #dae5f2;
     -fx-font-size: 16px;
+    -fx-font-family: "Segoe UI Semibold";
+}
+
+.text-field, #login{
+    -fx-background-color:  linear-gradient(to left, #2f649d, #224c77);
+    -fx-background-radius: 0;
+    -fx-text-fill: #dae5f2;
+    -fx-font-size: 14px;
     -fx-font-family: "Segoe UI Semibold";
 }
 
@@ -26,8 +34,8 @@
 }
 
 .list-cell {
-    -fx-control-inner-background: transparent;
-    -fx-control-inner-background-alt: transparent;
+    -fx-control-inner-background: #2f649d;
+    -fx-control-inner-background-alt: #2f649d;
     -fx-text-fill: #dae5f2;
     -fx-font-size: 13px;
     -fx-font-family: "Segoe UI Semibold";
@@ -72,5 +80,12 @@
 #username, #text{
     -fx-text-fill: #dae5f2;
     -fx-font-size: 22px;
+    -fx-font-family: "Segoe UI Semibold";
+}
+
+#indicatorButton, #chartButton{
+    -fx-background-color: transparent;
+    -fx-text-fill: #dae5f2;
+    -fx-font-size: 16px;
     -fx-font-family: "Segoe UI Semibold";
 }

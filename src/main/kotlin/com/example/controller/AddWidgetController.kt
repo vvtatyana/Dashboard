@@ -16,16 +16,22 @@ class AddWidgetController {
 
     @FXML
     private lateinit var chartsType: ComboBox<String>
+
     @FXML
     private lateinit var unitTextField: TextField
+
     @FXML
     private lateinit var nameTextField: TextField
+
     @FXML
     private lateinit var unitLabel: Label
+
     @FXML
     private lateinit var nameLabel: Label
+
     @FXML
     private lateinit var addImageView: ImageView
+
     @FXML
     private lateinit var addIndicators: ComboBox<String>
 
@@ -47,9 +53,11 @@ class AddWidgetController {
     fun load(idModel: String, typeWidget: Boolean) {
         this.typeWidget = typeWidget
         if (!typeWidget) {
+            val items = mutableListOf<String>()
+            ChartType.values().forEach { items.add(it.type) }
             chartsType.items =
-                FXCollections.observableArrayList(mutableListOf("AreaChart", "BarChart", "LineChart", "ScatterChart"))
-            chartsType.value = "AreaChart"
+                FXCollections.observableArrayList(items)
+            chartsType.value = ChartType.values()[0].type
         }
 
         val address = request.addressGeneration(DEFAULT_ADDRESS, MODELS)
@@ -64,17 +72,15 @@ class AddWidgetController {
 
         addIndicators.setOnAction {
             name = addIndicators.value
-            println(name)
             if (modelState.contains(name)) {
                 nameTextField.promptText = name
                 dataType = stateType[name].toString()
-                if (dataType == "number"){
+                if (dataType == "number") {
                     nameLabel.isVisible = true
                     nameTextField.isVisible = true
                     unitLabel.isVisible = true
                     unitTextField.isVisible = true
-                }
-                else if (dataType == "string" || dataType == "boolean"){
+                } else if (dataType == TypeIndicator.STRING.type || dataType == TypeIndicator.BOOLEAN.type) {
                     nameLabel.isVisible = true
                     nameTextField.isVisible = true
                     unitLabel.isVisible = false
@@ -89,7 +95,6 @@ class AddWidgetController {
         add = true
         val type = if (!typeWidget && chartsType.value != null) chartsType.value
         else dataType
-        println(name)
         returnData = Widget(name, nameTextField.text, unitTextField.text, type)
         val stage: Stage = addImageView.scene.window as Stage
         stage.close()

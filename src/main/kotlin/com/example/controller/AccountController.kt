@@ -46,9 +46,6 @@ class AccountController {
     var exit: Boolean = false
     var save: Boolean = false
 
-    /**
-     * Инициализация окна
-     */
     fun initialize() {
         dayNight.image = Image(FileInputStream(wayToImage("other/$THEME")))
 

@@ -13,6 +13,14 @@
     -fx-font-family: "Segoe UI Semibold";
 }
 
+.text-field, #login{
+    -fx-background-color:  linear-gradient(to left, #e1e6f0, #ced9ed);
+    -fx-background-radius: 0;
+    -fx-text-fill: #3b507b;
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI Semibold";
+}
+
 #circleLabel{
     -fx-text-fill: #e1e6f0;
     -fx-font-size: 20px;
@@ -77,6 +85,13 @@
 
 #text{
     -fx-text-fill: #3b507b;
-    -fx-font-size: 30px;
+    -fx-font-size: 22px;
+    -fx-font-family: "Segoe UI Semibold";
+}
+
+#indicatorButton, #chartButton{
+    -fx-background-color: transparent;
+    -fx-text-fill: #3b507b;
+    -fx-font-size: 16px;
     -fx-font-family: "Segoe UI Semibold";
 }

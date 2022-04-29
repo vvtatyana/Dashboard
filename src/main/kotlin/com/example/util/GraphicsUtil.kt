@@ -9,8 +9,9 @@ enum class ChartType(val type: String){
     AREA_CHART ("AreaChart"),
     BAR_CHART ("BarChart"),
     LINE_CHART ("LineChart"),
-    SCATTER_CHART ("ScatterChart")
+    SCATTER_CHART ("ScatterChart");
 }
+
 
 enum class Pref(val prefWidth: Double, val prefHeight: Double){
     INDICATOR (200.0, 200.0),

@@ -1,8 +1,5 @@
 package com.example.building
 
-/**
-* Класс для индикатора
-*/
 class Indicator(private val id: Int?,
                 private val idObject: Int,
                 private val nameIndicator: String,
@@ -13,7 +10,7 @@ class Indicator(private val id: Int?,
                 private val type: String) {
 
     fun getId(): Int {
-        return id!!
+        return id ?: 0
     }
 
     fun getIdObject(): Int {

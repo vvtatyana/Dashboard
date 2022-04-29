@@ -11,11 +11,13 @@ import javafx.scene.image.Image
 import javafx.stage.Modality
 import javafx.stage.Stage
 import com.example.util.wayToImage
+import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import java.io.FileInputStream
 
 class LoginController {
 
-    lateinit var passwordReset: Button
+    @FXML
+    private lateinit var passwordReset: Button
 
     @FXML
     private lateinit var passwordText: PasswordField
@@ -46,8 +48,10 @@ class LoginController {
         database = Database()
         val queriesDB = QueriesDB(database.getConnection(), database.getStatement())
         val user = queriesDB.selectUser(UsersTable.LOGIN.name, loginText.text)
-        if (user != null && passwordText.text == user.getPassword()) {
-            ID_USER = user.getId()!!
+        if (user != null && PasswordEncoderFactories.createDelegatingPasswordEncoder()
+                .matches(passwordText.text, user.getPassword())
+        ) {
+            ID_USER = user.getId()
             HEADERS_AUTH = "Bearer ${user.getToken()}"
             if (memoryCheck.isSelected) {
                 queriesDB.updateUser(ID_USER, UsersTable.CASTLE.name, true.toString())
@@ -74,29 +78,24 @@ class LoginController {
 
     @FXML
     private fun onRegistrationButtonClick() {
-        var stage: Stage = registrationButton.scene.window as Stage
-        stage.close()
-        val fxmlLoader = FXMLLoader(javaClass.getResource("registrationWindow.fxml"))
-        stage.icons.add(Image(FileInputStream(wayToImage("other/smart_house"))))
-        stage = Stage()
-        stage.initModality(Modality.APPLICATION_MODAL)
-        stage.title = "Registration"
-        val scene = Scene(fxmlLoader.load())
-        scene.stylesheets.add(this.javaClass.getResource("\\css\\$THEME.css")!!.toExternalForm())
-        stage.scene = scene
-        stage.show()
+        showWindow("registrationWindow.fxml", "Registration", Modality.APPLICATION_MODAL)
     }
 
     @FXML
-    fun onPasswordResetClick(){
+    fun onPasswordResetClick() {
         database.closeBD()
-        var stage: Stage = passwordReset.scene.window as Stage
+        showWindow("passwordReset.fxml", "PasswordReset", Modality.WINDOW_MODAL)
+    }
+
+    private fun showWindow(nameFile: String, title: String, modality: Modality) {
+        var stage: Stage = registrationButton.scene.window as Stage
         stage.close()
-        val fxmlLoader = FXMLLoader(javaClass.getResource("passwordReset.fxml"))
-        stage = Stage()
-        stage.initModality(Modality.WINDOW_MODAL)
+        val fxmlLoader = FXMLLoader(javaClass.getResource(nameFile))
         stage.icons.add(Image(FileInputStream(wayToImage("other/smart_house"))))
         stage.isResizable = false
+        stage = Stage()
+        stage.initModality(modality)
+        stage.title = title
         val scene = Scene(fxmlLoader.load())
         scene.stylesheets.add(this.javaClass.getResource("\\css\\$THEME.css")!!.toExternalForm())
         stage.scene = scene

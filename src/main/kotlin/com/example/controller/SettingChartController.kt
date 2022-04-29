@@ -17,10 +17,10 @@ import java.util.*
 
 class SettingChartController {
     @FXML
-    lateinit var toTimePicker: JFXTimePicker
+    private lateinit var toTimePicker: JFXTimePicker
 
     @FXML
-    lateinit var fromTimePicker: JFXTimePicker
+    private lateinit var fromTimePicker: JFXTimePicker
 
     @FXML
     private lateinit var chartsType: ComboBox<String>
@@ -50,7 +50,14 @@ class SettingChartController {
     fun initialize() {
         Tooltip.install(saveImageView, Tooltip("Сохранить изменения"))
         chartsType.items =
-            FXCollections.observableArrayList(mutableListOf(ChartType.AREA_CHART.type, ChartType.BAR_CHART.type, ChartType.LINE_CHART.type, ChartType.SCATTER_CHART.type))
+            FXCollections.observableArrayList(
+                mutableListOf(
+                    ChartType.AREA_CHART.type,
+                    ChartType.BAR_CHART.type,
+                    ChartType.LINE_CHART.type,
+                    ChartType.SCATTER_CHART.type
+                )
+            )
     }
 
     fun load(layoutX: Double, layoutY: Double, chart: Chart) {
@@ -60,7 +67,6 @@ class SettingChartController {
         chartsType.value = chart.getType()
         nameChart.text = chart.getName()
         unitChart.text = chart.getUnit()
-
     }
 
     @FXML
@@ -84,7 +90,7 @@ class SettingChartController {
         }
         val type = if (chartsType.value == null) ""
         else chartsType.value
-        dataWidget = Widget(nameChart.text, unitChart.text,type, date, from, to)
+        dataWidget = Widget(nameChart.text, unitChart.text, type, date, from, to)
         val stage: Stage = saveImageView.scene.window as Stage
         stage.close()
     }

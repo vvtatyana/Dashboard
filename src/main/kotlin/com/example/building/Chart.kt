@@ -1,8 +1,5 @@
 package com.example.building
 
-/**
-* Класс для графика
-*/
 class Chart (private val id: Int?,
              private val idObject: Int,
              private val nameChart: String,
@@ -13,7 +10,7 @@ class Chart (private val id: Int?,
              private val type: String) {
 
     fun getId(): Int {
-        return id!!
+        return id ?: 0
     }
 
     fun getIdObject(): Int {
