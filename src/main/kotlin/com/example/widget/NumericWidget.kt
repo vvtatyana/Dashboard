@@ -14,7 +14,6 @@ import javafx.scene.paint.Color
 
 class NumericWidget(
     private val objectData: com.example.building.Object,
-    indicator: Int,
     layoutX: Double,
     layoutY: Double,
     pref: Double,
@@ -23,13 +22,12 @@ class NumericWidget(
     private val data: String?,
     private val typeWidget: String,
     private val queriesDB: QueriesDB
-) : AbstractWidget(indicator, layoutX, layoutY, pref, name) {
+) : AbstractWidget(layoutX, layoutY, pref, name) {
 
     private val request = RequestGeneration()
     private val processingJSON = ProcessingJSON()
     private var gauge: Gauge
     private var type: Boolean = false
-
     private var rang: Double = 0.0
 
     init {
@@ -41,12 +39,8 @@ class NumericWidget(
     }
 
     private fun createGauge(): Gauge {
-        val address = request.addressGeneration(DEFAULT_ADDRESS, MODELS)
-        val strModel = request.addressAssemblyGET(
-            address, queriesDB.selectObject(
-                ObjectsTable.ID.name, objectData.getId().toString()
-            )!!.getIdModel()
-        )
+        val address = request.addressGeneration(ADDRESS, MODELS)
+        val strModel = request.getRequest(request.addressGeneration(address, queriesDB.selectObject(ObjectsTable.ID.name, objectData.getId().toString())!!.getIdModel()))
         val jsonModel = Gson().fromJson(strModel, JsonObject::class.java)
         val typeGauge = processingJSON.typeNumeric(jsonModel, typeWidget)
         type = typeGauge
@@ -54,7 +48,7 @@ class NumericWidget(
         val borderFrom = processingJSON.readBorderFrom(jsonModel, typeWidget).toMutableMap()
         val borderColor = processingJSON.readBorderColor(jsonModel, typeWidget).toMutableMap()
         val keys = borderColor.keys.toList()
-        if (borderFrom[keys[0]]!!.toDouble() < 0.0)
+        if (borderFrom.isNotEmpty() && borderFrom[keys[0]]!!.toDouble() < 0.0)
             borderFrom[keys[0]] = (borderFrom[keys[0]]!!.toDouble() + 10.0).toString()
         val gaugeBuilder = GaugeBuilder.create()
             .skinType(Gauge.SkinType.SIMPLE)
@@ -71,43 +65,29 @@ class NumericWidget(
                 .decimals(1)
                 .maxValue(borderTo[keys[keys.size - 1]]!!.toDouble())
 
-
-            for (i in keys.indices) {
+            keys.indices.forEach {
                 sections.add(
-                    Section(
-                        borderFrom[keys[i]]!!.toDouble(),
-                        borderTo[keys[i]]!!.toDouble(),
-                        i.toString(),
-                        Color.web(borderColor[keys[i]])
-                    )
-                )
+                    Section(borderFrom[keys[it]]!!.toDouble(),
+                        borderTo[keys[it]]!!.toDouble(),
+                        it.toString(),
+                        Color.web(borderColor[keys[it]])))
             }
         } else {
             gaugeBuilder.maxValue(borderFrom[keys[keys.size - 1]]!!.toDouble()).sectionTextVisible(true)
-
             rang = (borderFrom[keys[keys.size - 1]]!!.toDouble() - borderFrom[keys[0]]!!.toDouble()) / keys.size
             val c = borderColor.values.toList()
             var start = borderFrom[keys[0]]!!.toDouble()
             for (y in keys.indices) {
                 val stop: Double = start + rang
-                println(borderFrom[keys[y]]!!.toString())
-                sections.add(
-                    Section(
-                        start,
-                        stop,
-                        borderFrom[keys[y]]!!.toString(),
-                        Color.web(c[y])
-                    )
-                )
+                sections.add(Section(start,stop,borderFrom[keys[y]]!!.toString(),Color.web(c[y])))
                 start = stop
             }
         }
 
         val gauge = gaugeBuilder.sections(sections).build()
         if (data != null) {
-            if (typeGauge)
-                gauge.value = data.toDouble()
-            else gauge.value = data.toDouble()// + rang/2
+            gauge.value = if (typeGauge) data.toDouble()
+            else data.toDouble()
         }
         AnchorPane.setTopAnchor(gauge, 27.0)
         AnchorPane.setBottomAnchor(gauge, 19.0)
@@ -117,11 +97,8 @@ class NumericWidget(
     }
 
     fun setValue(newValue: Double) {
-        if (type) {
-            gauge.value = newValue
-        } else {
-            gauge.value = newValue //+ rang/2
-        }
+        gauge.value = if (type) newValue
+        else newValue
     }
 
     fun setUnit(unit: String) {

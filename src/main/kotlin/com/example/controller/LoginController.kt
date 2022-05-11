@@ -51,10 +51,9 @@ class LoginController {
         if (user != null && PasswordEncoderFactories.createDelegatingPasswordEncoder()
                 .matches(passwordText.text, user.getPassword())
         ) {
-            ID_USER = user.getId()
             HEADERS_AUTH = "Bearer ${user.getToken()}"
             if (memoryCheck.isSelected) {
-                queriesDB.updateUser(ID_USER, UsersTable.CASTLE.name, true.toString())
+                queriesDB.updateUser(user.getId(), UsersTable.CASTLE.name, true.toString())
             }
 
             database.closeBD()
@@ -63,7 +62,7 @@ class LoginController {
             stage.close()
             val fxmlLoader = FXMLLoader(javaClass.getResource("window.fxml"))
             stage = Stage()
-            stage.icons.add(Image(FileInputStream(wayToImage("other/smart_house"))))
+            stage.icons.add(Image(FileInputStream(wayToImage(ICON))))
             stage.initModality(Modality.APPLICATION_MODAL)
             stage.title = "Window"
             val scene = Scene(fxmlLoader.load())
@@ -91,13 +90,13 @@ class LoginController {
         var stage: Stage = registrationButton.scene.window as Stage
         stage.close()
         val fxmlLoader = FXMLLoader(javaClass.getResource(nameFile))
-        stage.icons.add(Image(FileInputStream(wayToImage("other/smart_house"))))
+        stage.icons.add(Image(FileInputStream(wayToImage(ICON))))
         stage.isResizable = false
         stage = Stage()
         stage.initModality(modality)
         stage.title = title
         val scene = Scene(fxmlLoader.load())
-        scene.stylesheets.add(this.javaClass.getResource("\\css\\$THEME.css")!!.toExternalForm())
+        scene.stylesheets.add(this.javaClass.getResource(theme())!!.toExternalForm())
         stage.scene = scene
         stage.show()
     }

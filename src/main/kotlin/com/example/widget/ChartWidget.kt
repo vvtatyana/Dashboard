@@ -10,14 +10,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ChartWidget(
-    indicator: Int,
     layoutX: Double,
     layoutY: Double,
     pref: Double,
     name: String,
     private val data: List<List<Number>>,
     private var chartType: String
-) : AbstractWidget(indicator, layoutX, layoutY, pref, name) {
+) : AbstractWidget(layoutX, layoutY, pref, name) {
 
     private var chart: XYChart<String, Number>
 
@@ -37,11 +36,11 @@ class ChartWidget(
             day = df1.format(Date(data[data.size - 1][0].toLong()))
             dataChart.name = day
 
-            for (t in data) {
-                val time = Date(t[0].toLong())
+            data.forEach {
+                val time = Date(it[0].toLong())
                 if (df1.format(time) == day) {
                     val df2 = SimpleDateFormat(TIME_FORMAT)
-                    dataChart.data.add(XYChart.Data(df2.format(time), t[1].toDouble()))
+                    dataChart.data.add(XYChart.Data(df2.format(time), it[1].toDouble()))
                 }
             }
         }
@@ -58,21 +57,11 @@ class ChartWidget(
         yAxis.side = Side.BOTTOM
 
         val areaChart = when (chartType) {
-            ChartType.AREA_CHART.type -> {
-                AreaChart(xAxis, yAxis)
-            }
-            ChartType.BAR_CHART.type -> {
-                BarChart(xAxis, yAxis)
-            }
-            ChartType.LINE_CHART.type -> {
-                LineChart(xAxis, yAxis)
-            }
-            ChartType.SCATTER_CHART.type -> {
-                ScatterChart(xAxis, yAxis)
-            }
-            else -> {
-                AreaChart(xAxis, yAxis)
-            }
+            ChartType.AREA_CHART.type -> AreaChart(xAxis, yAxis)
+            ChartType.BAR_CHART.type -> BarChart(xAxis, yAxis)
+            ChartType.LINE_CHART.type -> LineChart(xAxis, yAxis)
+            ChartType.SCATTER_CHART.type -> ScatterChart(xAxis, yAxis)
+            else -> AreaChart(xAxis, yAxis)
         }
         areaChart.layoutX = Decoration.CHARTS.layoutX
         areaChart.layoutY = Decoration.CHARTS.layoutY

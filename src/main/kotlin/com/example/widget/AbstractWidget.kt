@@ -9,7 +9,6 @@ import javafx.scene.layout.AnchorPane
 import java.io.FileInputStream
 
 abstract class AbstractWidget(
-    private val indicator: Int,
     private val layoutX: Double,
     private val layoutY: Double,
     private val size: Double,
@@ -42,28 +41,19 @@ abstract class AbstractWidget(
         val setting = ImageView(Image(FileInputStream(Decoration.SETTING.style)))
         setting.fitWidth = Decoration.SETTING.pref
         setting.fitHeight = Decoration.SETTING.pref
-
         setting.layoutX = size - Decoration.SETTING.layoutX
         setting.layoutY = size - Decoration.SETTING.layoutY
-
         return setting
     }
 
-    @JvmName("getPanel1")
+    @JvmName("panel")
     fun getPanel(): AnchorPane = panel
 
-    @JvmName("getTitle1")
+    @JvmName("title")
     fun getTitle(): Label = title
 
-    fun setTitle(newTitle: String) {
-        title.text = newTitle
-    }
+    fun setTitle(newTitle: String) { title.text = newTitle }
 
-    @JvmName("getSetting1")
+    @JvmName("setting")
     fun getSetting(): ImageView = setting
-
-    fun getIndicator(): Int = indicator
-
-    fun updateColor() {
-    }
 }

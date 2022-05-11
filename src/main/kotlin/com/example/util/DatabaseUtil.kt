@@ -16,9 +16,9 @@ enum class UsersTable{
     ADDRESS,
     TOKEN,
     CASTLE,
-    ALARM,
     ICON,
-    THEME
+    THEME,
+    TIMER
 }
 
 enum class ObjectsTable{

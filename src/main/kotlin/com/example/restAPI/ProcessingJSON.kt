@@ -9,52 +9,22 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 
-/**
- * Класс для работы json-данными
- */
 class ProcessingJSON {
+    private val INFINITY = "Infinity"
 
-    /**
-     * Читает данные
-     * @jsonObject - данные для чтения
-     * @description - элемен, который нужно вернуть
-     */
-    fun read(jsonObject: JsonObject, value: String): JsonElement? {
-        return jsonObject.get(value)
-    }
+    fun read(jsonObject: JsonObject, value: String): JsonElement? = jsonObject.get(value)
 
-    /**
-     * Читает данные о пользователях
-     * @jsonArray - массив данных с пользователями
-     */
     fun readAllUsers(jsonArray: JsonArray): List<User> {
         val iterator: Iterator<*> = jsonArray.iterator()
         val users = ArrayList<User>()
         while (iterator.hasNext()) {
             val slide: JsonObject = Gson().fromJson(iterator.next().toString(), JsonObject::class.java)
-            users.add(
-                User(
-                    null,
-                    slide.get(_ID).asString,
-                    slide.get(NAME).asString,
-                    slide.get(LOGIN).asString,
-                    "",
-                    DEFAULT_ADDRESS,
-                    TOKEN,
-                    castle = true,
-                    alarm = false,
-                    icon = 1,
-                    theme = THEME
-                )
-            )
+            users.add(User(null, slide.get(_ID).asString, slide.get(NAME).asString,slide.get(LOGIN).asString,
+                    "",ADDRESS,TOKEN, true, 1, THEME, 1))
         }
         return users
     }
 
-    /**
-     * Читает параметры модели
-     * @JsonObject - данные с моделью
-     */
     fun readModelParams(jsonObject: JsonObject): Map<String, String> {
         val params = mutableMapOf<String, String>()
         val children: JsonArray =
@@ -66,24 +36,13 @@ class ProcessingJSON {
         return params
     }
 
-    /* *
-     * Читает состоянияя модели
-     * JsonObject - данные с моделью
-     */
     fun readModelState(jsonObject: JsonObject): List<String> {
         val params = readModelParams(jsonObject)
         val state = mutableListOf<String>()
-        for (st in params)
-            state.add(st.key)
+        params.forEach { state.add(it.key) }
         return state
     }
 
-    /**
-     * Изменяет данные о модели
-     * @data - исходные данные о модели
-     * @value - поле для изменения
-     * @field - новое значение
-     */
     fun updateBorder(data: String, name: String, value: String, field: String, level: String): String {
         val jsonModel: JsonObject = Gson().fromJson(data, JsonObject::class.java)
         val values = readBorder(jsonModel, name)
@@ -98,7 +57,6 @@ class ProcessingJSON {
         }
         return ""
     }
-
 
     fun updateModel(data: String, name: String, value: String, field: String, property: String): String {
         val jsonModel: JsonObject = Gson().fromJson(data, JsonObject::class.java)
@@ -115,30 +73,24 @@ class ProcessingJSON {
         return ""
     }
 
-    /**
-     * Читает уровни модели для определенного показателя
-     * @jsonObject - данные о модели
-     */
     fun readBorderBoolean(jsonObject: JsonObject, name: String): Map<String, String> {
         val border = mutableMapOf<String, String>()
         val values = readBorder(jsonObject, name)
         if (values != null) {
             for (i in 0 until values.size()) {
-                border[values[i].asJsonObject.get(NAME).asString] =
-                    values[i].asJsonObject.get(VALUE).asString
+                border[values[i].asJsonObject.get(NAME).asString] = values[i].asJsonObject.get(VALUE).asString
             }
         }
         return border
     }
 
-    fun typeNumeric(jsonObject: JsonObject, name: String): Boolean{
+    fun typeNumeric(jsonObject: JsonObject, name: String): Boolean {
         val values = readBorder(jsonObject, name)
         if (values != null) {
             try {
-                if (values[0].asJsonObject.get(VALUE).asJsonObject.get("a").asString != null) {
+                if (values[0].asJsonObject.get(VALUE).asJsonObject.get("a").asString != null)
                     return true
-                }
-            } catch (ill: IllegalStateException){
+            } catch (ill: IllegalStateException) {
                 return false
             }
         }
@@ -152,16 +104,16 @@ class ProcessingJSON {
             try {
                 if (values[0].asJsonObject.get(VALUE).asJsonObject.get("a").asString != null) {
                     for (i in 0 until values.size()) {
-                        if (values[i].asJsonObject.get(VALUE).asJsonObject.get("a").asString != "-Infinity")
+                        if (values[i].asJsonObject.get(VALUE).asJsonObject.get("a").asString != "-$INFINITY")
                             border[values[i].asJsonObject.get(NAME).asString] =
                                 values[i].asJsonObject.get(VALUE).asJsonObject.get("a").asString
-                        else if (values[i].asJsonObject.get(VALUE).asJsonObject.get("a").asString == "-Infinity") {
+                        else if (values[i].asJsonObject.get(VALUE).asJsonObject.get("a").asString == "-$INFINITY") {
                             border[values[i].asJsonObject.get(NAME).asString] =
                                 (values[i].asJsonObject.get(VALUE).asJsonObject.get("b").asInt - 10).toString()
                         }
                     }
                 }
-            } catch (ill: IllegalStateException){
+            } catch (ill: IllegalStateException) {
                 for (i in 0 until values.size()) {
                     border[values[i].asJsonObject.get(NAME).asString] =
                         values[i].asJsonObject.get(VALUE).asString
@@ -176,16 +128,16 @@ class ProcessingJSON {
         val values = readBorder(jsonObject, name)
         if (values != null) {
             try {
-            for (i in 0 until values.size()) {
-                if (values[i].asJsonObject.get(VALUE).asJsonObject.get("b").asString != "Infinity")
-                    border[values[i].asJsonObject.get(NAME).asString] =
-                        values[i].asJsonObject.get(VALUE).asJsonObject.get("b").asString
-                else if (values[i].asJsonObject.get(VALUE).asJsonObject.get("b").asString == "Infinity") {
-                    border[values[i].asJsonObject.get(NAME).asString] =
-                        ((values[i].asJsonObject.get(VALUE).asJsonObject.get("a").asInt/10 + 2)*10).toString()
+                for (i in 0 until values.size()) {
+                    if (values[i].asJsonObject.get(VALUE).asJsonObject.get("b").asString != INFINITY)
+                        border[values[i].asJsonObject.get(NAME).asString] =
+                            values[i].asJsonObject.get(VALUE).asJsonObject.get("b").asString
+                    else if (values[i].asJsonObject.get(VALUE).asJsonObject.get("b").asString == INFINITY) {
+                        border[values[i].asJsonObject.get(NAME).asString] =
+                            ((values[i].asJsonObject.get(VALUE).asJsonObject.get("a").asInt / 10 + 2) * 10).toString()
+                    }
                 }
-            }
-            } catch (ill: IllegalStateException){
+            } catch (ill: IllegalStateException) {
                 return border
             }
         }
@@ -223,40 +175,38 @@ class ProcessingJSON {
         return borderColor
     }
 
-
-    /**
-     * Читает даные о всех объектах
-     * @jsonArray - массив данных об объектах
-     */
-    fun readAllObjects(jsonArray: JsonArray): List<Object> {
+    fun readAllObjects(jsonArray: JsonArray, idUser: Int): List<Object> {
         val iterator: Iterator<*> = jsonArray.iterator()
         val objects = ArrayList<Object>()
         while (iterator.hasNext()) {
             val slide: JsonObject = Gson().fromJson(iterator.next().toString(), JsonObject::class.java)
             val obj =
-                Object(null, slide.get(_ID).asString, ID_USER, slide.get(MODEL).asString, slide.get(NAME).asString)
+                Object(null, slide.get(_ID).asString, idUser, slide.get(MODEL).asString, slide.get(NAME).asString)
             objects.add(obj)
         }
         return objects
     }
 
-    /**
-     * Читает показатели у объекта для построения графика, а имменно время и показатели в это время
-     * @jsonArray - массив данных об объектах
-     * @topic - название показателя
-     */
     fun readForChart(jsonArray: JsonArray, topic: String): List<List<Number>> {
         val iterator: Iterator<*> = jsonArray.iterator()
         val axisData = ArrayList<ArrayList<Number>>()
         while (iterator.hasNext()) {
             val one = ArrayList<Number>()
             val slide: JsonObject = Gson().fromJson(iterator.next().toString(), JsonObject::class.java)
-            val getTopic = slide.get("topic")
+            val getTopic = slide.get(TOPIC)
             if (getTopic != null && getTopic.asString == topic) {
                 val time = slide.get(TIME)
                 val payload = slide.get(PAYLOAD)
                 one.add(time.asLong)
-                one.add(payload.asString.replace(",", ".").toDouble())
+                if (payload.asString.indexOf("true") == -1 && payload.asString.indexOf("false") == -1) {
+                    one.add(payload.asString.replace(",", ".").toDouble())
+                } else {
+                    if (payload.asString.indexOf("true") != -1) {
+                        one.add(1)
+                    } else if (payload.asString.indexOf("false") != -1) {
+                        one.add(0)
+                    }
+                }
                 axisData.add(one)
             }
         }

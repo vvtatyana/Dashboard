@@ -8,36 +8,13 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 import com.example.util.*
+import org.slf4j.LoggerFactory
 
-/**
-* Класс для обмена данными с платформой
-*/
 class RequestGeneration {
+    private val LOGGER = LoggerFactory.getLogger(this.javaClass)
 
-    /**
-     * Собирает url-адресс для запросов
-     * @address - протокол и хост
-     * @description - адрес ресурса
-     */
-    fun addressGeneration(address: String, description: String): String {
-        return "$address/$description"
-    }
+    fun addressGeneration(address: String, description: String): String = "$address/$description"
 
-    /**
-     * Собирает url-адресс для запросов и отправляет GET-запрос
-     * @address - протокол и хост
-     * @description - адрес ресурса
-     */
-    fun addressAssemblyGET(address: String, description: String): String? {
-        return getRequest(
-            addressGeneration(address, description)
-        )
-    }
-
-    /**
-     * Совершает GET-запрос по указанному адресу
-     * @address - адрес для запроса
-     */
     fun getRequest(address: String?): String? {
         val urlForGetRequest = URL(address)
         var readLine: String?
@@ -57,15 +34,12 @@ class RequestGeneration {
             input.close()
             response.toString()
         } else {
+            LOGGER.error("GET Response Code :  $responseCode")
+            LOGGER.error("GET Response Message : " + connection.responseMessage)
             null
         }
     }
 
-    /**
-     * Совершает PATCH-запрос по указанному адресу
-     * @address - адрес для запроса
-     * @postParams - измененные данные для отправки
-     */
     @Throws(IOException::class)
     fun patchRequest(address: String?, postParams: String): JsonObject? {
         val url = URL(address)
@@ -80,23 +54,20 @@ class RequestGeneration {
         os.flush()
         os.close()
         val responseCode = connection.responseCode
-        println("PATCH Response Code :  $responseCode")
-        println("PATCH Response Message : " + connection.responseMessage)
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-            val isr = BufferedReader(
-                InputStreamReader(
-                    connection.inputStream
-                )
-            )
+
+        return if (responseCode == HttpURLConnection.HTTP_OK) {
+            val isr = BufferedReader(InputStreamReader(connection.inputStream))
             var inputLine: String?
             val response = StringBuffer()
             while (isr.readLine().also { inputLine = it } != null) {
                 response.append(inputLine)
             }
             isr.close()
-            return Gson().fromJson(response.toString(), JsonObject::class.java)
+            Gson().fromJson(response.toString(), JsonObject::class.java)
         } else {
-            return null
+            LOGGER.error("PATCH Response Code :  $responseCode")
+            LOGGER.error("PATCH Response Message : " + connection.responseMessage)
+            null
         }
     }
 }

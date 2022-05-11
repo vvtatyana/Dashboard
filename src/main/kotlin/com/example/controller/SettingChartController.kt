@@ -45,7 +45,7 @@ class SettingChartController {
 
     lateinit var dataWidget: Widget
     var delete = false
-    var save = true
+    var save = false
 
     fun initialize() {
         Tooltip.install(saveImageView, Tooltip("Сохранить изменения"))
@@ -63,7 +63,6 @@ class SettingChartController {
     fun load(layoutX: Double, layoutY: Double, chart: Chart) {
         this.layoutX = layoutX
         this.layoutY = layoutY
-        println(chart.getType())
         chartsType.value = chart.getType()
         nameChart.text = chart.getName()
         unitChart.text = chart.getUnit()

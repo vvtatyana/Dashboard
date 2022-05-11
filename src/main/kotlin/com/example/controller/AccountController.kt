@@ -1,6 +1,5 @@
 package com.example.controller
 
-import com.example.util.THEME
 import com.example.building.User
 import com.example.util.*
 import javafx.fxml.FXML
@@ -36,9 +35,6 @@ class AccountController {
     @FXML
     private lateinit var saveImageView: ImageView
 
-    @FXML
-    private lateinit var dayNight: ImageView
-
     private var icon: Int = 0
 
     lateinit var user: User
@@ -47,11 +43,8 @@ class AccountController {
     var save: Boolean = false
 
     fun initialize() {
-        dayNight.image = Image(FileInputStream(wayToImage("other/$THEME")))
-
         Tooltip.install(saveImageView, Tooltip("Сохранить изменения"))
         Tooltip.install(exitImageView, Tooltip("Выйти из аккаунта"))
-        Tooltip.install(dayNight, Tooltip("Тема приложения"))
     }
 
     fun load(user: User) {
@@ -67,29 +60,19 @@ class AccountController {
         val token = tokenText.text
         var host = hostText.text
 
-        if (token != "")
+        if (token != "") {
             HEADERS_AUTH = "Bearer $token"
+            user.setToken(token)
+        }
 
         if (host != "") {
-            DEFAULT_ADDRESS = "https://${host}/api/v1"
-            host = DEFAULT_ADDRESS
+            ADDRESS = "https://${host}/api/v1"
+            host = ADDRESS
+            user.setAddress(host)
         }
 
-        if (token != "" || host != "" || icon != user.getIcon()) {
-            user = User(
-                user.getId(),
-                user.getIdUser(),
-                user.getUsername(),
-                user.getLogin(),
-                user.getPassword(),
-                host,
-                token,
-                user.getCastle(),
-                user.getAlarm(),
-                icon,
-                user.getTheme()
-            )
-        }
+        user.setIcon(icon)
+
         val stage: Stage = saveImageView.scene.window as Stage
         stage.close()
     }
@@ -106,21 +89,5 @@ class AccountController {
         if (icon < 30) icon++
         else icon = 1
         accountIcon.image = Image(FileInputStream(wayToImage("animals\\$icon")))
-    }
-
-    @FXML
-    private fun dayNightClick() {
-        THEME = when (THEME) {
-            "light" -> {
-                "dark"
-            }
-            "dark" -> {
-                "light"
-            }
-            else -> {
-                "light"
-            }
-        }
-        dayNight.image = Image(FileInputStream(wayToImage("other/$THEME")))
     }
 }

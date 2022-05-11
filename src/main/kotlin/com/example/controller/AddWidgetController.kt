@@ -35,7 +35,6 @@ class AddWidgetController {
     @FXML
     private lateinit var addIndicators: ComboBox<String>
 
-    private var name: String = ""
     lateinit var returnData: Widget
 
     private var typeWidget: Boolean = false
@@ -52,41 +51,57 @@ class AddWidgetController {
 
     fun load(idModel: String, typeWidget: Boolean) {
         this.typeWidget = typeWidget
+
+        val address = request.addressGeneration(ADDRESS, MODELS)
+
+        val getData = request.getRequest(request.addressGeneration(address, idModel))
+        val model = Gson().fromJson(getData, JsonObject::class.java)
+        val modelState = ProcessingJSON().readModelState(model)
+        val stateType = ProcessingJSON().readModelParams(model)
+
+        var itemsIndicator = mutableListOf<String>()
         if (!typeWidget) {
             val items = mutableListOf<String>()
             ChartType.values().forEach { items.add(it.type) }
             chartsType.items =
                 FXCollections.observableArrayList(items)
             chartsType.value = ChartType.values()[0].type
-        }
 
-        val address = request.addressGeneration(DEFAULT_ADDRESS, MODELS)
-
-        val getData = request.addressAssemblyGET(address, idModel)
-        val model = Gson().fromJson(getData, JsonObject::class.java)
-        val modelState = ProcessingJSON().readModelState(model)
-        val stateType = ProcessingJSON().readModelParams(model)
-
-        addIndicators.items = FXCollections.observableArrayList(modelState)
-        addIndicators.value = modelState[0]
-
-        addIndicators.setOnAction {
-            name = addIndicators.value
-            if (modelState.contains(name)) {
-                nameTextField.promptText = name
-                dataType = stateType[name].toString()
-                if (dataType == "number") {
-                    nameLabel.isVisible = true
-                    nameTextField.isVisible = true
-                    unitLabel.isVisible = true
-                    unitTextField.isVisible = true
-                } else if (dataType == TypeIndicator.STRING.type || dataType == TypeIndicator.BOOLEAN.type) {
-                    nameLabel.isVisible = true
-                    nameTextField.isVisible = true
-                    unitLabel.isVisible = false
-                    unitTextField.isVisible = false
+            modelState.forEach{
+                if (stateType[it] != TypeIndicator.STRING.type){
+                    itemsIndicator.add(it)
                 }
             }
+        }
+        else {
+            itemsIndicator = modelState as MutableList<String>
+        }
+
+        addIndicators.items = FXCollections.observableArrayList(itemsIndicator)
+        addIndicators.value = modelState[0]
+        dataType = stateType[ modelState[0]].toString()
+        visibleField(dataType)
+
+        addIndicators.setOnAction {
+            if (modelState.contains(addIndicators.value)) {
+                nameTextField.promptText = addIndicators.value
+                dataType = stateType[addIndicators.value].toString()
+                visibleField(dataType)
+            }
+        }
+    }
+
+    private fun visibleField(dataType: String){
+        if (dataType == TypeIndicator.NUMBER.type) {
+            nameLabel.isVisible = true
+            nameTextField.isVisible = true
+            unitLabel.isVisible = true
+            unitTextField.isVisible = true
+        } else if (dataType == TypeIndicator.STRING.type || dataType == TypeIndicator.BOOLEAN.type) {
+            nameLabel.isVisible = true
+            nameTextField.isVisible = true
+            unitLabel.isVisible = false
+            unitTextField.isVisible = false
         }
     }
 
@@ -95,7 +110,7 @@ class AddWidgetController {
         add = true
         val type = if (!typeWidget && chartsType.value != null) chartsType.value
         else dataType
-        returnData = Widget(name, nameTextField.text, unitTextField.text, type)
+        returnData = Widget(addIndicators.value, nameTextField.text, unitTextField.text, type)
         val stage: Stage = addImageView.scene.window as Stage
         stage.close()
     }

@@ -13,7 +13,7 @@
     -fx-font-family: "Segoe UI Semibold";
 }
 
-.text-field, #login{
+.text-field, #login, #time{
     -fx-background-color:  linear-gradient(to left, #e1e6f0, #ced9ed);
     -fx-background-radius: 0;
     -fx-text-fill: #3b507b;
@@ -78,7 +78,7 @@
 }
 
 #username{
-    -fx-text-fill: #3b507b;
+    -fx-text-fill: transparent;
     -fx-font-size: 22px;
     -fx-font-family: "Segoe UI Semibold";
 }

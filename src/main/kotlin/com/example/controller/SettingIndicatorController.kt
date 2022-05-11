@@ -3,7 +3,7 @@ package com.example.controller
 import com.example.building.Widget
 import com.example.restAPI.ProcessingJSON
 import com.example.restAPI.RequestGeneration
-import com.example.util.DEFAULT_ADDRESS
+import com.example.util.ADDRESS
 import com.example.util.MODELS
 import com.example.util.NAME
 import com.example.util.TypeIndicator
@@ -88,8 +88,8 @@ class SettingIndicatorController {
 
         Tooltip.install(saveImageView, Tooltip("Сохранить изменения"))
 
-        val address = RequestGeneration().addressGeneration(DEFAULT_ADDRESS, MODELS)
-        val getData = RequestGeneration().addressAssemblyGET(address, idModel)
+        val address = RequestGeneration().addressGeneration(ADDRESS, MODELS)
+        val getData = RequestGeneration().getRequest(RequestGeneration().addressGeneration(address, idModel))
         val model = Gson().fromJson(getData, JsonObject::class.java)
 
         when (type) {
@@ -175,7 +175,7 @@ class SettingIndicatorController {
     }
 
     private fun update(field: String, value: String, property: String, border: Boolean = false) {
-        var address = RequestGeneration().addressGeneration(DEFAULT_ADDRESS, MODELS)
+        var address = RequestGeneration().addressGeneration(ADDRESS, MODELS)
         address = RequestGeneration().addressGeneration(address, idModel)
         val dataGet = RequestGeneration().getRequest(address).toString()
         val data = if (border) ProcessingJSON().updateBorder(dataGet, name, field, value, property)
@@ -237,7 +237,7 @@ class SettingIndicatorController {
             }
         } else if (type == TypeIndicator.STRING.type) {
             if (newValueFrom != "" && oldValueFrom != newValueFrom) {
-                update(nameIntervalComboBox.value, newValueFrom, "color")
+                update(nameIntervalComboBox.value, newValueFrom, "value")
                 oldValueFrom = newValueFrom
             }
 

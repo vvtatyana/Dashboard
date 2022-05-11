@@ -80,11 +80,11 @@ class RegistrationController {
         val token: String = tokenText.text
         if (hostText.text != "") {
             val defAddress = "https://${hostText.text}/api/v1"
-            DEFAULT_ADDRESS = defAddress
+            ADDRESS = defAddress
         }
         val request = RequestGeneration()
         HEADERS_AUTH += token
-        val address = request.addressGeneration(DEFAULT_ADDRESS, USERS)
+        val address = request.addressGeneration(ADDRESS, USERS)
         val getData = request.getRequest(address)
         if (getData != null) {
             val json: JsonArray = Gson().fromJson(getData, JsonArray::class.java)
@@ -103,12 +103,12 @@ class RegistrationController {
                                     login,
                                     PasswordEncoderFactories.createDelegatingPasswordEncoder()
                                         .encode(passwordTextOne.text),
-                                    DEFAULT_ADDRESS,
+                                    ADDRESS,
                                     token,
                                     castle = true,
-                                    alarm = false,
                                     icon = animal,
-                                    theme = THEME
+                                    theme = THEME,
+                                    timer = 1
                                 )
                             )
                         else {
@@ -120,12 +120,12 @@ class RegistrationController {
                                     login,
                                     PasswordEncoderFactories.createDelegatingPasswordEncoder()
                                         .encode(passwordTextOne.text),
-                                    DEFAULT_ADDRESS,
+                                    ADDRESS,
                                     token,
                                     false,
-                                    alarm = false,
                                     icon = animal,
-                                    theme = THEME
+                                    theme = THEME,
+                                    timer = 1
                                 )
                             )
                         }
@@ -156,7 +156,7 @@ class RegistrationController {
         stage.initModality(Modality.APPLICATION_MODAL)
         stage.title = title
         val scene = Scene(fxmlLoader.load())
-        scene.stylesheets.add(this.javaClass.getResource("\\css\\$THEME.css")!!.toExternalForm())
+        scene.stylesheets.add(this.javaClass.getResource(theme())!!.toExternalForm())
         stage.scene = scene
         stage.show()
     }

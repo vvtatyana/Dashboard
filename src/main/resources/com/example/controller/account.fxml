@@ -49,7 +49,4 @@
     <ImageView fx:id="saveImageView" fitHeight="30.0" fitWidth="30.0" layoutX="294.0" layoutY="12.0" onMouseClicked="#saveClick" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="5.0">
         <Image url="@images/other/Save.png" />
     </ImageView>
-    <ImageView fx:id="dayNight" fitHeight="30.0" fitWidth="30.0" layoutX="233.0" layoutY="13.0" onMouseClicked="#dayNightClick" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="5.0">
-        <Image url="@images/other/light.png" />
-    </ImageView>
 </AnchorPane>

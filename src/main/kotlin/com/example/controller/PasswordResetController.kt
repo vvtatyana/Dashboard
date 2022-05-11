@@ -3,9 +3,7 @@ package com.example.controller
 import com.example.building.User
 import com.example.database.Database
 import com.example.database.QueriesDB
-import com.example.util.THEME
-import com.example.util.UsersTable
-import com.example.util.wayToImage
+import com.example.util.*
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
@@ -54,10 +52,10 @@ class PasswordResetController {
                 val fxmlLoader = FXMLLoader(javaClass.getResource("loginWindow.fxml"))
                 stage = Stage()
                 stage.initModality(Modality.WINDOW_MODAL)
-                stage.icons.add(Image(FileInputStream(wayToImage("other/smart_house"))))
+                stage.icons.add(Image(FileInputStream(wayToImage(ICON))))
                 stage.isResizable = false
                 val scene = Scene(fxmlLoader.load())
-                scene.stylesheets.add(this.javaClass.getResource("\\css\\$THEME.css")!!.toExternalForm())
+                scene.stylesheets.add(this.javaClass.getResource(theme())!!.toExternalForm())
                 stage.scene = scene
                 stage.show()
             } else errorLabel.text = "Пароли не совпадают."

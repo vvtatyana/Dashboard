@@ -4,6 +4,9 @@ var THEME = "light"
 
 const val DATA_FORMAT = "dd MMM yyy"
 const val TIME_FORMAT = "HH:mm"
+const val ICON = "other/smart_house"
+
+fun theme():String = "\\css\\$THEME.css"
 
 enum class ChartType(val type: String){
     AREA_CHART ("AreaChart"),

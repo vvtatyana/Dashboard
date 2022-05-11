@@ -20,7 +20,6 @@ class StartApplication : Application() {
         val user = queriesDB.selectUser(UsersTable.CASTLE.name, true.toString())
         database.closeBD()
         if(user != null) {
-            ID_USER = user.getId()
             HEADERS_AUTH += user.getToken()
             THEME = user.getTheme()
 
@@ -42,12 +41,12 @@ class StartApplication : Application() {
         val scene = Scene(fxmlLoader.load())
         stage.initStyle(StageStyle.DECORATED)
 
-        stage.icons.add(Image(FileInputStream(wayToImage("other/smart_house"))))
+        stage.icons.add(Image(FileInputStream(wayToImage(ICON))))
         if (nameFile == "loginWindow.fxml"){
             stage.isResizable = false
         }
         stage.title = title
-        scene.stylesheets.add(this.javaClass.getResource("\\css\\$THEME.css")!!.toExternalForm())
+        scene.stylesheets.add(this.javaClass.getResource(theme())!!.toExternalForm())
         stage.scene = scene
         stage.show()
     }

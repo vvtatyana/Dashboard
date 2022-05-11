@@ -14,22 +14,21 @@ import javafx.scene.shape.Circle
 
 class BooleanWidget(
     objectData: Object,
-    indicator: Int,
     layoutX: Double,
     layoutY: Double,
     pref: Double,
     name: String,
     private val data: String?,
     private val typeWidget: String
-) : AbstractWidget(indicator, layoutX, layoutY, pref, name) {
+) : AbstractWidget(layoutX, layoutY, pref, name) {
 
     private val request = RequestGeneration()
 
     private var circle: Circle
     private var text: Label
 
-    private val address = request.addressGeneration(DEFAULT_ADDRESS, MODELS)
-    private val getData = request.addressAssemblyGET(address, objectData.getIdModel())
+    private val address = request.addressGeneration(ADDRESS, MODELS)
+    private val getData = request.getRequest(request.addressGeneration(address, objectData.getIdModel()))
     private val model = Gson().fromJson(getData, JsonObject::class.java)
 
     init {
@@ -42,30 +41,15 @@ class BooleanWidget(
         panel.children.add(setting)
     }
 
-    private fun createCircle(
-        radius: Double,
-        top: Double,
-        bottom: Double,
-        right: Double,
-        left: Double,
-        flag: Boolean
-    ): Circle {
+    private fun createCircle(radius: Double, top: Double, bottom: Double, right: Double, left: Double, flag: Boolean ): Circle {
         val circle = Circle()
-
         val border = ProcessingJSON().readBorderBoolean(model, typeWidget)
-
         if (flag && data != null) {
-            val borderColor = if (border.isNotEmpty()) {
-                ProcessingJSON().readBorderColor(model, typeWidget)
-            } else mutableMapOf("True" to "#6bdb6b", "False" to "#ff4e33")
-            if (data.toBoolean()) {
-                circle.fill = Paint.valueOf(borderColor["True"])
-            } else {
-                circle.fill = Paint.valueOf(borderColor["False"])
-            }
-        } else if (!flag) {
-            circle.fill = Paint.valueOf("#636161")
-        }
+            val borderColor = if (border.isNotEmpty()) ProcessingJSON().readBorderColor(model, typeWidget)
+            else mutableMapOf("True" to "#6bdb6b", "False" to "#ff4e33")
+            circle.fill = if (data.toBoolean()) Paint.valueOf(borderColor["True"])
+            else Paint.valueOf(borderColor["False"])
+        } else if (!flag) circle.fill = Paint.valueOf("#636161")
         circle.radius = radius
         circle.stroke = Paint.valueOf("white")
         circle.strokeWidth = 3.0
@@ -79,13 +63,9 @@ class BooleanWidget(
     private fun createCircleText(): Label {
         val circleLabel = Label()
         circleLabel.id = "circleLabel"
-        if (data.toBoolean()) {
-            circleLabel.text = "Да"
-        } else {
-            circleLabel.text = "Нет"
-        }
+        circleLabel.text = if (data.toBoolean()) "Да"
+        else  "Нет"
         circleLabel.alignment = Pos.CENTER
-
         AnchorPane.setTopAnchor(circleLabel, 70.0)
         AnchorPane.setBottomAnchor(circleLabel, 70.0)
         AnchorPane.setRightAnchor(circleLabel, 70.0)

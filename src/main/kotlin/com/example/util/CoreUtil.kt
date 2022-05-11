@@ -1,14 +1,14 @@
 package com.example.util
 
-var DEFAULT_ADDRESS = "https://dev.rightech.io/api/v1"
+var ADDRESS = "https://dev.rightech.io/api/v1"
 
 var HEADERS_AUTH: String = "Bearer "
 const val HEADERS_CONTENT = "application/json"
 
 const val AUTHORIZATION = "Authorization"
 const val CONTENT_TYPE = "Content-Type"
-var ID_USER = 0
-const val TOPIC = "base/state/"
+const val TOPIC_WAY = "base/state/"
+const val TOPIC = "topic"
 
 const val GET = "GET"
 const val POST = "POST"
