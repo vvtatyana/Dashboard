@@ -35,8 +35,7 @@ class NumericWidget(
 
     private fun createGauge(): Gauge {
         val jsonModel = Gson().fromJson(strModel, JsonObject::class.java)
-        val typeGauge = processingJSON.typeNumeric(jsonModel, typeWidget)
-        type = typeGauge
+        type = processingJSON.typeNumeric(jsonModel, typeWidget)
 
         val borderFrom = processingJSON.readBorderFrom(jsonModel, typeWidget).toMutableMap()
         val borderColor = processingJSON.readBorderColor(jsonModel, typeWidget).toMutableMap()
@@ -51,7 +50,7 @@ class NumericWidget(
             .minValue(borderFrom[keys[0]]!!.toDouble())
         val sections = mutableListOf<Section>()
         borderFrom[keys[0]] = gaugeBuilder.build().minValue.toInt().toString()
-        if (typeGauge) {
+        if (type) {
             val borderTo = processingJSON.readBorderTo(jsonModel, typeWidget).toMutableMap()
 
             gaugeBuilder.tickLabelDecimals(1)
@@ -79,7 +78,7 @@ class NumericWidget(
 
         val gauge = gaugeBuilder.sections(sections).build()
         if (data != null) {
-            gauge.value = if (typeGauge) data.toDouble()
+            gauge.value = if (type) data.toDouble()
             else data.toDouble()
         }
         AnchorPane.setTopAnchor(gauge, 27.0)

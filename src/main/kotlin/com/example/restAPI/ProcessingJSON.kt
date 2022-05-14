@@ -84,8 +84,6 @@ class ProcessingJSON {
         return borderColor
     }
 
-
-
     fun typeNumeric(jsonObject: JsonObject, name: String): Boolean {
         val values = readBorder(jsonObject, name)
         if (values != null) {
@@ -147,12 +145,8 @@ class ProcessingJSON {
 
     fun readBorderBooleanOrString(jsonObject: JsonObject, name: String): Map<String, String> {
         val border = mutableMapOf<String, String>()
-        val values = readBorder(jsonObject, name)
-        if (values != null) {
-            for (i in 0 until values.size()) {
-                val valI = values[i].asJsonObject
-                border[valI.get(NAME).asString] = valI.get(VALUE).asString
-            }
+        readBorder(jsonObject, name)?.forEach {
+            border[it.asJsonObject.get(NAME).asString] = it.asJsonObject.get(VALUE).asString
         }
         return border
     }
@@ -171,11 +165,8 @@ class ProcessingJSON {
                 if (payload.asString.indexOf("true") == -1 && payload.asString.indexOf("false") == -1) {
                     one.add(payload.asString.replace(",", ".").toDouble())
                 } else {
-                    if (payload.asString.indexOf("true") != -1) {
-                        one.add(1)
-                    } else if (payload.asString.indexOf("false") != -1) {
-                        one.add(0)
-                    }
+                    if (payload.asString.indexOf("true") != -1) one.add(1)
+                    else if (payload.asString.indexOf("false") != -1) one.add(0)
                 }
                 axisData.add(one)
             }
@@ -183,33 +174,25 @@ class ProcessingJSON {
         return axisData
     }
 
-    fun updateBorder(data: String, name: String, value: String, field: String, level: String): String {
+    fun updateModel(data: String, name: String, value: String, field: String, property: String): String? {
         val jsonModel: JsonObject = Gson().fromJson(data, JsonObject::class.java)
-        val values = readBorder(jsonModel, name)
-        if (values != null) {
-            for (i in 0 until values.size()) {
-                if (values[i].asJsonObject.get(NAME).asString == value) {
-                    val jsonValue = values[i].asJsonObject.get(VALUE).asJsonObject
-                    jsonValue.addProperty(level, field)
-                    return jsonModel.toString()
-                }
+        readBorder(jsonModel, name)?.forEach {
+            if (it.asJsonObject.get(NAME).asString == value) {
+                it.asJsonObject.addProperty(property, field)
+                return jsonModel.toString()
             }
         }
-        return ""
+        return null
     }
 
-    fun updateModel(data: String, name: String, value: String, field: String, property: String): String {
+    fun updateBorder(data: String, name: String, value: String, field: String, level: String): String? {
         val jsonModel: JsonObject = Gson().fromJson(data, JsonObject::class.java)
-        val values = readBorder(jsonModel, name)
-        if (values != null) {
-            for (i in 0 until values.size()) {
-                if (values[i].asJsonObject.get(NAME).asString == value) {
-                    val jsonValue = values[i].asJsonObject
-                    jsonValue.addProperty(property, field)
-                    return jsonModel.toString()
-                }
+        readBorder(jsonModel, name)?.forEach {
+            if (it.asJsonObject.get(NAME).asString == value) {
+                it.asJsonObject.get(VALUE).asJsonObject.addProperty(level, field)
+                return jsonModel.toString()
             }
         }
-        return ""
+        return null
     }
 }

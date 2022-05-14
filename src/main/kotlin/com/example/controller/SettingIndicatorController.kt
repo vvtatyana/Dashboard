@@ -186,7 +186,7 @@ class SettingIndicatorController {
         else {
             val data = if (border) ProcessingJSON().updateBorder(getData, name, field, value, property)
             else ProcessingJSON().updateModel(getData, name, field, value, property)
-            if (data != "")
+            if (data != null)
                 RequestGeneration().patchRequest(address, data)
         }
     }

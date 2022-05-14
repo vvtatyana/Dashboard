@@ -41,7 +41,7 @@ class RequestGeneration {
     }
 
 
-    fun patchRequest(address: String?, postParams: String): String {
+    fun patchRequest(address: String, postParams: String): String {
         val url = URL(address)
         val connection = url.openConnection() as HttpURLConnection
         connection.requestMethod = POST
