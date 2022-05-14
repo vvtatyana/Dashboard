@@ -5,21 +5,18 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="mainPane" prefHeight="240.0" prefWidth="374.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.AlarmOrInfoController">
-   <children>
-      <Label alignment="TOP_CENTER" layoutX="131.0" layoutY="80.0" text="Тревога" textFill="#3b507b" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="80.0">
-         <font>
+<AnchorPane fx:id="mainPane" prefHeight="303.0" prefWidth="472.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.AlarmOrInfoController">
+    <Label fx:id="headerLabel" alignment="TOP_CENTER" layoutX="131.0" layoutY="80.0" text="Тревога" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="80.0">
+        <font>
             <Font name="Segoe UI Semibold" size="25.0" />
-         </font></Label>
-      <ImageView fitHeight="65.0" fitWidth="71.0" layoutX="146.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="154.0" AnchorPane.rightAnchor="154.0" AnchorPane.topAnchor="14.0">
-         <image>
-            <Image url="@images/other/exclamation.png" />
-         </image>
-      </ImageView>
-      <Label alignment="CENTER" layoutX="41.0" layoutY="120.0" text="Label" textFill="#3b507b" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="120.0">
-         <font>
+        </font>
+    </Label>
+    <ImageView fx:id="infoImage" fitHeight="65.0" fitWidth="71.0" layoutX="201.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="201.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="14.0">
+        <Image url="@images/error.png" />
+    </ImageView>
+    <Label fx:id="messageLabel" alignment="CENTER" layoutX="41.0" layoutY="120.0" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="120.0">
+        <font>
             <Font name="Segoe UI Semibold" size="16.0" />
-         </font>
-      </Label>
-   </children>
+        </font>
+    </Label>
 </AnchorPane>

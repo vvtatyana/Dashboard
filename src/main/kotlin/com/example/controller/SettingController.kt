@@ -2,33 +2,31 @@ package com.example.controller
 
 import com.example.building.User
 import com.example.util.THEME
-import com.example.util.wayToImage
+import com.example.util.createImageView
 import javafx.fxml.FXML
+import javafx.scene.control.Button
 import javafx.scene.control.Spinner
 import javafx.scene.control.Tooltip
-import javafx.scene.image.Image
-import javafx.scene.image.ImageView
 import javafx.stage.Stage
-import java.io.FileInputStream
 
 class SettingController {
     @FXML
     private lateinit var time: Spinner<Int>
 
     @FXML
-    private lateinit var dayNight: ImageView
+    private lateinit var dayNight: Button
 
     @FXML
-    private lateinit var saveImageView: ImageView
+    private lateinit var saveButton: Button
 
     var save: Boolean = false
     lateinit var user: User
 
     fun initialize() {
-        dayNight.image = Image(FileInputStream(wayToImage("other/$THEME")))
+        dayNight.graphic = createImageView(THEME, 30.0)
 
-        Tooltip.install(saveImageView, Tooltip("Сохранить изменения"))
-        Tooltip.install(dayNight, Tooltip("Тема приложения"))
+        saveButton.tooltip = Tooltip("Сохранить изменения")
+        dayNight.tooltip = Tooltip("Тема приложения")
     }
 
     fun loader(user: User){
@@ -40,7 +38,7 @@ class SettingController {
     private fun saveClick() {
         save = true
         user.setTimer(time.value)
-        val stage: Stage = saveImageView.scene.window as Stage
+        val stage: Stage = saveButton.scene.window as Stage
         stage.close()
     }
 
@@ -57,6 +55,6 @@ class SettingController {
                 "light"
             }
         }
-        dayNight.image = Image(FileInputStream(wayToImage("other/$THEME")))
+        dayNight.graphic = createImageView(THEME, 30.0)
     }
 }

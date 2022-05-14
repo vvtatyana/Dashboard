@@ -11,14 +11,9 @@ class Database {
 
     init {
         Class.forName("org.sqlite.JDBC")
-        connection = DriverManager.getConnection(
-                "jdbc:sqlite:src/main/resources/com/example/controller/database/SmartHome.db")
+        connection = DriverManager.getConnection("jdbc:sqlite:SmartHome.db") //src/main/resources/com/example/controller/database/
         statement = connection.createStatement()
         connection.autoCommit = false
-        openBD()
-    }
-
-    private fun openBD() {
         try {
             statement.executeUpdate(createUsersTable())
             statement.executeUpdate(createObjectsTable())

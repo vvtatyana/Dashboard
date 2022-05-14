@@ -7,18 +7,14 @@
     -fx-background-radius: 0;
 }
 
-.label{
+.label, .check-box{
     -fx-text-fill: #3b507b;
-    -fx-font-size: 16px;
-    -fx-font-family: "Segoe UI Semibold";
 }
 
 .text-field, #login, #time{
     -fx-background-color:  linear-gradient(to left, #e1e6f0, #ced9ed);
     -fx-background-radius: 0;
     -fx-text-fill: #3b507b;
-    -fx-font-size: 14px;
-    -fx-font-family: "Segoe UI Semibold";
 }
 
 #circleLabel{
@@ -27,17 +23,21 @@
     -fx-font-family: "Segoe UI Semibold";
 }
 
-#errorLabel{
-    -fx-text-fill: "RED";
-    -fx-font-size: 14px;
-    -fx-font-family: "Segoe UI Semibold";
+.button{
+    -fx-background-color: transparent;
+    -fx-text-fill: #3b507b;
 }
+
+#enterButton{
+    -fx-text-fill: white;
+}
+
 
 .list-cell {
     -fx-control-inner-background: transparent;
     -fx-control-inner-background-alt: transparent;
     -fx-text-fill: #3b507b;
-    -fx-font-size: 13px;
+    -fx-font-size: 14px;
     -fx-font-family: "Segoe UI Semibold";
 }
 
@@ -75,23 +75,4 @@
 .default-color0.chart-series-area-fill {
     -fx-fill: #f5f5dc;
     -fx-opacity: 0.5
-}
-
-#username{
-    -fx-text-fill: transparent;
-    -fx-font-size: 22px;
-    -fx-font-family: "Segoe UI Semibold";
-}
-
-#text{
-    -fx-text-fill: #3b507b;
-    -fx-font-size: 22px;
-    -fx-font-family: "Segoe UI Semibold";
-}
-
-#indicatorButton, #chartButton{
-    -fx-background-color: transparent;
-    -fx-text-fill: #3b507b;
-    -fx-font-size: 16px;
-    -fx-font-family: "Segoe UI Semibold";
 }

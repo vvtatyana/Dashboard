@@ -9,35 +9,19 @@ class Chart (private val id: Int?,
              private val unit: String,
              private val type: String) {
 
-    fun getId(): Int {
-        return id ?: 0
-    }
+    fun getId(): Int = id ?: 0
 
-    fun getIdObject(): Int {
-        return idObject
-    }
+    fun getIdObject(): Int = idObject
 
-    fun getNameChart(): String {
-        return nameChart
-    }
+    fun getNameChart(): String = nameChart
 
-    fun getLayoutX(): Double {
-        return layoutX
-    }
+    fun getLayoutX(): Double = layoutX
 
-    fun getLayoutY(): Double {
-        return layoutY
-    }
+    fun getLayoutY(): Double = layoutY
 
-    fun getName(): String {
-        return name
-    }
+    fun getName(): String = name
 
-    fun getUnit(): String {
-        return unit
-    }
+    fun getUnit(): String = unit
 
-    fun getType(): String {
-        return type
-    }
+    fun getType(): String = type
 }

@@ -49,13 +49,13 @@ class PasswordResetController {
                 )
                 var stage: Stage = enterButton.scene.window as Stage
                 stage.close()
-                val fxmlLoader = FXMLLoader(javaClass.getResource("loginWindow.fxml"))
+                val fxmlLoader = FXMLLoader(fxmlLoader("loginWindow.fxml"))
                 stage = Stage()
                 stage.initModality(Modality.WINDOW_MODAL)
                 stage.icons.add(Image(FileInputStream(wayToImage(ICON))))
                 stage.isResizable = false
                 val scene = Scene(fxmlLoader.load())
-                scene.stylesheets.add(this.javaClass.getResource(theme())!!.toExternalForm())
+                scene.stylesheets.add(theme())
                 stage.scene = scene
                 stage.show()
             } else errorLabel.text = "Пароли не совпадают."

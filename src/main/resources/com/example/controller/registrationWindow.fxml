@@ -5,53 +5,53 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="dataPane" prefHeight="559.0" prefWidth="457.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.RegistrationController">
-    <Label fx:id="text" layoutX="115.0" layoutY="17.0" prefHeight="54.0" prefWidth="332.0" text="зарегестрироваться" textFill="#3b507b" AnchorPane.topAnchor="17.0">
+<AnchorPane fx:id="dataPane" prefHeight="559.0" prefWidth="457.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.RegistrationController">
+    <Label layoutX="115.0" layoutY="17.0" prefHeight="54.0" prefWidth="332.0" text="зарегестрироваться" AnchorPane.topAnchor="17.0">
         <font>
             <Font name="Segoe UI Semibold" size="30.0" />
         </font>
     </Label>
-    <Label layoutX="50.0" layoutY="84.0" text="имя" textFill="#3b507b" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+    <Label layoutX="50.0" layoutY="84.0" text="имя" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <TextField fx:id="nameText" layoutX="50.0" layoutY="110.0" prefHeight="30.0" prefWidth="190.0" promptText="Иван" style="-fx-background-color: linear-gradient(to left, #e9edf5, #ced9ed); -fx-background-radius: 0;" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+    <TextField fx:id="nameText" layoutX="50.0" layoutY="110.0" prefHeight="30.0" prefWidth="190.0" promptText="Иван" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
         <font>
             <Font name="Segoe UI Semibold" size="14.0" />
         </font>
     </TextField>
-    <Label layoutX="50.0" layoutY="140.0" text="логин" textFill="#3b507b" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+    <Label layoutX="50.0" layoutY="140.0" text="логин" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <TextField fx:id="loginText" layoutX="50.0" layoutY="166.0" prefHeight="30.0" prefWidth="190.0" promptText="ivan@gmail.com" style="-fx-background-color: linear-gradient(to left, #e9edf5, #ced9ed); -fx-background-radius: 0;" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+    <TextField fx:id="loginText" layoutX="50.0" layoutY="166.0" prefHeight="30.0" prefWidth="190.0" promptText="ivan@gmail.com" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
         <font>
             <Font name="Segoe UI Semibold" size="14.0" />
         </font>
     </TextField>
-    <Label layoutX="49.0" layoutY="196.0" text="токен" textFill="#3b507b" AnchorPane.leftAnchor="49.0" AnchorPane.rightAnchor="51.0">
+    <Label layoutX="49.0" layoutY="196.0" text="токен" AnchorPane.leftAnchor="49.0" AnchorPane.rightAnchor="51.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <TextField fx:id="tokenText" layoutX="50.0" layoutY="225.0" prefHeight="30.0" prefWidth="190.0" promptText="czxs6ds7ds3v2n2nb3v48c8xx9c7xc7cxcn22n2v32b3c23bc2v3c2323" style="-fx-background-color: linear-gradient(to left, #e9edf5, #ced9ed); -fx-background-radius: 0;" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+    <TextField fx:id="tokenText" layoutX="50.0" layoutY="225.0" prefHeight="30.0" prefWidth="190.0" promptText="czxs6ds7ds3v2n2nb3v48c8xx9c7xc7cxcn22n2v32b3c23bc2v3c2323" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
         <font>
             <Font name="Segoe UI Semibold" size="14.0" />
         </font>
     </TextField>
-    <Label layoutX="50.0" layoutY="255.0" text="хост" textFill="#3b507b" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+    <Label layoutX="50.0" layoutY="255.0" text="хост" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <TextField fx:id="hostText" layoutX="50.0" layoutY="278.0" prefHeight="30.0" prefWidth="190.0" promptText="dev.rightech.io" style="-fx-background-color: linear-gradient(to left, #e9edf5, #ced9ed); -fx-background-radius: 0;" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+    <TextField fx:id="hostText" layoutX="50.0" layoutY="281.0" prefHeight="30.0" prefWidth="190.0" promptText="dev.rightech.io" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
         <font>
             <Font name="Segoe UI Semibold" size="14.0" />
         </font>
     </TextField>
-    <Button layoutX="50.0" layoutY="457.0" mnemonicParsing="false" onAction="#onRegistrationButtonClick" prefHeight="25.0" prefWidth="203.0" style="-fx-background-color: #3b507b; -fx-background-radius: 0;" text="зарегистрироваться" textFill="WHITE" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+    <Button fx:id="enterButton" layoutX="50.0" layoutY="457.0" mnemonicParsing="false" onAction="#onRegistrationButtonClick" prefHeight="25.0" prefWidth="203.0" style="-fx-background-color: #3b507b; -fx-background-radius: 0;" text="зарегестрироваться" textFill="WHITE" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
@@ -72,39 +72,39 @@
         </font>
     </Button>
     <ImageView fitHeight="46.0" fitWidth="42.0" layoutX="66.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="23.0">
-        <Image url="@images/other/login.png" />
+        <Image url="@images/input.png" />
     </ImageView>
     <ImageView fx:id="nameInfoOne" fitHeight="30.0" fitWidth="30.0" layoutX="406.0" layoutY="110.0" onMouseClicked="#nameInfoClick" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="406.0">
-        <Image url="@images/other/Lamp.png" />
+        <Image url="@images/info.png" />
     </ImageView>
     <ImageView fx:id="nameInfoTwo" fitHeight="30.0" fitWidth="30.0" layoutX="406.0" layoutY="166.0" onMouseClicked="#loginInfoClick" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="406.0">
-        <Image url="@images/other/Lamp.png" />
+        <Image url="@images/info.png" />
     </ImageView>
     <ImageView fx:id="nameInfoThree" fitHeight="30.0" fitWidth="30.0" layoutX="406.0" layoutY="225.0" onMouseClicked="#tokenInfoClick" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="406.0">
-        <Image url="@images/other/Lamp.png" />
+        <Image url="@images/info.png" />
     </ImageView>
-    <ImageView fx:id="nameInfoFour" fitHeight="30.0" fitWidth="30.0" layoutX="406.0" layoutY="278.0" onMouseClicked="#addressInfoClick" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="406.0">
-        <Image url="@images/other/Lamp.png" />
+    <ImageView fx:id="nameInfoFour" fitHeight="30.0" fitWidth="30.0" layoutX="406.0" layoutY="281.0" onMouseClicked="#addressInfoClick" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="406.0">
+        <Image url="@images/info.png" />
     </ImageView>
-   <Label layoutX="49.0" layoutY="308.0" text="пароль" textFill="#3b507b" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
-      <font>
-         <Font name="Segoe UI Semibold" size="16.0" />
-      </font>
-   </Label>
-   <Label layoutX="50.0" layoutY="364.0" text="повторите пароль" textFill="#3b507b" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
-      <font>
-         <Font name="Segoe UI Semibold" size="16.0" />
-      </font>
-   </Label>
-   <PasswordField fx:id="passwordTextOne" layoutX="50.0" layoutY="334.0" promptText="password" style="-fx-background-color: linear-gradient(to left, #e9edf5, #ced9ed); -fx-background-radius: 0;" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
-      <font>
-         <Font name="Segoe UI Semibold" size="14.0" />
-      </font>
-   </PasswordField>
-   <PasswordField fx:id="passwordTextTwo" layoutX="49.0" layoutY="390.0" promptText="password" style="-fx-background-color: linear-gradient(to left, #e9edf5, #ced9ed); -fx-background-radius: 0;" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
-      <font>
-         <Font name="Segoe UI Semibold" size="14.0" />
-      </font>
-   </PasswordField>
+    <Label layoutX="50.0" layoutY="311.0" text="пароль" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+        <font>
+            <Font name="Segoe UI Semibold" size="16.0" />
+        </font>
+    </Label>
+    <Label layoutX="50.0" layoutY="367.0" text="повторите пароль" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+        <font>
+            <Font name="Segoe UI Semibold" size="16.0" />
+        </font>
+    </Label>
+    <PasswordField fx:id="passwordTextOne" layoutX="50.0" layoutY="337.0" promptText="password" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+        <font>
+            <Font name="Segoe UI Semibold" size="14.0" />
+        </font>
+    </PasswordField>
+    <PasswordField fx:id="passwordTextTwo" layoutX="50.0" layoutY="393.0" promptText="password" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+        <font>
+            <Font name="Segoe UI Semibold" size="14.0" />
+        </font>
+    </PasswordField>
 
 </AnchorPane>

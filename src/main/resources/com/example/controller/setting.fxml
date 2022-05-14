@@ -5,22 +5,36 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="dataPane" prefHeight="140.0" prefWidth="428.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.SettingController">
-    <Label layoutX="50.0" layoutY="54.0" text="интервал обновления" textFill="#3b507b" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+<AnchorPane fx:id="dataPane" prefHeight="140.0" prefWidth="298.0" xmlns="http://javafx.com/javafx/15.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.SettingController">
+    <Label layoutX="50.0" layoutY="54.0" prefHeight="26.0" prefWidth="194.0" text="интервал обновления"
+           AnchorPane.leftAnchor="50.0">
         <font>
-            <Font name="Segoe UI Semibold" size="16.0" />
+            <Font name="Segoe UI Semibold" size="16.0"/>
         </font>
     </Label>
-    <Label layoutX="209.0" layoutY="80.0" prefHeight="26.0" prefWidth="39.0" text="мин" textFill="#3b507b" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="179.0">
+    <Label layoutX="209.0" layoutY="80.0" prefHeight="26.0" prefWidth="39.0" text="мин" AnchorPane.leftAnchor="210.0"
+           AnchorPane.rightAnchor="50.0">
         <font>
-            <Font name="Segoe UI Semibold" size="16.0" />
+            <Font name="Segoe UI Semibold" size="16.0"/>
         </font>
     </Label>
-    <ImageView fx:id="saveImageView" fitHeight="30.0" fitWidth="30.0" layoutX="384.0" layoutY="5.0" onMouseClicked="#saveClick" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-        <Image url="@images/other/Save.png" />
-    </ImageView>
-    <ImageView fx:id="dayNight" fitHeight="30.0" fitWidth="30.0" layoutX="233.0" layoutY="13.0" onMouseClicked="#dayNightClick" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="5.0">
-        <Image url="@images/other/light.png" />
-    </ImageView>
-   <Spinner fx:id="time" layoutX="50.0" layoutY="80.0" max="60" min="0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="230.0" AnchorPane.topAnchor="80.0" />
+    <Spinner fx:id="time" layoutX="50.0" layoutY="80.0" max="60" min="0" AnchorPane.leftAnchor="50.0"
+             AnchorPane.topAnchor="80.0"/>
+    <Button fx:id="saveButton" layoutX="194.0" mnemonicParsing="false" onAction="#saveClick"
+            AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@images/save.png"/>
+            </ImageView>
+        </graphic>
+    </Button>
+    <Button fx:id="dayNight" layoutX="136.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#dayNightClick"
+            AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="0.0">
+        <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@images/light.png"/>
+            </ImageView>
+        </graphic>
+    </Button>
 </AnchorPane>

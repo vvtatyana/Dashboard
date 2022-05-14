@@ -6,11 +6,7 @@ import com.example.util.*
 import com.jfoenix.controls.JFXTimePicker
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
-import javafx.scene.control.ComboBox
-import javafx.scene.control.DatePicker
-import javafx.scene.control.TextField
-import javafx.scene.control.Tooltip
-import javafx.scene.image.ImageView
+import javafx.scene.control.*
 import javafx.stage.Stage
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -35,10 +31,10 @@ class SettingChartController {
     private lateinit var nameChart: TextField
 
     @FXML
-    private lateinit var saveImageView: ImageView
+    private lateinit var saveButton: Button
 
     @FXML
-    private lateinit var deleteImageView: ImageView
+    private lateinit var deleteButton: Button
 
     private var layoutX: Double = 0.0
     private var layoutY: Double = 0.0
@@ -48,7 +44,7 @@ class SettingChartController {
     var save = false
 
     fun initialize() {
-        Tooltip.install(saveImageView, Tooltip("Сохранить изменения"))
+        saveButton.tooltip = Tooltip("Сохранить изменения")
         chartsType.items =
             FXCollections.observableArrayList(
                 mutableListOf(
@@ -90,14 +86,14 @@ class SettingChartController {
         val type = if (chartsType.value == null) ""
         else chartsType.value
         dataWidget = Widget(nameChart.text, unitChart.text, type, date, from, to)
-        val stage: Stage = saveImageView.scene.window as Stage
+        val stage: Stage = saveButton.scene.window as Stage
         stage.close()
     }
 
     @FXML
     private fun deleteClick() {
         delete = true
-        val stage: Stage = deleteImageView.scene.window as Stage
+        val stage: Stage = deleteButton.scene.window as Stage
         stage.close()
     }
 }

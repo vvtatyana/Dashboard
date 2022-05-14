@@ -1,12 +1,19 @@
 package com.example.util
 
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
+import java.io.File
+import java.io.FileInputStream
+import java.net.URL
+
 var THEME = "light"
 
 const val DATA_FORMAT = "dd MMM yyy"
 const val TIME_FORMAT = "HH:mm"
-const val ICON = "other/smart_house"
+const val ICON = "smart_house"
 
-fun theme():String = "\\css\\$THEME.css"
+fun theme(): String = File("./src/main/resources/com/example/controller/css/$THEME.css").toURI().toURL().toExternalForm()
+fun fxmlLoader(nameFile: String): URL = File("./src/main/resources/com/example/controller/$nameFile").toURI().toURL()
 
 enum class ChartType(val type: String){
     AREA_CHART ("AreaChart"),
@@ -22,8 +29,7 @@ enum class Pref(val prefWidth: Double, val prefHeight: Double){
 }
 
 enum class Decoration(val pref: Double, val layoutX: Double, val layoutY: Double, val style: String){
-    NAME (0.0, 14.0, 4.0,""),
-    SETTING (25.0,27.0,27.0, wayToImage("other/settings")),
+    NAME (0.0, 14.0, 4.0,"-fx-font-size: 15px; -fx-font-family: \"Segoe UI Semibold\";"),
     CHARTS (295.0,0.0,7.0, "")
 }
 
@@ -36,4 +42,13 @@ enum class TypeIndicator(val type: String){
 
 fun wayToImage(image: String): String{
     return "./src/main/resources/com/example/controller/images/$image.png"
+}
+
+fun createImageView(nameFile: String, fit: Double): ImageView{
+    val imageView = ImageView(Image(FileInputStream(wayToImage(nameFile))))
+    imageView.fitHeight = fit
+    imageView.fitWidth = fit
+    imageView.isPickOnBounds = true
+    imageView.isPreserveRatio = true
+    return imageView
 }

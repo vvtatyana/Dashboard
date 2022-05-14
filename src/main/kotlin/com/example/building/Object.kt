@@ -7,24 +7,13 @@ class Object(
     private val idModel: String,
     private val nameObject: String
 ) {
+    fun getId(): Int = id ?: 0
 
-    fun getId(): Int {
-        return id ?: 0
-    }
+    fun getIdObject(): String = idObject
 
-    fun getIdObject(): String {
-        return idObject
-    }
+    fun getIdUser(): Int = idUser
 
-    fun getIdUser(): Int {
-        return idUser
-    }
+    fun getIdModel(): String = idModel
 
-    fun getIdModel(): String {
-        return idModel
-    }
-
-    fun getNameObject(): String {
-        return nameObject
-    }
+    fun getNameObject(): String = nameObject
 }

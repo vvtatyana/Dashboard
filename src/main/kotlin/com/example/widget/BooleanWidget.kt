@@ -1,9 +1,6 @@
 package com.example.widget
 
-import com.example.building.Object
 import com.example.restAPI.ProcessingJSON
-import com.example.restAPI.RequestGeneration
-import com.example.util.*
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import javafx.geometry.Pos
@@ -13,23 +10,19 @@ import javafx.scene.paint.Paint
 import javafx.scene.shape.Circle
 
 class BooleanWidget(
-    objectData: Object,
     layoutX: Double,
     layoutY: Double,
     pref: Double,
     name: String,
     private val data: String?,
-    private val typeWidget: String
+    private val typeWidget: String,
+    strModel: String
 ) : AbstractWidget(layoutX, layoutY, pref, name) {
-
-    private val request = RequestGeneration()
 
     private var circle: Circle
     private var text: Label
 
-    private val address = request.addressGeneration(ADDRESS, MODELS)
-    private val getData = request.getRequest(request.addressGeneration(address, objectData.getIdModel()))
-    private val model = Gson().fromJson(getData, JsonObject::class.java)
+    private val model = Gson().fromJson(strModel, JsonObject::class.java)
 
     init {
         circle = createCircle(74.0, 24.0, 19.0, 23.0, 23.0, true)

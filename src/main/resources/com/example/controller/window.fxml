@@ -1,55 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="mainPane" prefHeight="665.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.WindowController">
+<AnchorPane fx:id="mainPane" prefHeight="665.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/15.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.WindowController">
 
     <AnchorPane prefWidth="985.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-
-        <Label fx:id="username" layoutX="122.0" layoutY="5.0" text="username" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="3.0" />
-        <ImageView fx:id="addImageView" fitHeight="30.0" fitWidth="30.0" layoutX="929.0" layoutY="6.0" onMouseClicked="#clickIndicators" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="5.0">
-            <Image url="@images/other/Add_ring.png" />
-        </ImageView>
-        <ImageView fx:id="reloadImageView" fitHeight="30.0" fitWidth="30.0" layoutX="894.0" layoutY="6.0" onMouseClicked="#reloadClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="110.0" AnchorPane.topAnchor="5.0">
-            <Image url="@images/other/Refresh_2.png" />
-        </ImageView>
-        <ImageView fx:id="accountImageView" fitHeight="30.0" fitWidth="30.0" layoutX="925.0" layoutY="5.0" onMouseClicked="#accountClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.799999999999997" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="5.0">
-            <Image url="@images/other/User.png" />
-        </ImageView>
-        <ImageView fx:id="dataImageView" fitHeight="30.0" fitWidth="30.0" layoutX="35.0" layoutY="12.0" onMouseClicked="#devicesClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
-            <Image url="@images/other/Layers.png" />
-        </ImageView>
-        <ImageView fx:id="movingImageView" fitHeight="30.0" fitWidth="30.0" layoutX="864.0" layoutY="5.0" onMouseClicked="#movingClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="145.0" AnchorPane.topAnchor="5.0">
-            <Image url="@images/other/lock.png" />
-        </ImageView>
-      <Button fx:id="indicatorButton" alignment="CENTER" layoutX="344.0" layoutY="3.0" mnemonicParsing="false" onMouseClicked="#indicatorClick" prefHeight="30.0" prefWidth="155.0" text="Индикаторы" AnchorPane.leftAnchor="344.0" AnchorPane.rightAnchor="500.80000000000007" AnchorPane.topAnchor="0.0">
-         <graphic>
-              <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                  <Image url="@images/other/speed%20test.png" />
-              </ImageView>
-         </graphic>
-      </Button>
-      <Button fx:id="chartButton" alignment="CENTER" layoutX="500.0" layoutY="3.0" mnemonicParsing="false" onMouseClicked="#chartClick" prefHeight="30.0" prefWidth="155.0" text="Диаграммы" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="344.80000000000007" AnchorPane.topAnchor="0.0">
-         <graphic>
-              <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                  <Image url="@images/other/Line_up.png" />
-              </ImageView>
-         </graphic></Button>
-      <ImageView fx:id="settingImageView" fitHeight="30.0" fitWidth="30.0" layoutX="958.0" layoutY="10.0" onMouseClicked="#clickSetting" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-         <image>
-            <Image url="@images/other/settings.png" />
-         </image>
-      </ImageView>
+        <Button fx:id="indicatorButton" alignment="CENTER" layoutX="344.0" layoutY="3.0" mnemonicParsing="false"
+                onMouseClicked="#indicatorClick" prefHeight="30.0" prefWidth="155.0" text="Индикаторы"
+                AnchorPane.leftAnchor="344.0" AnchorPane.rightAnchor="500.80000000000007" AnchorPane.topAnchor="0.0">
+            <graphic>
+                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@images/indicator.png"/>
+                </ImageView>
+            </graphic>
+            <font>
+                <Font name="Segoe UI Semibold" size="15.0"/>
+            </font>
+        </Button>
+        <Button fx:id="chartButton" alignment="CENTER" layoutX="500.0" layoutY="3.0" mnemonicParsing="false"
+                onMouseClicked="#chartClick" prefHeight="34.0" prefWidth="155.0" text="Диаграммы"
+                AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="345.0" AnchorPane.topAnchor="0.0">
+            <graphic>
+                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@images/chart.png"/>
+                </ImageView>
+            </graphic>
+            <font>
+                <Font name="Segoe UI Semibold" size="15.0"/>
+            </font>
+        </Button>
+        <Button layoutX="971.0" layoutY="-13.0" mnemonicParsing="false" onMouseClicked="#clickSetting"
+                AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <graphic>
+                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true"
+                           preserveRatio="true">
+                    <Image url="@images/settingSystem.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button fx:id="accountButton" layoutX="907.0" layoutY="-3.0" mnemonicParsing="false"
+                onMouseClicked="#accountClick" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="0.0">
+            <graphic>
+                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@images/account.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button fx:id="addButton" layoutX="876.0" layoutY="10.0" mnemonicParsing="false"
+                onMouseClicked="#clickIndicators" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="0.0">
+            <graphic>
+                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@images/add.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button fx:id="reloadButton" layoutX="836.0" layoutY="13.0" mnemonicParsing="false"
+                onMouseClicked="#reloadClick" AnchorPane.rightAnchor="135.0" AnchorPane.topAnchor="0.0">
+            <graphic>
+                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@images/reload.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button fx:id="movingButton" layoutX="790.0" layoutY="14.0" mnemonicParsing="false"
+                onMouseClicked="#movingClick" prefHeight="38.0" prefWidth="46.0" AnchorPane.rightAnchor="180.0"
+                AnchorPane.topAnchor="0.0">
+            <graphic>
+                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@images/lock.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button fx:id="dataButton" layoutX="50.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#devicesClick"
+                AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <graphic>
+                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@images/menu.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
     </AnchorPane>
 
-    <AnchorPane fx:id="indicatorPane" layoutX="344.0" layoutY="84.0" prefHeight="576.0" prefWidth="801.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="47.0" />
-    <AnchorPane fx:id="chartPane" layoutX="204.0" layoutY="55.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="47.0" />
+    <AnchorPane fx:id="indicatorPane" layoutX="344.0" layoutY="84.0" prefHeight="576.0" prefWidth="801.0"
+                AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0"
+                AnchorPane.topAnchor="47.0"/>
+    <AnchorPane fx:id="chartPane" layoutX="204.0" layoutY="55.0" AnchorPane.bottomAnchor="5.0"
+                AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="47.0"/>
 
 
-    <AnchorPane fx:id="panelSlide" layoutX="-195.0" layoutY="45.0" prefHeight="615.0" prefWidth="190.0" translateX="-195.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="45.0">
-        <JFXListView fx:id="devicesList" layoutY="31.0" prefHeight="584.0" prefWidth="190.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+    <AnchorPane fx:id="panelSlide" layoutX="-195.0" layoutY="45.0" prefHeight="615.0" prefWidth="190.0"
+                translateX="-195.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0"
+                AnchorPane.topAnchor="45.0">
+        <ListView fx:id="devicesList" layoutY="31.0" prefHeight="584.0" prefWidth="190.0"
+                     AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                     AnchorPane.topAnchor="0.0"/>
     </AnchorPane>
 </AnchorPane>

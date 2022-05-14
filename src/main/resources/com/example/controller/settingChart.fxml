@@ -6,56 +6,64 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="dataPane" prefHeight="382.0" prefWidth="324.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.SettingChartController">
-    <Label layoutX="5.0" layoutY="35.0" text="Название" textFill="#3b507b" AnchorPane.bottomAnchor="321.4" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+<AnchorPane fx:id="dataPane" prefHeight="382.0" prefWidth="324.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.SettingChartController">
+    <Label layoutX="5.0" layoutY="35.0" text="Название" AnchorPane.bottomAnchor="321.4" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <ComboBox fx:id="chartsType" layoutX="5.0" layoutY="335.0" prefWidth="150.0" style="-fx-background-color: linear-gradient(to left, #e9edf5, #ced9ed); -fx-background-radius: 0;" AnchorPane.bottomAnchor="21.399999999999977" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+    <ComboBox fx:id="chartsType" layoutX="5.0" layoutY="335.0" prefWidth="150.0" AnchorPane.bottomAnchor="21.399999999999977" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
 
-    <TextField fx:id="nameChart" layoutX="5.0" layoutY="61.0" prefHeight="26.0" prefWidth="140.0" style="-fx-background-color: linear-gradient(to left, #e9edf5, #ced9ed); -fx-background-radius: 0;" AnchorPane.bottomAnchor="291.4" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+    <TextField fx:id="nameChart" layoutX="5.0" layoutY="61.0" prefHeight="26.0" prefWidth="140.0" AnchorPane.bottomAnchor="291.4" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
         <font>
             <Font name="Segoe UI Semibold" size="14.0" />
         </font>
     </TextField>
-    <Label layoutX="5.0" layoutY="91.0" text="Единицы измерения" textFill="#3b507b" AnchorPane.bottomAnchor="265.4" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+    <Label layoutX="5.0" layoutY="91.0" text="Единицы измерения" AnchorPane.bottomAnchor="265.4" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <TextField fx:id="unitChart" layoutX="5.0" layoutY="117.0" prefHeight="26.0" prefWidth="140.0" style="-fx-background-color: linear-gradient(to left, #e9edf5, #ced9ed); -fx-background-radius: 0;" AnchorPane.bottomAnchor="235.4" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+    <TextField fx:id="unitChart" layoutX="5.0" layoutY="117.0" prefHeight="26.0" prefWidth="140.0" AnchorPane.bottomAnchor="235.4" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
         <font>
             <Font name="Segoe UI Semibold" size="14.0" />
         </font>
     </TextField>
-    <JFXTimePicker fx:id="fromTimePicker" defaultColor="#3b507b" layoutX="5.0" layoutY="227.0" prefHeight="20.0" prefWidth="166.0" style="-fx-background-color: linear-gradient(to left, #e9edf5, #ced9ed); -fx-background-radius: 0;" AnchorPane.bottomAnchor="127.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
-    <JFXDatePicker fx:id="datePicker" defaultColor="#3b507b" layoutX="5.0" layoutY="173.0" style="-fx-background-color: linear-gradient(to left, #e9edf5, #ced9ed); -fx-background-radius: 0;" AnchorPane.bottomAnchor="181.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
-    <Label layoutX="5.0" layoutY="201.0" text="Начало" textFill="#3b507b" AnchorPane.bottomAnchor="155.4" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+    <JFXTimePicker fx:id="fromTimePicker" defaultColor="#3b507b" layoutX="5.0" layoutY="227.0" prefHeight="20.0" prefWidth="166.0" AnchorPane.bottomAnchor="127.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+    <JFXDatePicker fx:id="datePicker" defaultColor="#3b507b" layoutX="5.0" layoutY="173.0" AnchorPane.bottomAnchor="181.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+    <Label layoutX="5.0" layoutY="201.0" text="Начало" AnchorPane.bottomAnchor="155.4" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <Label layoutX="5.0" layoutY="255.0" text="Конец" textFill="#3b507b" AnchorPane.bottomAnchor="101.39999999999998" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+    <Label layoutX="5.0" layoutY="255.0" text="Конец" AnchorPane.bottomAnchor="101.39999999999998" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <JFXTimePicker fx:id="toTimePicker" defaultColor="#3b507b" layoutX="5.0" layoutY="281.0" prefHeight="20.0" prefWidth="166.0" style="-fx-background-color: linear-gradient(to left, #e9edf5, #ced9ed); -fx-background-radius: 0;" AnchorPane.bottomAnchor="73.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
-    <Label layoutX="5.0" layoutY="147.0" text="Дата" textFill="#3b507b" AnchorPane.bottomAnchor="209.4" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+    <JFXTimePicker fx:id="toTimePicker" defaultColor="#3b507b" layoutX="5.0" layoutY="281.0" prefHeight="20.0" prefWidth="166.0" AnchorPane.bottomAnchor="73.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+    <Label layoutX="5.0" layoutY="147.0" text="Дата" AnchorPane.bottomAnchor="209.4" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <Label layoutX="5.0" layoutY="309.0" text="Тип диаграммы" textFill="#3b507b" AnchorPane.bottomAnchor="47.39999999999998" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+    <Label layoutX="5.0" layoutY="309.0" text="Тип диаграммы" AnchorPane.bottomAnchor="47.39999999999998" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <ImageView fx:id="saveImageView" fitHeight="30.0" fitWidth="30.0" layoutX="231.0" layoutY="7.0" onMouseClicked="#saveClick" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="5.0">
-        <Image url="@images/other/Save.png" />
-    </ImageView>
-    <ImageView fx:id="deleteImageView" fitHeight="30.0" fitWidth="30.0" layoutX="273.0" layoutY="7.0" onMouseClicked="#deleteClick" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-        <Image url="@images/other/trash.png" />
-    </ImageView>
+    <Button fx:id="saveButton" layoutX="240.0" mnemonicParsing="false" onMouseClicked="#saveClick">
+        <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@images/save.png" />
+            </ImageView>
+        </graphic>
+    </Button>
+    <Button fx:id="deleteButton" layoutX="272.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#deleteClick" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@images/delete.png" />
+            </ImageView>
+        </graphic>
+    </Button>
 </AnchorPane>

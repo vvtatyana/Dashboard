@@ -3,7 +3,6 @@ package com.example.widget
 import com.example.util.*
 import javafx.geometry.Side
 import javafx.scene.chart.*
-import javafx.scene.paint.Paint
 import javafx.scene.text.Font
 import java.text.DateFormat
 import java.text.SimpleDateFormat

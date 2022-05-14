@@ -13,61 +13,39 @@ class User(
     private val theme: String,
     private var timer: Int
 ) {
-    fun getId(): Int {
-        return id ?: 0
-    }
+    fun getId(): Int = id ?: 0
 
-    fun getIdUser(): String {
-        return idUser
-    }
+    fun getIdUser(): String = idUser
 
-    fun getUsername(): String {
-        return username
-    }
+    fun getUsername(): String = username
 
-    fun getLogin(): String {
-        return login
-    }
+    fun getLogin(): String = login
 
-    fun getPassword(): String {
-        return password
-    }
+    fun getPassword(): String = password
 
-    fun getAddress(): String {
-        return address
-    }
+    fun getAddress(): String = address
 
     fun setAddress(newValue: String) {
         address = newValue
     }
 
-    fun getToken(): String {
-        return token
-    }
+    fun getToken(): String = token
 
     fun setToken(newValue: String) {
         token = newValue
     }
 
-    fun getCastle(): Boolean{
-        return castle
-    }
+    fun getCastle(): Boolean = castle
 
-    fun getIcon(): Int{
-        return icon
-    }
+    fun getIcon(): Int = icon
 
     fun setIcon(newValue: Int) {
         icon = newValue
     }
 
-    fun getTheme(): String {
-        return theme
-    }
+    fun getTheme(): String = theme
 
-    fun getTimer(): Int {
-        return timer
-    }
+    fun getTimer(): Int = timer
 
     fun setTimer(newValue: Int) {
         timer = newValue

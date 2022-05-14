@@ -5,88 +5,100 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="dataPane" prefHeight="506.0" prefWidth="324.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.SettingIndicatorController">
-    <Label layoutX="5.0" layoutY="35.0" text="Название" textFill="#3b507b" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="35.0">
+<AnchorPane fx:id="dataPane" prefHeight="506.0" prefWidth="324.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.SettingIndicatorController">
+    <Label layoutX="5.0" layoutY="35.0" text="Название" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="35.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <TextField fx:id="nameIndicators" layoutX="5.0" layoutY="61.0" prefHeight="26.0" prefWidth="140.0" style="-fx-background-color: linear-gradient(to left, #e9edf5, #ced9ed); -fx-background-radius: 0;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="61.0">
+    <TextField fx:id="nameIndicators" layoutX="5.0" layoutY="61.0" prefHeight="26.0" prefWidth="140.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="61.0">
         <font>
             <Font name="Segoe UI Semibold" size="14.0" />
         </font>
     </TextField>
-    <Label layoutX="5.0" layoutY="91.0" text="Единицы измерения" textFill="#3b507b" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="91.0">
+    <Label layoutX="5.0" layoutY="91.0" text="Единицы измерения" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="91.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <TextField fx:id="unitIndicators" layoutX="5.0" layoutY="117.0" prefHeight="26.0" prefWidth="140.0" style="-fx-background-color: linear-gradient(to left, #e9edf5, #ced9ed); -fx-background-radius: 0;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="117.0">
+    <TextField fx:id="unitIndicators" layoutX="5.0" layoutY="117.0" prefHeight="26.0" prefWidth="140.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="117.0">
         <font>
             <Font name="Segoe UI Semibold" size="14.0" />
         </font>
     </TextField>
-    <AnchorPane fx:id="borderPane" layoutX="5.0" layoutY="147.0" prefHeight="319.0" prefWidth="314.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
-        <Label layoutY="52.0" prefHeight="20.0" prefWidth="304.0" text="Название уровня" textFill="#3b507b" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="53.0">
+    <AnchorPane fx:id="borderPane" layoutX="5.0" layoutY="147.0" prefHeight="319.0" prefWidth="314.0" AnchorPane.bottomAnchor="35.80000000000001" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+        <Label layoutY="52.0" prefHeight="20.0" prefWidth="304.0" text="Название уровня" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="53.0">
             <font>
                 <Font name="Segoe UI Semibold" size="16.0" />
             </font>
         </Label>
-        <ComboBox fx:id="nameIntervalComboBox" layoutY="26.0" prefHeight="26.0" prefWidth="304.0" style="-fx-background-color: linear-gradient(to left, #e9edf5, #ced9ed); -fx-background-radius: 0;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="26.0" />
-        <TextField fx:id="valueIntervalFrom" layoutY="189.0" prefHeight="27.0" prefWidth="56.0" style="-fx-background-color: linear-gradient(to left, #e9edf5, #ced9ed); -fx-background-radius: 0;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="189.0">
+        <ComboBox fx:id="nameIntervalComboBox" layoutY="26.0" prefHeight="26.0" prefWidth="304.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="26.0" />
+        <TextField fx:id="valueIntervalFrom" layoutY="189.0" prefHeight="27.0" prefWidth="56.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="189.0">
             <font>
                 <Font name="Segoe UI Semibold" size="14.0" />
             </font>
         </TextField>
-        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="137.0" layoutY="275.0" onMouseClicked="#updateLevelClick" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="137.0">
-            <Image url="@images/other/Check_ring.png" />
-        </ImageView>
-        <TextField fx:id="colorInterval" layoutY="134.0" prefHeight="30.0" prefWidth="232.0" style="-fx-background-color: linear-gradient(to left, #e9edf5, #ced9ed); -fx-background-radius: 0;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="82.0">
+        <TextField fx:id="colorInterval" layoutY="133.0" prefHeight="30.0" prefWidth="232.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="82.0">
             <font>
                 <Font name="Segoe UI Semibold" size="14.0" />
             </font>
         </TextField>
         <Label fx:id="colorPane" layoutX="232.0" layoutY="134.0" prefHeight="29.0" prefWidth="28.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="232.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="134.0" />
-        <TextField fx:id="valueIntervalTo" layoutY="245.0" prefHeight="27.0" prefWidth="56.0" style="-fx-background-color: linear-gradient(to left, #e9edf5, #ced9ed); -fx-background-radius: 0;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <TextField fx:id="valueIntervalTo" layoutY="245.0" prefHeight="27.0" prefWidth="56.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <font>
                 <Font name="Segoe UI Semibold" size="14.0" />
             </font>
         </TextField>
-        <Label fx:id="fromLabel" layoutY="163.0" text="От" textFill="#3b507b" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <Label fx:id="fromLabel" layoutY="163.0" text="От" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <font>
                 <Font name="Segoe UI Semibold" size="16.0" />
             </font>
         </Label>
-        <Label fx:id="toLabel" layoutY="219.0" text="До" textFill="#3b507b" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <Label fx:id="toLabel" layoutY="219.0" text="До" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <font>
                 <Font name="Segoe UI Semibold" size="16.0" />
             </font>
         </Label>
-        <Label layoutY="108.0" text="Цвет" textFill="#3b507b" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <Label layoutY="109.0" text="Цвет" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <font>
                 <Font name="Segoe UI Semibold" size="16.0" />
             </font>
         </Label>
-        <TextField fx:id="nameLevel" layoutY="78.0" prefHeight="27.0" prefWidth="56.0" style="-fx-background-color: linear-gradient(to left, #e9edf5, #ced9ed); -fx-background-radius: 0;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="78.0">
+        <TextField fx:id="nameLevel" layoutY="79.0" prefHeight="27.0" prefWidth="56.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="79.0">
             <font>
                 <Font name="Segoe UI Semibold" size="14.0" />
             </font>
         </TextField>
-        <Label layoutX="3.0" layoutY="-4.0" prefHeight="20.0" prefWidth="314.0" text="Уровень" textFill="#3b507b" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <Label layoutY="1.0" prefHeight="26.0" prefWidth="314.0" text="Уровень" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <font>
                 <Font name="Segoe UI Semibold" size="16.0" />
             </font>
         </Label>
+        <Button layoutX="129.0" layoutY="275.0" mnemonicParsing="false" onMouseClicked="#updateLevelClick">
+            <graphic>
+                <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@images/add.png" />
+                </ImageView>
+            </graphic>
+        </Button>
     </AnchorPane>
     <Label fx:id="errorLabel" alignment="CENTER" layoutX="5.0" layoutY="479.0" prefHeight="17.0" prefWidth="314.0" textFill="RED" AnchorPane.bottomAnchor="1.3999999999999773" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <ImageView fx:id="saveImageView" fitHeight="30.0" fitWidth="30.0" layoutX="216.0" layoutY="13.0" onMouseClicked="#saveClick" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="5.0">
-        <Image url="@images/other/Save.png" />
-    </ImageView>
-    <ImageView fx:id="deleteImageView" fitHeight="30.0" fitWidth="30.0" layoutX="265.0" layoutY="1.0" onMouseClicked="#deleteClick" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-        <Image url="@images/other/trash.png" />
-    </ImageView>
+    <Button fx:id="saveButton" layoutX="240.0" mnemonicParsing="false" onMouseClicked="#saveClick" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="0.0">
+        <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@images/save.png" />
+            </ImageView>
+        </graphic>
+    </Button>
+    <Button fx:id="deleteButton" layoutX="272.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#deleteClick" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@images/delete.png" />
+            </ImageView>
+        </graphic>
+    </Button>
 </AnchorPane>

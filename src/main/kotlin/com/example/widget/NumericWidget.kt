@@ -1,9 +1,6 @@
 package com.example.widget
 
-import com.example.database.QueriesDB
 import com.example.restAPI.ProcessingJSON
-import com.example.restAPI.RequestGeneration
-import com.example.util.*
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import eu.hansolo.medusa.Gauge
@@ -13,7 +10,6 @@ import javafx.scene.layout.AnchorPane
 import javafx.scene.paint.Color
 
 class NumericWidget(
-    private val objectData: com.example.building.Object,
     layoutX: Double,
     layoutY: Double,
     pref: Double,
@@ -21,10 +17,9 @@ class NumericWidget(
     private val unitText: String,
     private val data: String?,
     private val typeWidget: String,
-    private val queriesDB: QueriesDB
+    private val strModel: String
 ) : AbstractWidget(layoutX, layoutY, pref, name) {
 
-    private val request = RequestGeneration()
     private val processingJSON = ProcessingJSON()
     private var gauge: Gauge
     private var type: Boolean = false
@@ -39,8 +34,6 @@ class NumericWidget(
     }
 
     private fun createGauge(): Gauge {
-        val address = request.addressGeneration(ADDRESS, MODELS)
-        val strModel = request.getRequest(request.addressGeneration(address, queriesDB.selectObject(ObjectsTable.ID.name, objectData.getId().toString())!!.getIdModel()))
         val jsonModel = Gson().fromJson(strModel, JsonObject::class.java)
         val typeGauge = processingJSON.typeNumeric(jsonModel, typeWidget)
         type = typeGauge

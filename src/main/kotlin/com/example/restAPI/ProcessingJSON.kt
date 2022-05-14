@@ -8,6 +8,9 @@ import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import org.springframework.security.crypto.codec.Utf8
+import java.nio.charset.Charset
+import java.nio.charset.StandardCharsets
 
 class ProcessingJSON {
     private val INFINITY = "Infinity"
@@ -78,7 +81,8 @@ class ProcessingJSON {
         val values = readBorder(jsonObject, name)
         if (values != null) {
             for (i in 0 until values.size()) {
-                border[values[i].asJsonObject.get(NAME).asString] = values[i].asJsonObject.get(VALUE).asString
+                val valI = values[i].asJsonObject
+                border[valI.get(NAME).asString] = valI.get(VALUE).asString
             }
         }
         return border
@@ -174,6 +178,8 @@ class ProcessingJSON {
         }
         return borderColor
     }
+
+
 
     fun readAllObjects(jsonArray: JsonArray, idUser: Int): List<Object> {
         val iterator: Iterator<*> = jsonArray.iterator()

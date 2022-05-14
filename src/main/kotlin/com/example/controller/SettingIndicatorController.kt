@@ -3,19 +3,12 @@ package com.example.controller
 import com.example.building.Widget
 import com.example.restAPI.ProcessingJSON
 import com.example.restAPI.RequestGeneration
-import com.example.util.ADDRESS
-import com.example.util.MODELS
-import com.example.util.NAME
-import com.example.util.TypeIndicator
+import com.example.util.*
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
-import javafx.scene.control.ComboBox
-import javafx.scene.control.Label
-import javafx.scene.control.TextField
-import javafx.scene.control.Tooltip
-import javafx.scene.image.ImageView
+import javafx.scene.control.*
 import javafx.scene.layout.AnchorPane
 import javafx.stage.Stage
 
@@ -37,10 +30,10 @@ class SettingIndicatorController {
     private lateinit var borderPane: AnchorPane
 
     @FXML
-    private lateinit var saveImageView: ImageView
+    private lateinit var saveButton: Button
 
     @FXML
-    private lateinit var deleteImageView: ImageView
+    private lateinit var deleteButton: Button
 
     @FXML
     private lateinit var unitIndicators: TextField
@@ -80,28 +73,36 @@ class SettingIndicatorController {
     var dataWidget: Widget? = null
     var delete = false
     var save = false
+    var message: String = ""
 
-    fun load(idModel: String, name: String, type: String) {
+    fun load(idModel: String, name: String, type: String): Boolean {
         this.idModel = idModel
         this.name = name
         this.type = type
 
-        Tooltip.install(saveImageView, Tooltip("Сохранить изменения"))
+        saveButton.tooltip = Tooltip("Сохранить изменения")
 
         val address = RequestGeneration().addressGeneration(ADDRESS, MODELS)
         val getData = RequestGeneration().getRequest(RequestGeneration().addressGeneration(address, idModel))
-        val model = Gson().fromJson(getData, JsonObject::class.java)
+        return if (getData == "403 Forbidden" || getData == "404 Not Found" || getData == "600 No connection") {
+            message = getData
+            false
+        }
+        else {
+            val model = Gson().fromJson(getData, JsonObject::class.java)
 
-        when (type) {
-            TypeIndicator.NUMBER.type, TypeIndicator.BOOLEAN.type, TypeIndicator.STRING.type -> {
-                settingData(model)
+            when (type) {
+                TypeIndicator.NUMBER.type, TypeIndicator.BOOLEAN.type, TypeIndicator.STRING.type -> {
+                    settingData(model)
+                }
+                else -> borderPane.isVisible = false
             }
-            else -> borderPane.isVisible = false
+            true
         }
     }
 
     private fun settingData(model: JsonObject) {
-        borderFrom = if (type == TypeIndicator.BOOLEAN.type) {
+        borderFrom = if (type == TypeIndicator.NUMBER.type) {
             borderTo = ProcessingJSON().readBorderTo(model, name)
             ProcessingJSON().readBorderFrom(model, name)
         } else {
@@ -170,24 +171,30 @@ class SettingIndicatorController {
     private fun saveClick() {
         save = true
         dataWidget = Widget(nameIndicators.text, unitIndicators.text)
-        val stage: Stage = saveImageView.scene.window as Stage
+        val stage: Stage = saveButton.scene.window as Stage
         stage.close()
     }
 
     private fun update(field: String, value: String, property: String, border: Boolean = false) {
         var address = RequestGeneration().addressGeneration(ADDRESS, MODELS)
         address = RequestGeneration().addressGeneration(address, idModel)
-        val dataGet = RequestGeneration().getRequest(address).toString()
-        val data = if (border) ProcessingJSON().updateBorder(dataGet, name, field, value, property)
-        else ProcessingJSON().updateModel(dataGet, name, field, value, property)
-        if (data != "")
-            RequestGeneration().patchRequest(address, data)
+        val getData = RequestGeneration().getRequest(address)
+        if (getData == "403 Forbidden" || getData == "404 Not Found" || getData == "600 No connection"){
+            val stage: Stage = saveButton.scene.window as Stage
+            stage.close()
+        }
+        else {
+            val data = if (border) ProcessingJSON().updateBorder(getData, name, field, value, property)
+            else ProcessingJSON().updateModel(getData, name, field, value, property)
+            if (data != "")
+                RequestGeneration().patchRequest(address, data)
+        }
     }
 
     @FXML
     private fun deleteClick() {
         delete = true
-        val stage: Stage = deleteImageView.scene.window as Stage
+        val stage: Stage = deleteButton.scene.window as Stage
         stage.close()
     }
 

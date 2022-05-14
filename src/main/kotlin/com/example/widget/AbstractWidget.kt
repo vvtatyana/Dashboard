@@ -2,6 +2,7 @@ package com.example.widget
 
 import com.example.util.*
 import javafx.geometry.Pos
+import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
@@ -16,7 +17,7 @@ abstract class AbstractWidget(
 ) {
     protected var panel: AnchorPane = createPanel()
     protected var title: Label = createTitle()
-    protected var setting: ImageView = createSetting()
+    protected var setting: Button = createSetting()
 
     private fun createPanel(): AnchorPane {
         val panel = AnchorPane()
@@ -37,13 +38,15 @@ abstract class AbstractWidget(
         return nameLabel
     }
 
-    protected fun createSetting(): ImageView {
-        val setting = ImageView(Image(FileInputStream(Decoration.SETTING.style)))
-        setting.fitWidth = Decoration.SETTING.pref
-        setting.fitHeight = Decoration.SETTING.pref
-        setting.layoutX = size - Decoration.SETTING.layoutX
-        setting.layoutY = size - Decoration.SETTING.layoutY
-        return setting
+    protected fun createSetting(): Button {
+        val settingButton = Button()
+        settingButton.graphic = createImageView("setting", 25.0)
+        settingButton.prefHeight = 25.0
+        settingButton.prefWidth = 25.0
+
+        AnchorPane.setRightAnchor(settingButton, -5.0)
+        AnchorPane.setBottomAnchor(settingButton, 0.0)
+        return settingButton
     }
 
     @JvmName("panel")
@@ -55,5 +58,5 @@ abstract class AbstractWidget(
     fun setTitle(newTitle: String) { title.text = newTitle }
 
     @JvmName("setting")
-    fun getSetting(): ImageView = setting
+    fun getSetting(): Button = setting
 }

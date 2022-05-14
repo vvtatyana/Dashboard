@@ -43,32 +43,17 @@ class Widget {
         this.type = type
     }
 
+    fun getWidget(): String = widget
 
-    fun getWidget(): String {
-        return widget
-    }
+    fun getName(): String = name
 
-    fun getName(): String {
-        return name
-    }
+    fun getUnit(): String = unit
 
-    fun getUnit(): String {
-        return unit
-    }
+    fun getType(): String = type
 
-    fun getType(): String {
-        return type
-    }
+    fun getDate(): String = date
 
-    fun getDate(): String {
-        return date
-    }
+    fun getFrom(): String = from
 
-    fun getFrom(): String {
-        return from
-    }
-
-    fun getTo(): String {
-        return to
-    }
+    fun getTo(): String = to
 }

@@ -1,9 +1,6 @@
 package com.example.widget
 
-import com.example.building.Object
 import com.example.restAPI.ProcessingJSON
-import com.example.restAPI.RequestGeneration
-import com.example.util.*
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import javafx.geometry.Pos
@@ -11,16 +8,15 @@ import javafx.scene.control.Label
 import javafx.scene.layout.AnchorPane
 
 class StringWidget(
-    private val objectData: Object,
     layoutX: Double,
     layoutY: Double,
     pref: Double,
     name: String,
     private val data: String?,
-    private val typeWidget: String
+    private val typeWidget: String,
+    private val strModel: String
 ) : AbstractWidget(layoutX, layoutY, pref, name) {
 
-    private val request = RequestGeneration()
     private var string: Label
 
     init {
@@ -43,9 +39,7 @@ class StringWidget(
     }
 
     fun updateString() {
-        val address = request.addressGeneration(ADDRESS, MODELS)
-        val getData = request.getRequest(request.addressGeneration(address, objectData.getIdModel()))
-        val model = Gson().fromJson(getData, JsonObject::class.java)
+        val model = Gson().fromJson(strModel, JsonObject::class.java)
         val border = ProcessingJSON().readBorderBoolean(model, typeWidget)
         if (border.isNotEmpty()) {
             val borderColor = ProcessingJSON().readBorderColor(model, typeWidget)

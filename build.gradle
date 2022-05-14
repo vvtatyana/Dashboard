@@ -18,13 +18,13 @@ tasks.withType(JavaCompile) {
 }
 
 application {
-    mainModule = 'com.example.front'
-    mainClass = 'com.example.front.BeginningApplication'
+    mainModule = 'com.example.controller'
+    mainClass = 'com.example.controller.BeginningApplication'
 }
 
 [compileKotlin, compileTestKotlin].forEach {
     it.kotlinOptions {
-        jvmTarget = '11'
+        jvmTarget = '1.8'
     }
 }
 

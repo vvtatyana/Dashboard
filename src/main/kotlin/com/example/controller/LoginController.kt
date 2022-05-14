@@ -32,9 +32,6 @@ class LoginController {
     private lateinit var loginText: TextField
 
     @FXML
-    private lateinit var enterButton: Button
-
-    @FXML
     private lateinit var errorLabel: Label
 
     private lateinit var database: Database
@@ -58,17 +55,8 @@ class LoginController {
 
             database.closeBD()
 
-            var stage: Stage = enterButton.scene.window as Stage
-            stage.close()
-            val fxmlLoader = FXMLLoader(javaClass.getResource("window.fxml"))
-            stage = Stage()
-            stage.icons.add(Image(FileInputStream(wayToImage(ICON))))
-            stage.initModality(Modality.APPLICATION_MODAL)
-            stage.title = "Window"
-            val scene = Scene(fxmlLoader.load())
-            scene.stylesheets.add(this.javaClass.getResource("\\css\\$THEME.css")!!.toExternalForm())
-            stage.scene = scene
-            stage.show()
+            showWindow("window.fxml", "RIC", Modality.APPLICATION_MODAL)
+
         } else {
             errorLabel.text = "Не верный логин или пароль."
             passwordReset.isVisible = true
@@ -89,14 +77,14 @@ class LoginController {
     private fun showWindow(nameFile: String, title: String, modality: Modality) {
         var stage: Stage = registrationButton.scene.window as Stage
         stage.close()
-        val fxmlLoader = FXMLLoader(javaClass.getResource(nameFile))
+        val fxmlLoader = FXMLLoader(fxmlLoader(nameFile))
         stage.icons.add(Image(FileInputStream(wayToImage(ICON))))
         stage.isResizable = false
         stage = Stage()
         stage.initModality(modality)
         stage.title = title
         val scene = Scene(fxmlLoader.load())
-        scene.stylesheets.add(this.javaClass.getResource(theme())!!.toExternalForm())
+        scene.stylesheets.add(theme())
         stage.scene = scene
         stage.show()
     }

@@ -10,6 +10,7 @@ import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.stage.Stage
 import com.example.util.wayToImage
+import javafx.scene.control.Button
 import java.io.FileInputStream
 
 class AccountController {
@@ -18,7 +19,7 @@ class AccountController {
     private lateinit var accountIcon: ImageView
 
     @FXML
-    private lateinit var exitImageView: ImageView
+    private lateinit var exitButton: Button
 
     @FXML
     private lateinit var login: Label
@@ -33,7 +34,7 @@ class AccountController {
     private lateinit var hostText: TextField
 
     @FXML
-    private lateinit var saveImageView: ImageView
+    private lateinit var saveButton: Button
 
     private var icon: Int = 0
 
@@ -43,15 +44,15 @@ class AccountController {
     var save: Boolean = false
 
     fun initialize() {
-        Tooltip.install(saveImageView, Tooltip("Сохранить изменения"))
-        Tooltip.install(exitImageView, Tooltip("Выйти из аккаунта"))
+        saveButton.tooltip = Tooltip("Сохранить изменения")
+        exitButton.tooltip = Tooltip("Выйти из аккаунта")
     }
 
     fun load(user: User) {
         this.user = user
         username.text = user.getUsername()
         login.text = user.getLogin()
-        accountIcon.image = Image(FileInputStream(wayToImage("animals\\${user.getIcon()}")))
+        accountIcon.image = Image(FileInputStream(wayToImage("icon\\${user.getIcon()}")))
     }
 
     @FXML
@@ -71,23 +72,24 @@ class AccountController {
             user.setAddress(host)
         }
 
-        user.setIcon(icon)
+        if (icon != 0)
+            user.setIcon(icon)
 
-        val stage: Stage = saveImageView.scene.window as Stage
+        val stage: Stage = saveButton.scene.window as Stage
         stage.close()
     }
 
     @FXML
     private fun exitClick() {
         exit = true
-        val stage: Stage = exitImageView.scene.window as Stage
+        val stage: Stage = exitButton.scene.window as Stage
         stage.close()
     }
 
     @FXML
     private fun accountIconClick() {
-        if (icon < 30) icon++
+        if (icon < 20) icon++
         else icon = 1
-        accountIcon.image = Image(FileInputStream(wayToImage("animals\\$icon")))
+        accountIcon.image = Image(FileInputStream(wayToImage("icon\\$icon")))
     }
 }

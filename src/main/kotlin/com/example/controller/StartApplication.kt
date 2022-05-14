@@ -11,6 +11,7 @@ import javafx.stage.Stage
 import javafx.stage.StageStyle
 import java.io.FileInputStream
 
+
 class StartApplication : Application() {
 
     override fun start(stage: Stage) {
@@ -20,9 +21,8 @@ class StartApplication : Application() {
         val user = queriesDB.selectUser(UsersTable.CASTLE.name, true.toString())
         database.closeBD()
         if(user != null) {
-            HEADERS_AUTH += user.getToken()
+            HEADERS_AUTH = "Bearer " + user.getToken()
             THEME = user.getTheme()
-
             showWindow(stage, "window.fxml", "RIC")
         }
         else{
@@ -37,7 +37,7 @@ class StartApplication : Application() {
      * @title - название окна
      */
     private fun showWindow(stage: Stage, nameFile: String, title: String){
-        val fxmlLoader = FXMLLoader(javaClass.getResource(nameFile))
+        val fxmlLoader = FXMLLoader(fxmlLoader(nameFile))
         val scene = Scene(fxmlLoader.load())
         stage.initStyle(StageStyle.DECORATED)
 
@@ -46,7 +46,7 @@ class StartApplication : Application() {
             stage.isResizable = false
         }
         stage.title = title
-        scene.stylesheets.add(this.javaClass.getResource(theme())!!.toExternalForm())
+        scene.stylesheets.add(theme())
         stage.scene = scene
         stage.show()
     }

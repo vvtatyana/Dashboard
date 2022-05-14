@@ -12,10 +12,8 @@ import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
 import javafx.scene.control.*
-import javafx.scene.control.Alert.AlertType
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
-import javafx.scene.layout.Region
 import javafx.stage.Modality
 import javafx.stage.Stage
 import com.example.util.wayToImage
@@ -63,18 +61,19 @@ class RegistrationController {
     @FXML
     private lateinit var nameInfoFour: ImageView
 
+    private val database = Database()
+    private lateinit var queriesDB: QueriesDB
     fun initialize() {
         Tooltip.install(nameInfoOne, Tooltip("Справка"))
         Tooltip.install(nameInfoTwo, Tooltip("Справка"))
         Tooltip.install(nameInfoThree, Tooltip("Справка"))
         Tooltip.install(nameInfoFour, Tooltip("Справка"))
+
+        queriesDB = QueriesDB(database.getConnection(), database.getStatement())
     }
 
     @FXML
     private fun onRegistrationButtonClick() {
-        val database = Database()
-        val queriesDB = QueriesDB(database.getConnection(), database.getStatement())
-
         val username: String = nameText.text
         val login: String = loginText.text
         val token: String = tokenText.text
@@ -83,16 +82,15 @@ class RegistrationController {
             ADDRESS = defAddress
         }
         val request = RequestGeneration()
-        HEADERS_AUTH += token
+        HEADERS_AUTH = "Bearer $token"
         val address = request.addressGeneration(ADDRESS, USERS)
         val getData = request.getRequest(address)
-        if (getData != null) {
+        if (!errorMessage(getData)) {
             val json: JsonArray = Gson().fromJson(getData, JsonArray::class.java)
             val users = ProcessingJSON().readAllUsers(json)
-
-            for (user in users)
+            for (user in users) {
                 if (user.getUsername() == username && user.getLogin() == login) {
-                    val animal = (1..30).random()
+                    val icon = (1..20).random()
                     if (passwordTextOne.text == passwordTextTwo.text) {
                         if (memoryCheck.isSelected)
                             queriesDB.insertIntoUser(
@@ -106,7 +104,7 @@ class RegistrationController {
                                     ADDRESS,
                                     token,
                                     castle = true,
-                                    icon = animal,
+                                    icon = icon,
                                     theme = THEME,
                                     timer = 1
                                 )
@@ -123,83 +121,86 @@ class RegistrationController {
                                     ADDRESS,
                                     token,
                                     false,
-                                    icon = animal,
+                                    icon = icon,
                                     theme = THEME,
                                     timer = 1
                                 )
                             )
                         }
                         database.closeBD()
-                        showWindow("window.fxml", "Window")
+                        val fxmlLoader = createFxmlLoader("window.fxml")
+                        val stage = showWindow("RIC", Modality.APPLICATION_MODAL, fxmlLoader)
+                        stage.show()
                     } else errorLabel.text = "Пароли не совпадают."
                 } else errorLabel.text = "Не верные имя или логин."
-        } else {
-            errorLabel.text = "Не верные токен или хост."
-            nameText.text = ""
-            loginText.text = ""
-            tokenText.text = ""
-            hostText.text = ""
+            }
         }
+    }
+
+    private fun errorMessage(message: String): Boolean {
+        return if (message == "401 Unauthorized" || message == "403 Forbidden" || message == "404 Not Found" || message == "600 No connection") {
+            val fxmlLoader = createFxmlLoader("alarmOrInfo.fxml")
+            val stage = showWindow("Error", Modality.WINDOW_MODAL, fxmlLoader)
+            val controller: AlarmOrInfoController = fxmlLoader.getController()
+            controller.load(message)
+            stage.showAndWait()
+            true
+        } else false
     }
 
     @FXML
     private fun onLoginButtonClick() {
-        showWindow("loginWindow.fxml", "Login")
+        val fxmlLoader = createFxmlLoader("loginWindow.fxml")
+        val stage = showWindow("Login", Modality.APPLICATION_MODAL, fxmlLoader)
+        stage.show()
     }
 
-    private fun showWindow(nameFile: String, title: String) {
-        var stage: Stage = loginButton.scene.window as Stage
-        stage.icons.add(Image(FileInputStream(wayToImage("iot"))))
-        stage.close()
-        val fxmlLoader = FXMLLoader(javaClass.getResource(nameFile))
-        stage = Stage()
-        stage.initModality(Modality.APPLICATION_MODAL)
-        stage.title = title
+    private fun createFxmlLoader(nameFile: String): FXMLLoader {
+        return FXMLLoader(fxmlLoader(nameFile))
+    }
+
+    private fun showWindow(title: String, modal: Modality, fxmlLoader: FXMLLoader): Stage {
+        println(modal)
+        val stage: Stage = loginButton.scene.window as Stage
+
+        if (modal == Modality.APPLICATION_MODAL) {
+            stage.close()
+        }
+        val newStage = Stage()
+        newStage.icons.add(Image(FileInputStream(wayToImage("smart_house"))))
+        newStage.initModality(modal)
+        newStage.title = title
         val scene = Scene(fxmlLoader.load())
-        scene.stylesheets.add(this.javaClass.getResource(theme())!!.toExternalForm())
-        stage.scene = scene
-        stage.show()
+        scene.stylesheets.add(theme())
+        newStage.scene = scene
+        return newStage
+    }
+
+    private fun infoClick(message: String) {
+        val fxmlLoader = createFxmlLoader("alarmOrInfo.fxml")
+        val stage = showWindow("Info", Modality.WINDOW_MODAL, fxmlLoader)
+        val controller: AlarmOrInfoController = fxmlLoader.getController()
+        controller.load(message)
+        stage.showAndWait()
     }
 
     @FXML
     private fun nameInfoClick() {
-        showAlert(
-            "Имя пользователя",
-            "Имя пользователя — это уникальный идентификатор пользователя в системе RIC. Узнать его можно на платформе RIC, нажав на стрелку возле аккаунта в левом верхнем углу и выбрав \"Управление проектами\". В появившемся окне нажмите \"Профиль\"."
-        )
+        infoClick("Имя пользователя")
     }
 
     @FXML
     private fun loginInfoClick() {
-        showAlert(
-            "Логин",
-            "Логин — идентификатор пользователя. Логин совпадает с email пользователя платформы RIC. Узнать его можно на платформе RIC, нажав на стрелку возле аккаунта в левом верхнем углу и выбрав \"Управление проектами\". В появившемся окне нажмите \"Профиль\"."
-        )
+        infoClick("Логин")
     }
 
     @FXML
     private fun tokenInfoClick() {
-        showAlert(
-            "Токен",
-            "Токен — это средство авторизации для каждого запроса от клиента к серверу. Токен выдается только один раз при регистрации клиента в системе RIC. Его необходимо сохранить для дальнейшего использования."
-        )
+        infoClick("Токен")
     }
 
     @FXML
     private fun addressInfoClick() {
-        showAlert(
-            "Хост",
-            "Хост, на который будет отправлен запрос. Является полным адресом ресурса. По умолчанию dev.rightech.io."
-        )
-    }
-
-    private fun showAlert(name: String, text: String) {
-        val alert = Alert(AlertType.INFORMATION)
-        alert.dialogPane.minWidth = Region.USE_PREF_SIZE
-        alert.dialogPane.minHeight = Region.USE_PREF_SIZE
-        alert.title = "Справка"
-        alert.headerText = name
-        alert.contentText = text
-        alert.showAndWait()
+        infoClick("Хост")
     }
 }
