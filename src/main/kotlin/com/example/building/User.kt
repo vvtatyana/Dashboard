@@ -1,19 +1,62 @@
 package com.example.building
 
-class User(
-    private val id: Int?,
-    private val idUser: String,
-    private val username: String,
-    private val login: String,
-    private val password: String,
-    private var address: String,
-    private var token: String,
-    private val castle: Boolean,
-    private var icon: Int,
-    private val theme: String,
-    private var timer: Int
-) {
-    fun getId(): Int = id ?: 0
+class User {
+
+    private var id: Int = 0
+    private var idUser: String
+    private var username: String
+    private var login: String
+    private lateinit var password: String
+    private lateinit var address: String
+    private lateinit var token: String
+    private var castle: Boolean = false
+    private var icon: Int = 1
+    private lateinit var theme: String
+    private var timer: Int = 1
+
+    constructor(
+        id: Int, idUser: String, username: String, login: String, password: String,
+        address: String, token: String, castle: Boolean, icon: Int, theme: String, timer: Int
+    ) {
+        this.id = id
+        this.idUser = idUser
+        this.username = username
+        this.login = login
+        this.password = password
+        this.address = address
+        this.token = token
+        this.castle = castle
+        this.icon = icon
+        this.theme = theme
+        this.timer = timer
+    }
+
+    constructor(
+        idUser: String, username: String, login: String, password: String, address: String,
+        token: String, castle: Boolean, icon: Int, theme: String, timer: Int
+    ) {
+        this.idUser = idUser
+        this.username = username
+        this.login = login
+        this.password = password
+        this.address = address
+        this.token = token
+        this.castle = castle
+        this.icon = icon
+        this.theme = theme
+        this.timer = timer
+    }
+
+    constructor(
+        idUser: String, username: String, login: String
+    ) {
+        this.idUser = idUser
+        this.username = username
+        this.login = login
+    }
+
+    fun getId(): Int = id
+
 
     fun getIdUser(): String = idUser
 

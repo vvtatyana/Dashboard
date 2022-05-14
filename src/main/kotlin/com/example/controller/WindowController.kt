@@ -204,7 +204,7 @@ class WindowController : Initializable {
 
         if (!errorMessage(strObjects)) {
             val jsonObjects = Gson().fromJson(strObjects, JsonArray::class.java)
-            objects = processingJSON.readAllObjects(jsonObjects, user.getId()) as MutableList<Object>
+            objects = processingJSON.readAllObjects(jsonObjects) as MutableList<Object>
 
             objects.forEach {
                 val objDB = queriesDB.selectObject(ObjectsTable.ID_OBJECT.name, it.getIdObject())

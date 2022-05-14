@@ -8,19 +8,15 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 import com.example.util.*
-import org.slf4j.LoggerFactory
 import java.net.NoRouteToHostException
 import java.net.UnknownHostException
 import java.nio.charset.Charset
 
 class RequestGeneration {
-    private val LOGGER = LoggerFactory.getLogger(this.javaClass)
-
     fun addressGeneration(address: String, description: String): String = "$address/$description"
 
-    fun getRequest(address: String?): String {
+    fun getRequest(address: String): String {
         val urlForGetRequest = URL(address)
-        var readLine: String?
         val connection = urlForGetRequest.openConnection() as HttpURLConnection
         connection.requestMethod = GET
         connection.setRequestProperty(AUTHORIZATION, HEADERS_AUTH)
@@ -28,32 +24,24 @@ class RequestGeneration {
         try {
             val responseCode = connection.responseCode
             return if (responseCode == HttpURLConnection.HTTP_OK) {
-
-                val input = BufferedReader(
-                    InputStreamReader(connection.inputStream)
-                )
+                val input = BufferedReader(InputStreamReader(connection.inputStream))
                 val response = StringBuffer()
+                var readLine: String?
                 while (input.readLine().also { readLine = it } != null) {
                     response.append(readLine)
                 }
                 input.close()
-                /*String(*/response.toString()/*.toByteArray(
-                    Charset.forName("Windows-1251")
-                ))*/
-            } else {
-                "$responseCode ${connection.responseMessage}"
-            }
-        }
-        catch (u: UnknownHostException){
+                /*String(*/response.toString()/*.toByteArray(Charset.forName("Windows-1251")))*/
+            } else "$responseCode ${connection.responseMessage}"
+        } catch (u: UnknownHostException) {
             return "600 No connection"
-        }
-        catch (n: NoRouteToHostException){
+        } catch (n: NoRouteToHostException) {
             return "600 No connection"
         }
     }
 
-    @Throws(IOException::class)
-    fun patchRequest(address: String?, postParams: String): JsonObject? {
+
+    fun patchRequest(address: String?, postParams: String): String {
         val url = URL(address)
         val connection = url.openConnection() as HttpURLConnection
         connection.requestMethod = POST
@@ -65,21 +53,6 @@ class RequestGeneration {
         os.write(postParams.toByteArray())
         os.flush()
         os.close()
-        val responseCode = connection.responseCode
-
-        return if (responseCode == HttpURLConnection.HTTP_OK) {
-            val isr = BufferedReader(InputStreamReader(connection.inputStream))
-            var inputLine: String?
-            val response = StringBuffer()
-            while (isr.readLine().also { inputLine = it } != null) {
-                response.append(inputLine)
-            }
-            isr.close()
-            Gson().fromJson(response.toString(), JsonObject::class.java)
-        } else {
-            LOGGER.error("PATCH Response Code :  $responseCode")
-            LOGGER.error("PATCH Response Message : " + connection.responseMessage)
-            null
-        }
+        return "${connection.responseCode} ${connection.responseMessage}"
     }
 }

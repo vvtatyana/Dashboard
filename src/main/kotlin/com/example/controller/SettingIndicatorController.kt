@@ -106,7 +106,7 @@ class SettingIndicatorController {
             borderTo = ProcessingJSON().readBorderTo(model, name)
             ProcessingJSON().readBorderFrom(model, name)
         } else {
-            ProcessingJSON().readBorderBoolean(model, name)
+            ProcessingJSON().readBorderBooleanOrString(model, name)
         }
         if (borderFrom.isNotEmpty()) {
             borderColor = ProcessingJSON().readBorderColor(model, name)

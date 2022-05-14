@@ -40,7 +40,7 @@ class StringWidget(
 
     fun updateString() {
         val model = Gson().fromJson(strModel, JsonObject::class.java)
-        val border = ProcessingJSON().readBorderBoolean(model, typeWidget)
+        val border = ProcessingJSON().readBorderBooleanOrString(model, typeWidget)
         if (border.isNotEmpty()) {
             val borderColor = ProcessingJSON().readBorderColor(model, typeWidget)
             if (data != null) {

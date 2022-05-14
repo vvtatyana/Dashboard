@@ -91,7 +91,6 @@ class RegistrationController {
                         if (memoryCheck.isSelected)
                             queriesDB.insertIntoUser(
                                 User(
-                                    null,
                                     user.getIdUser(),
                                     username,
                                     login,
@@ -108,7 +107,6 @@ class RegistrationController {
                         else {
                             queriesDB.insertIntoUser(
                                 User(
-                                    null,
                                     user.getIdUser(),
                                     username,
                                     login,

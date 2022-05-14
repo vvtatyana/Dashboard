@@ -36,7 +36,7 @@ class BooleanWidget(
 
     private fun createCircle(radius: Double, top: Double, bottom: Double, right: Double, left: Double, flag: Boolean ): Circle {
         val circle = Circle()
-        val border = ProcessingJSON().readBorderBoolean(model, typeWidget)
+        val border = ProcessingJSON().readBorderBooleanOrString(model, typeWidget)
         if (flag && data != null) {
             val borderColor = if (border.isNotEmpty()) ProcessingJSON().readBorderColor(model, typeWidget)
             else mutableMapOf("True" to "#6bdb6b", "False" to "#ff4e33")
@@ -67,7 +67,7 @@ class BooleanWidget(
     }
 
     fun setValue(newValue: Boolean) {
-        val border = ProcessingJSON().readBorderBoolean(model, typeWidget)
+        val border = ProcessingJSON().readBorderBooleanOrString(model, typeWidget)
         val borderColor = if (border.isNotEmpty()) ProcessingJSON().readBorderColor(model, typeWidget)
         else mutableMapOf("True" to "#6bdb6b", "False" to "#ff4e33")
         if (newValue) {

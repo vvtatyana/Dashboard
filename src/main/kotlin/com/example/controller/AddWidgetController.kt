@@ -61,7 +61,7 @@ class AddWidgetController {
         } else {
             val model = Gson().fromJson(getData, JsonObject::class.java)
             val modelState = ProcessingJSON().readModelState(model)
-            val stateType = ProcessingJSON().readModelParams(model)
+            val stateType = ProcessingJSON().readModelParameters(model)
 
             var itemsIndicator = mutableListOf<String>()
             if (!typeWidget) {
