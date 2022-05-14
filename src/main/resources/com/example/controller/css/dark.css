@@ -7,6 +7,12 @@
     -fx-background-radius: 0;
 }
 
+#datePicker, #fromTimePicker, #toTimePicker{
+    -fx-text-fill: #3b507b;
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI Semibold";
+}
+
 .label, .check-box{
     -fx-text-fill: #dae5f2;
 }

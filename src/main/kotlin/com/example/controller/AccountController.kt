@@ -6,12 +6,10 @@ import javafx.fxml.FXML
 import javafx.scene.control.Label
 import javafx.scene.control.TextField
 import javafx.scene.control.Tooltip
-import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.stage.Stage
-import com.example.util.wayToImage
+import com.example.util.loadImage
 import javafx.scene.control.Button
-import java.io.FileInputStream
 
 class AccountController {
 
@@ -52,7 +50,7 @@ class AccountController {
         this.user = user
         username.text = user.getUsername()
         login.text = user.getLogin()
-        accountIcon.image = Image(FileInputStream(wayToImage("icon\\${user.getIcon()}")))
+        accountIcon.image = loadImage("icon\\${user.getIcon()}")
     }
 
     @FXML
@@ -90,6 +88,6 @@ class AccountController {
     private fun accountIconClick() {
         if (icon < 20) icon++
         else icon = 1
-        accountIcon.image = Image(FileInputStream(wayToImage("icon\\$icon")))
+        accountIcon.image = loadImage("icon\\$icon")
     }
 }

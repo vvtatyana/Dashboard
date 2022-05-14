@@ -1,7 +1,11 @@
 package com.example.util
 
+import javafx.fxml.FXMLLoader
+import javafx.scene.Scene
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
+import javafx.stage.Modality
+import javafx.stage.Stage
 import java.io.File
 import java.io.FileInputStream
 import java.net.URL
@@ -40,15 +44,31 @@ enum class TypeIndicator(val type: String){
     BOOLEAN ("boolean")
 }
 
-fun wayToImage(image: String): String{
-    return "./src/main/resources/com/example/controller/images/$image.png"
+fun loadImage(image: String): Image{
+    return Image(FileInputStream("./src/main/resources/com/example/controller/images/$image.png"))
 }
 
 fun createImageView(nameFile: String, fit: Double): ImageView{
-    val imageView = ImageView(Image(FileInputStream(wayToImage(nameFile))))
+    val imageView = ImageView(loadImage(nameFile))
     imageView.fitHeight = fit
     imageView.fitWidth = fit
     imageView.isPickOnBounds = true
     imageView.isPreserveRatio = true
     return imageView
+}
+
+fun createFxmlLoader(nameFile: String): FXMLLoader {
+    return FXMLLoader(fxmlLoader(nameFile))
+}
+
+fun createStage(fxmlLoader: FXMLLoader, modal: Modality, title: String, isResizable: Boolean): Stage {
+    val stage = Stage()
+    stage.icons.add(loadImage("smart_house"))
+    stage.initModality(modal)
+    stage.title = title
+    stage.isResizable = isResizable
+    val scene = Scene(fxmlLoader.load())
+    scene.stylesheets.add(theme())
+    stage.scene = scene
+    return stage
 }

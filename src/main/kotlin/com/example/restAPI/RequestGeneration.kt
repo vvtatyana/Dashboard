@@ -37,9 +37,9 @@ class RequestGeneration {
                     response.append(readLine)
                 }
                 input.close()
-                String(response.toString().toByteArray(
+                /*String(*/response.toString()/*.toByteArray(
                     Charset.forName("Windows-1251")
-                ))
+                ))*/
             } else {
                 "$responseCode ${connection.responseMessage}"
             }

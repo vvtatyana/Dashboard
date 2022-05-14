@@ -10,15 +10,11 @@ import com.google.gson.Gson
 import com.google.gson.JsonArray
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
-import javafx.scene.Scene
 import javafx.scene.control.*
-import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.stage.Modality
 import javafx.stage.Stage
-import com.example.util.wayToImage
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
-import java.io.FileInputStream
 
 class RegistrationController {
 
@@ -129,7 +125,7 @@ class RegistrationController {
                         }
                         database.closeBD()
                         val fxmlLoader = createFxmlLoader("window.fxml")
-                        val stage = showWindow("RIC", Modality.APPLICATION_MODAL, fxmlLoader)
+                        val stage = showWindow("RIC", Modality.APPLICATION_MODAL, fxmlLoader, true)
                         stage.show()
                     } else errorLabel.text = "Пароли не совпадают."
                 } else errorLabel.text = "Не верные имя или логин."
@@ -140,7 +136,7 @@ class RegistrationController {
     private fun errorMessage(message: String): Boolean {
         return if (message == "401 Unauthorized" || message == "403 Forbidden" || message == "404 Not Found" || message == "600 No connection") {
             val fxmlLoader = createFxmlLoader("alarmOrInfo.fxml")
-            val stage = showWindow("Error", Modality.WINDOW_MODAL, fxmlLoader)
+            val stage = showWindow("Error", Modality.WINDOW_MODAL, fxmlLoader, false)
             val controller: AlarmOrInfoController = fxmlLoader.getController()
             controller.load(message)
             stage.showAndWait()
@@ -151,34 +147,21 @@ class RegistrationController {
     @FXML
     private fun onLoginButtonClick() {
         val fxmlLoader = createFxmlLoader("loginWindow.fxml")
-        val stage = showWindow("Login", Modality.APPLICATION_MODAL, fxmlLoader)
+        val stage = showWindow("Login", Modality.APPLICATION_MODAL, fxmlLoader, false)
         stage.show()
     }
 
-    private fun createFxmlLoader(nameFile: String): FXMLLoader {
-        return FXMLLoader(fxmlLoader(nameFile))
-    }
-
-    private fun showWindow(title: String, modal: Modality, fxmlLoader: FXMLLoader): Stage {
-        println(modal)
+    private fun showWindow(title: String, modality: Modality, fxmlLoader: FXMLLoader, isResizable: Boolean): Stage {
         val stage: Stage = loginButton.scene.window as Stage
-
-        if (modal == Modality.APPLICATION_MODAL) {
+        if (modality == Modality.APPLICATION_MODAL) {
             stage.close()
         }
-        val newStage = Stage()
-        newStage.icons.add(Image(FileInputStream(wayToImage("smart_house"))))
-        newStage.initModality(modal)
-        newStage.title = title
-        val scene = Scene(fxmlLoader.load())
-        scene.stylesheets.add(theme())
-        newStage.scene = scene
-        return newStage
+        return createStage(fxmlLoader, modality, title, isResizable)
     }
 
     private fun infoClick(message: String) {
         val fxmlLoader = createFxmlLoader("alarmOrInfo.fxml")
-        val stage = showWindow("Info", Modality.WINDOW_MODAL, fxmlLoader)
+        val stage = showWindow("Info", Modality.WINDOW_MODAL, fxmlLoader, false)
         val controller: AlarmOrInfoController = fxmlLoader.getController()
         controller.load(message)
         stage.showAndWait()

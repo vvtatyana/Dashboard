@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="dataPane" prefHeight="382.0" prefWidth="324.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.SettingChartController">
+<AnchorPane fx:id="dataPane" prefHeight="400.0" prefWidth="324.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.SettingChartController">
     <Label layoutX="5.0" layoutY="35.0" text="Название" AnchorPane.bottomAnchor="321.4" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
@@ -29,8 +29,6 @@
             <Font name="Segoe UI Semibold" size="14.0" />
         </font>
     </TextField>
-    <JFXTimePicker fx:id="fromTimePicker" defaultColor="#3b507b" layoutX="5.0" layoutY="227.0" prefHeight="20.0" prefWidth="166.0" AnchorPane.bottomAnchor="127.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
-    <JFXDatePicker fx:id="datePicker" defaultColor="#3b507b" layoutX="5.0" layoutY="173.0" AnchorPane.bottomAnchor="181.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
     <Label layoutX="5.0" layoutY="201.0" text="Начало" AnchorPane.bottomAnchor="155.4" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
@@ -41,7 +39,6 @@
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <JFXTimePicker fx:id="toTimePicker" defaultColor="#3b507b" layoutX="5.0" layoutY="281.0" prefHeight="20.0" prefWidth="166.0" AnchorPane.bottomAnchor="73.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
     <Label layoutX="5.0" layoutY="147.0" text="Дата" AnchorPane.bottomAnchor="209.4" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
@@ -66,4 +63,7 @@
             </ImageView>
         </graphic>
     </Button>
+    <JFXTimePicker fx:id="toTimePicker" defaultColor="#5e82c4" editable="true" layoutX="5.0" layoutY="281.0" prefHeight="20.0" prefWidth="166.0" AnchorPane.bottomAnchor="73.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+    <JFXTimePicker fx:id="fromTimePicker" defaultColor="#5e82c4" editable="true" layoutX="5.0" layoutY="227.0" prefHeight="20.0" prefWidth="166.0" AnchorPane.bottomAnchor="127.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+    <JFXDatePicker fx:id="datePicker" defaultColor="#5e82c4" layoutX="5.0" layoutY="173.0" AnchorPane.bottomAnchor="181.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
 </AnchorPane>

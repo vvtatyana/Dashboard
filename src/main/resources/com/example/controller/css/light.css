@@ -7,8 +7,14 @@
     -fx-background-radius: 0;
 }
 
-.label, .check-box{
+.label, .check-box {
     -fx-text-fill: #3b507b;
+}
+
+#datePicker, #fromTimePicker, #toTimePicker{
+    -fx-text-fill: #3b507b;
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI Semibold";
 }
 
 .text-field, #login, #time{

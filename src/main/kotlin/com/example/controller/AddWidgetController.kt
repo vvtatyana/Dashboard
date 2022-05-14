@@ -34,7 +34,7 @@ class AddWidgetController {
     @FXML
     private lateinit var addIndicators: ComboBox<String>
 
-    lateinit var returnData: Widget
+    lateinit var widget: Widget
 
     private var typeWidget: Boolean = false
 
@@ -115,7 +115,7 @@ class AddWidgetController {
         add = true
         val type = if (!typeWidget && chartsType.value != null) chartsType.value
         else dataType
-        returnData = Widget(addIndicators.value, nameTextField.text, unitTextField.text, type)
+        widget = Widget(addIndicators.value, nameTextField.text, unitTextField.text, type)
         val stage: Stage = addButton.scene.window as Stage
         stage.close()
     }

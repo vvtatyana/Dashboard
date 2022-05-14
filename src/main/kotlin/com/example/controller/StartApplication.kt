@@ -4,12 +4,8 @@ import com.example.database.Database
 import com.example.database.QueriesDB
 import com.example.util.*
 import javafx.application.Application
-import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
-import javafx.scene.image.Image
 import javafx.stage.Stage
-import javafx.stage.StageStyle
-import java.io.FileInputStream
 
 
 class StartApplication : Application() {
@@ -23,10 +19,10 @@ class StartApplication : Application() {
         if(user != null) {
             HEADERS_AUTH = "Bearer " + user.getToken()
             THEME = user.getTheme()
-            showWindow(stage, "window.fxml", "RIC")
+            showWindow(stage, "window.fxml", "RIC", true)
         }
         else{
-            showWindow(stage, "loginWindow.fxml", "Вход")
+            showWindow(stage, "loginWindow.fxml", "Вход", false)
         }
     }
 
@@ -36,15 +32,10 @@ class StartApplication : Application() {
      * @nameFile - название файла окна
      * @title - название окна
      */
-    private fun showWindow(stage: Stage, nameFile: String, title: String){
-        val fxmlLoader = FXMLLoader(fxmlLoader(nameFile))
-        val scene = Scene(fxmlLoader.load())
-        stage.initStyle(StageStyle.DECORATED)
-
-        stage.icons.add(Image(FileInputStream(wayToImage(ICON))))
-        if (nameFile == "loginWindow.fxml"){
-            stage.isResizable = false
-        }
+    private fun showWindow(stage: Stage, nameFile: String, title: String, isResizable: Boolean){
+        val scene = Scene(createFxmlLoader(nameFile).load())
+        stage.icons.add(loadImage(ICON))
+        stage.isResizable = isResizable
         stage.title = title
         scene.stylesheets.add(theme())
         stage.scene = scene

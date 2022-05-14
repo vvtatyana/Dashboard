@@ -17,19 +17,16 @@ import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
 import javafx.fxml.Initializable
 import javafx.geometry.Insets
-import javafx.scene.Scene
 import javafx.scene.chart.XYChart
 import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.control.ListView
 import javafx.scene.control.Tooltip
-import javafx.scene.image.Image
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.BorderPane.setMargin
 import javafx.stage.Modality
 import javafx.stage.Stage
 import javafx.util.Duration
-import java.io.FileInputStream
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.time.LocalTime
@@ -187,7 +184,7 @@ class WindowController : Initializable {
             chartButton.isVisible = false
 
             val fxmlLoader = FXMLLoader(fxmlLoader("alarmOrInfo.fxml"))
-            val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, "Error")
+            val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, "Error", false)
 
             val controller: AlarmOrInfoController = fxmlLoader.getController()
             controller.load(message)
@@ -262,18 +259,6 @@ class WindowController : Initializable {
         }
     }
 
-    private fun createStage(fxmlLoader: FXMLLoader, modality: Modality, title: String): Stage {
-        val stage = Stage()
-        stage.initModality(modality)
-        stage.icons.add(Image(FileInputStream(wayToImage(ICON))))
-        stage.isResizable = false
-        stage.title = title
-        val scene = Scene(fxmlLoader.load())
-        scene.stylesheets.add(theme())
-        stage.scene = scene
-        return stage
-    }
-
     @FXML
     private fun settingChartClick(
         panel: ChartWidget,
@@ -283,7 +268,7 @@ class WindowController : Initializable {
         name: Label
     ) {
         val fxmlLoader = FXMLLoader(fxmlLoader("settingChart.fxml"))
-        val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, "Setting")
+        val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, "Setting", false)
 
         val controller: SettingChartController = fxmlLoader.getController()
         val chart = queriesDB.selectChart(layoutX, layoutY, objectData.getId())!!
@@ -374,7 +359,7 @@ class WindowController : Initializable {
     ) {
         val fxmlLoader = FXMLLoader(fxmlLoader("settingIndicator.fxml"))
 
-        val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, "Setting")
+        val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, "Setting", false)
 
         val controller: SettingIndicatorController = fxmlLoader.getController()
 
@@ -763,7 +748,7 @@ class WindowController : Initializable {
             FXMLLoader(fxmlLoader("addWidgetIndicator.fxml"))
         else FXMLLoader(fxmlLoader("addWidgetChart.fxml"))
 
-        val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, "Add")
+        val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, "Add", false)
         val controller: AddWidgetController = fxmlLoader.getController()
         val error = if (indicatorPane.isVisible)
             controller.load(objectData.getIdModel(), true)
@@ -773,7 +758,7 @@ class WindowController : Initializable {
         if (!error) {
             stage.showAndWait()
             if (controller.add) {
-                val addWidget = controller.returnData
+                val addWidget = controller.widget
                 addObjects(addWidget)
             }
         } else {
@@ -853,7 +838,7 @@ class WindowController : Initializable {
     @FXML
     private fun accountClick() {
         val fxmlLoader = FXMLLoader(fxmlLoader("account.fxml"))
-        val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, "Account")
+        val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, "Account", false)
 
         val token = user.getToken()
         val addressDev = user.getAddress()
@@ -883,7 +868,7 @@ class WindowController : Initializable {
             var newStage: Stage = dataButton.scene.window as Stage
             newStage.close()
             val newFxmlLoader = FXMLLoader(fxmlLoader("loginWindow.fxml"))
-            newStage = createStage(newFxmlLoader, Modality.APPLICATION_MODAL, "login")
+            newStage = createStage(newFxmlLoader, Modality.APPLICATION_MODAL, "login", false)
             newStage.show()
         }
     }
@@ -992,7 +977,7 @@ class WindowController : Initializable {
 
         val oldTheme = THEME
         val fxmlLoader = FXMLLoader(fxmlLoader("setting.fxml"))
-        val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, "Setting")
+        val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, "Setting", false)
 
         val controller: SettingController = fxmlLoader.getController()
         controller.loader(user)

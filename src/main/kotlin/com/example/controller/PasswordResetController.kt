@@ -5,17 +5,13 @@ import com.example.database.Database
 import com.example.database.QueriesDB
 import com.example.util.*
 import javafx.fxml.FXML
-import javafx.fxml.FXMLLoader
-import javafx.scene.Scene
 import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.control.PasswordField
 import javafx.scene.control.TextField
-import javafx.scene.image.Image
 import javafx.stage.Modality
 import javafx.stage.Stage
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
-import java.io.FileInputStream
 
 class PasswordResetController {
     @FXML
@@ -49,14 +45,7 @@ class PasswordResetController {
                 )
                 var stage: Stage = enterButton.scene.window as Stage
                 stage.close()
-                val fxmlLoader = FXMLLoader(fxmlLoader("loginWindow.fxml"))
-                stage = Stage()
-                stage.initModality(Modality.WINDOW_MODAL)
-                stage.icons.add(Image(FileInputStream(wayToImage(ICON))))
-                stage.isResizable = false
-                val scene = Scene(fxmlLoader.load())
-                scene.stylesheets.add(theme())
-                stage.scene = scene
+                stage = createStage(createFxmlLoader("loginWindow.fxml"), Modality.WINDOW_MODAL, "login", false)
                 stage.show()
             } else errorLabel.text = "Пароли не совпадают."
         } else errorLabel.text = "Пользователя с таким токеном нет."

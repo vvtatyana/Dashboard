@@ -11,7 +11,7 @@ class Database {
 
     init {
         Class.forName("org.sqlite.JDBC")
-        connection = DriverManager.getConnection("jdbc:sqlite:SmartHome.db") //src/main/resources/com/example/controller/database/
+        connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/com/example/controller/database/SmartHome.db") //
         statement = connection.createStatement()
         connection.autoCommit = false
         try {

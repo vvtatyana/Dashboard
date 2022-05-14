@@ -4,15 +4,10 @@ import com.example.database.Database
 import com.example.database.QueriesDB
 import com.example.util.*
 import javafx.fxml.FXML
-import javafx.fxml.FXMLLoader
-import javafx.scene.Scene
 import javafx.scene.control.*
-import javafx.scene.image.Image
 import javafx.stage.Modality
 import javafx.stage.Stage
-import com.example.util.wayToImage
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
-import java.io.FileInputStream
 
 class LoginController {
 
@@ -55,7 +50,7 @@ class LoginController {
 
             database.closeBD()
 
-            showWindow("window.fxml", "RIC", Modality.APPLICATION_MODAL)
+            showWindow(Modality.APPLICATION_MODAL, "window.fxml", "RIC", true)
 
         } else {
             errorLabel.text = "Не верный логин или пароль."
@@ -65,27 +60,19 @@ class LoginController {
 
     @FXML
     private fun onRegistrationButtonClick() {
-        showWindow("registrationWindow.fxml", "Registration", Modality.APPLICATION_MODAL)
+        showWindow(Modality.APPLICATION_MODAL, "registrationWindow.fxml", "Registration", false)
     }
 
     @FXML
     fun onPasswordResetClick() {
         database.closeBD()
-        showWindow("passwordReset.fxml", "PasswordReset", Modality.WINDOW_MODAL)
+        showWindow(Modality.WINDOW_MODAL, "passwordReset.fxml", "PasswordReset", false)
     }
 
-    private fun showWindow(nameFile: String, title: String, modality: Modality) {
+    private fun showWindow(modality: Modality, nameFile: String, title: String, isResizable: Boolean) {
         var stage: Stage = registrationButton.scene.window as Stage
         stage.close()
-        val fxmlLoader = FXMLLoader(fxmlLoader(nameFile))
-        stage.icons.add(Image(FileInputStream(wayToImage(ICON))))
-        stage.isResizable = false
-        stage = Stage()
-        stage.initModality(modality)
-        stage.title = title
-        val scene = Scene(fxmlLoader.load())
-        scene.stylesheets.add(theme())
-        stage.scene = scene
+        stage = createStage(createFxmlLoader(nameFile), modality, title, isResizable)
         stage.show()
     }
 }
