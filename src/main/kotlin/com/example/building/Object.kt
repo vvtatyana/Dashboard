@@ -14,16 +14,15 @@ class Object {
         this.idUser = idUser
         this.idModel = idModel
         this.nameObject = nameObject
-
     }
 
     constructor(idObject: String, idModel: String, nameObject: String){
         this.idObject = idObject
         this.idModel = idModel
         this.nameObject = nameObject
-
     }
-    fun getId(): Int = id ?: 0
+
+    fun getId(): Int = id
 
     fun getIdObject(): String = idObject
 

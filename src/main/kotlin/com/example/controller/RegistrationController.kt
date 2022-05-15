@@ -134,7 +134,7 @@ class RegistrationController {
     private fun errorMessage(message: String): Boolean {
         return if (message == "401 Unauthorized" || message == "403 Forbidden" || message == "404 Not Found" || message == "600 No connection") {
             val fxmlLoader = createFxmlLoader("alarmOrInfo.fxml")
-            val stage = showWindow("Error", Modality.WINDOW_MODAL, fxmlLoader, false)
+            val stage = showWindow("Ошибка", Modality.WINDOW_MODAL, fxmlLoader, false)
             val controller: AlarmOrInfoController = fxmlLoader.getController()
             controller.load(message)
             stage.showAndWait()
@@ -145,7 +145,7 @@ class RegistrationController {
     @FXML
     private fun onLoginButtonClick() {
         val fxmlLoader = createFxmlLoader("loginWindow.fxml")
-        val stage = showWindow("Login", Modality.APPLICATION_MODAL, fxmlLoader, false)
+        val stage = showWindow("Вход", Modality.APPLICATION_MODAL, fxmlLoader, false)
         stage.show()
     }
 
@@ -159,7 +159,7 @@ class RegistrationController {
 
     private fun infoClick(message: String) {
         val fxmlLoader = createFxmlLoader("alarmOrInfo.fxml")
-        val stage = showWindow("Info", Modality.WINDOW_MODAL, fxmlLoader, false)
+        val stage = showWindow("Справка", Modality.WINDOW_MODAL, fxmlLoader, false)
         val controller: AlarmOrInfoController = fxmlLoader.getController()
         controller.load(message)
         stage.showAndWait()

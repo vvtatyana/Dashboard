@@ -17,6 +17,10 @@
     -fx-text-fill: #dae5f2;
 }
 
+#errorLabel{
+    -fx-text-fill: RED
+}
+
 .text-field, #login, #time{
     -fx-background-color:  linear-gradient(to left, #2f649d, #224c77);
     -fx-background-radius: 0;

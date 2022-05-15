@@ -6,6 +6,7 @@ import com.google.gson.JsonObject
 import javafx.geometry.Pos
 import javafx.scene.control.Label
 import javafx.scene.layout.AnchorPane
+import javafx.scene.text.Font
 
 class StringWidget(
     layoutX: Double,
@@ -30,6 +31,7 @@ class StringWidget(
 
     private fun createString(): Label {
         val stringLabel = Label(data)
+        stringLabel.font = Font.font("Segoe UI Semibold", 14.0)
         stringLabel.alignment = Pos.CENTER
         AnchorPane.setTopAnchor(stringLabel, 25.0)
         AnchorPane.setBottomAnchor(stringLabel, 30.0)

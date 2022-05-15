@@ -60,13 +60,13 @@ class LoginController {
 
     @FXML
     private fun onRegistrationButtonClick() {
-        showWindow(Modality.APPLICATION_MODAL, "registrationWindow.fxml", "Registration", false)
+        showWindow(Modality.APPLICATION_MODAL, "registrationWindow.fxml", "Регистрация", false)
     }
 
     @FXML
     fun onPasswordResetClick() {
         database.closeBD()
-        showWindow(Modality.WINDOW_MODAL, "passwordReset.fxml", "PasswordReset", false)
+        showWindow(Modality.WINDOW_MODAL, "passwordReset.fxml", "Восстановление пароля", false)
     }
 
     private fun showWindow(modality: Modality, nameFile: String, title: String, isResizable: Boolean) {

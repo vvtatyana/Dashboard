@@ -5,72 +5,58 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="dataPane" prefHeight="336.0" prefWidth="438.0" xmlns="http://javafx.com/javafx/15.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.LoginController">
-    <Label layoutX="187.0" layoutY="18.0" prefHeight="54.0" prefWidth="105.0" text="войти" textAlignment="CENTER"
-           AnchorPane.leftAnchor="187.0" AnchorPane.rightAnchor="136.0" AnchorPane.topAnchor="18.0">
+<AnchorPane fx:id="dataPane" prefHeight="336.0" prefWidth="438.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.LoginController">
+    <Label layoutX="187.0" layoutY="18.0" prefHeight="54.0" prefWidth="105.0" text="войти" textAlignment="CENTER" AnchorPane.leftAnchor="187.0" AnchorPane.rightAnchor="136.0" AnchorPane.topAnchor="18.0">
         <font>
-            <Font name="Segoe UI Semibold" size="30.0"/>
+            <Font name="Segoe UI Semibold" size="30.0" />
         </font>
     </Label>
     <Label layoutX="50.0" layoutY="84.0" text="логин" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
         <font>
-            <Font name="Segoe UI Semibold" size="16.0"/>
+            <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <TextField fx:id="loginText" layoutX="50.0" layoutY="110.0" prefHeight="30.0" promptText="login"
-               AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+    <TextField fx:id="loginText" layoutX="50.0" layoutY="110.0" prefHeight="30.0" promptText="ivan@gmail.com" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
         <font>
-            <Font name="Segoe UI Semibold" size="14.0"/>
+            <Font name="Segoe UI Semibold" size="14.0" />
         </font>
     </TextField>
-    <Button fx:id="enterButton" layoutX="50.0" layoutY="222.0" mnemonicParsing="false" onAction="#onEnterButtonClick"
-            prefHeight="30.0" prefWidth="203.0" style="-fx-background-color: #3b507b; -fx-background-radius: 0;"
-            text="войти" textFill="WHITE" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+    <Button fx:id="enterButton" layoutX="50.0" layoutY="222.0" mnemonicParsing="false" onAction="#onEnterButtonClick" prefHeight="30.0" prefWidth="203.0" style="-fx-background-color: #3b507b; -fx-background-radius: 0;" text="войти" textFill="WHITE" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
         <font>
-            <Font name="Segoe UI Semibold" size="14.0"/>
+            <Font name="Segoe UI Semibold" size="14.0" />
         </font>
     </Button>
-    <CheckBox fx:id="memoryCheck" contentDisplay="RIGHT" layoutX="50.0" layoutY="196.0" mnemonicParsing="false"
-              prefHeight="26.0" prefWidth="166.0" text="запомнить меня" textAlignment="CENTER" textFill="#3b507b"
-              AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+    <CheckBox fx:id="memoryCheck" contentDisplay="RIGHT" layoutX="50.0" layoutY="196.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="166.0" text="запомнить меня" textAlignment="CENTER" textFill="#3b507b" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
         <font>
-            <Font name="Segoe UI Semibold" size="14.0"/>
+            <Font name="Segoe UI Semibold" size="14.0" />
         </font>
     </CheckBox>
-    <Label fx:id="errorLabel" alignment="TOP_CENTER" layoutX="62.0" layoutY="282.0" textFill="RED"
-           AnchorPane.leftAnchor="62.0" AnchorPane.rightAnchor="38.0">
+    <Label fx:id="errorLabel" alignment="TOP_CENTER" layoutX="62.0" layoutY="282.0" textFill="RED" AnchorPane.leftAnchor="62.0" AnchorPane.rightAnchor="38.0">
         <font>
-            <Font name="Segoe UI Semibold" size="14.0"/>
+            <Font name="Segoe UI Semibold" size="14.0" />
         </font>
     </Label>
-    <Button fx:id="registrationButton" layoutX="117.0" layoutY="252.0" mnemonicParsing="false"
-            onAction="#onRegistrationButtonClick" prefHeight="26.0" prefWidth="203.0"
-            style="-fx-background-color: transparent;" text="зарегистрироваться" textFill="#3b507b">
+    <Button fx:id="registrationButton" layoutX="117.0" layoutY="252.0" mnemonicParsing="false" onAction="#onRegistrationButtonClick" prefHeight="26.0" prefWidth="203.0" style="-fx-background-color: transparent;" text="зарегистрироваться" textFill="#3b507b">
         <font>
-            <Font name="Segoe UI Semibold" size="14.0"/>
+            <Font name="Segoe UI Semibold" size="14.0" />
         </font>
     </Button>
-    <ImageView fitHeight="46.0" fitWidth="42.0" layoutX="137.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true"
-               AnchorPane.leftAnchor="137.0" AnchorPane.rightAnchor="249.0" AnchorPane.topAnchor="24.0">
-        <Image url="@images/input.png"/>
+    <ImageView fitHeight="46.0" fitWidth="42.0" layoutX="137.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="137.0" AnchorPane.rightAnchor="249.0" AnchorPane.topAnchor="24.0">
+        <Image url="@images/input.png" />
     </ImageView>
     <Label layoutX="50.0" layoutY="140.0" text="пароль" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
         <font>
-            <Font name="Segoe UI Semibold" size="16.0"/>
+            <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <PasswordField fx:id="passwordText" layoutX="50.0" layoutY="166.0" promptText="password"
-                   AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+    <PasswordField fx:id="passwordText" layoutX="50.0" layoutY="166.0" promptText="20ivAn22!" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
         <font>
-            <Font name="Segoe UI Semibold" size="14.0"/>
+            <Font name="Segoe UI Semibold" size="14.0" />
         </font>
     </PasswordField>
-    <Button fx:id="passwordReset" layoutX="45.0" layoutY="292.0" mnemonicParsing="false"
-            onAction="#onPasswordResetClick" prefHeight="30.0" prefWidth="347.0"
-            style="-fx-background-color: transparent;" text="забыли пароль?" textFill="#3b507b">
+    <Button fx:id="passwordReset" layoutX="45.0" layoutY="292.0" mnemonicParsing="false" onAction="#onPasswordResetClick" prefHeight="30.0" prefWidth="347.0" style="-fx-background-color: transparent;" text="забыли пароль?" textFill="#3b507b">
         <font>
-            <Font name="Segoe UI Semibold" size="14.0"/>
+            <Font name="Segoe UI Semibold" size="14.0" />
         </font>
     </Button>
 </AnchorPane>

@@ -1,7 +1,7 @@
 package com.example.controller
 
-import com.example.building.Chart
 import com.example.building.Widget
+import com.example.building.DataWidget
 import com.example.util.*
 import com.jfoenix.controls.JFXTimePicker
 import javafx.collections.FXCollections
@@ -44,7 +44,7 @@ class SettingChartController {
     private var layoutX: Double = 0.0
     private var layoutY: Double = 0.0
 
-    lateinit var dataWidget: Widget
+    lateinit var dataWidget: DataWidget
     var delete = false
     var save = false
 
@@ -61,7 +61,7 @@ class SettingChartController {
             )
     }
 
-    fun load(layoutX: Double, layoutY: Double, chart: Chart) {
+    fun load(layoutX: Double, layoutY: Double, chart: Widget) {
         this.layoutX = layoutX
         this.layoutY = layoutY
         chartsType.value = chart.getType()
@@ -90,7 +90,7 @@ class SettingChartController {
         }
         val type = if (chartsType.value == null) ""
         else chartsType.value
-        dataWidget = Widget(nameChart.text, unitChart.text, type, date, from, to)
+        dataWidget = DataWidget(nameChart.text, unitChart.text, type, date, from, to)
         val stage: Stage = saveButton.scene.window as Stage
         stage.close()
     }

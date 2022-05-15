@@ -5,6 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+<?import com.jfoenix.controls.JFXListView?>
 <AnchorPane fx:id="mainPane" prefHeight="665.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/15.0.1"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.WindowController">
 
@@ -95,7 +96,7 @@
     <AnchorPane fx:id="panelSlide" layoutX="-195.0" layoutY="45.0" prefHeight="615.0" prefWidth="190.0"
                 translateX="-195.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0"
                 AnchorPane.topAnchor="45.0">
-        <ListView fx:id="devicesList" layoutY="31.0" prefHeight="584.0" prefWidth="190.0"
+        <JFXListView fx:id="devicesList" layoutY="31.0" prefHeight="584.0" prefWidth="190.0"
                      AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                      AnchorPane.topAnchor="0.0"/>
     </AnchorPane>

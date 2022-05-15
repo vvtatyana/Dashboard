@@ -11,7 +11,7 @@
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <TextField fx:id="nameIndicators" layoutX="5.0" layoutY="61.0" prefHeight="26.0" prefWidth="140.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="61.0">
+    <TextField fx:id="nameIndicators" layoutX="5.0" layoutY="61.0" prefHeight="26.0" prefWidth="140.0" promptText="Температура" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="61.0">
         <font>
             <Font name="Segoe UI Semibold" size="14.0" />
         </font>
@@ -21,7 +21,7 @@
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <TextField fx:id="unitIndicators" layoutX="5.0" layoutY="117.0" prefHeight="26.0" prefWidth="140.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="117.0">
+    <TextField fx:id="unitIndicators" layoutX="5.0" layoutY="117.0" prefHeight="26.0" prefWidth="140.0" promptText="°C" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="117.0">
         <font>
             <Font name="Segoe UI Semibold" size="14.0" />
         </font>
@@ -33,18 +33,18 @@
             </font>
         </Label>
         <ComboBox fx:id="nameIntervalComboBox" layoutY="26.0" prefHeight="26.0" prefWidth="304.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="26.0" />
-        <TextField fx:id="valueIntervalFrom" layoutY="189.0" prefHeight="27.0" prefWidth="56.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="189.0">
+        <TextField fx:id="valueIntervalFrom" layoutY="189.0" prefHeight="27.0" prefWidth="56.0" promptText="0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="189.0">
             <font>
                 <Font name="Segoe UI Semibold" size="14.0" />
             </font>
         </TextField>
-        <TextField fx:id="colorInterval" layoutY="133.0" prefHeight="30.0" prefWidth="232.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="82.0">
+        <TextField fx:id="colorInterval" layoutY="133.0" prefHeight="30.0" prefWidth="232.0" promptText="#ff0000" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="82.0">
             <font>
                 <Font name="Segoe UI Semibold" size="14.0" />
             </font>
         </TextField>
-        <Label fx:id="colorPane" layoutX="232.0" layoutY="134.0" prefHeight="29.0" prefWidth="28.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="232.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="134.0" />
-        <TextField fx:id="valueIntervalTo" layoutY="245.0" prefHeight="27.0" prefWidth="56.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <Label fx:id="colorPane" layoutX="232.0" layoutY="134.0" prefHeight="29.0" prefWidth="28.0" style="-fx-background-color: #ff0000;" AnchorPane.leftAnchor="232.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="134.0" />
+        <TextField fx:id="valueIntervalTo" layoutY="245.0" prefHeight="27.0" prefWidth="56.0" promptText="15" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <font>
                 <Font name="Segoe UI Semibold" size="14.0" />
             </font>
@@ -64,7 +64,7 @@
                 <Font name="Segoe UI Semibold" size="16.0" />
             </font>
         </Label>
-        <TextField fx:id="nameLevel" layoutY="79.0" prefHeight="27.0" prefWidth="56.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="79.0">
+        <TextField fx:id="nameLevel" layoutY="79.0" prefHeight="27.0" prefWidth="56.0" promptText="Min" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="79.0">
             <font>
                 <Font name="Segoe UI Semibold" size="14.0" />
             </font>

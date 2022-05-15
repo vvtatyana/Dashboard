@@ -1,59 +1,28 @@
 package com.example.building
 
-class Widget {
+class Widget(private val id: Int?,
+             private val idObject: Int,
+             private val nameWidget: String,
+             private val layoutX: Double,
+             private val layoutY: Double,
+             private val name: String,
+             private val unit: String,
+             private val type: String) {
 
-    private lateinit var widget: String
-    private var name: String
-    private var unit: String
-    private lateinit var type: String
-    private lateinit var date: String
-    private lateinit var from: String
-    private lateinit var to: String
+    fun getId(): Int = id ?: 0
 
-    constructor(
-        name: String,
-        unit: String,
-        type: String,
-        date: String,
-        from: String,
-        to: String
-    ){
-        this.name = name
-        this.unit = unit
-        this.type = type
-        this.date = date
-        this.from = from
-        this.to = to
-    }
+    fun getIdObject(): Int = idObject
 
-    constructor(name: String, unit: String){
-        this.name = name
-        this.unit = unit
-    }
+    fun getNameWidget(): String = nameWidget
 
-    constructor(
-        widget: String,
-        name: String,
-        unit: String,
-        type: String
-    ){
-        this.widget = widget
-        this.name = name
-        this.unit = unit
-        this.type = type
-    }
+    fun getLayoutX(): Double = layoutX
 
-    fun getWidget(): String = widget
+    fun getLayoutY(): Double = layoutY
 
     fun getName(): String = name
 
     fun getUnit(): String = unit
 
     fun getType(): String = type
-
-    fun getDate(): String = date
-
-    fun getFrom(): String = from
-
-    fun getTo(): String = to
 }
+

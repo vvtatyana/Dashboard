@@ -36,7 +36,7 @@
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <TextField fx:id="tokenText" layoutX="50.0" layoutY="225.0" prefHeight="30.0" prefWidth="190.0" promptText="czxs6ds7ds3v2n2nb3v48c8xx9c7xc7cxcn22n2v32b3c23bc2v3c2323" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+    <TextField fx:id="tokenText" layoutX="50.0" layoutY="225.0" prefHeight="30.0" prefWidth="190.0" promptText="mVhMTM4OTQ0ZTAwMTBmYzhiNWUiLCJzdWIiOiI2MWU0MmRkMzZmN2" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
         <font>
             <Font name="Segoe UI Semibold" size="14.0" />
         </font>
@@ -96,12 +96,12 @@
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <PasswordField fx:id="passwordTextOne" layoutX="50.0" layoutY="337.0" promptText="password" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+    <PasswordField fx:id="passwordTextOne" layoutX="50.0" layoutY="337.0" promptText="20ivAn22!" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
         <font>
             <Font name="Segoe UI Semibold" size="14.0" />
         </font>
     </PasswordField>
-    <PasswordField fx:id="passwordTextTwo" layoutX="50.0" layoutY="393.0" promptText="password" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+    <PasswordField fx:id="passwordTextTwo" layoutX="50.0" layoutY="393.0" promptText="20ivAn22!" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
         <font>
             <Font name="Segoe UI Semibold" size="14.0" />
         </font>

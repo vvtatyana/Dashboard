@@ -1,6 +1,6 @@
 package com.example.controller
 
-import com.example.building.Widget
+import com.example.building.DataWidget
 import com.example.restAPI.ProcessingJSON
 import com.example.restAPI.RequestGeneration
 import com.example.util.*
@@ -34,7 +34,7 @@ class AddWidgetController {
     @FXML
     private lateinit var addIndicators: ComboBox<String>
 
-    lateinit var widget: Widget
+    lateinit var widget: DataWidget
 
     private var typeWidget: Boolean = false
 
@@ -115,7 +115,7 @@ class AddWidgetController {
         add = true
         val type = if (!typeWidget && chartsType.value != null) chartsType.value
         else dataType
-        widget = Widget(addIndicators.value, nameTextField.text, unitTextField.text, type)
+        widget = DataWidget(addIndicators.value, nameTextField.text, unitTextField.text, type)
         val stage: Stage = addButton.scene.window as Stage
         stage.close()
     }

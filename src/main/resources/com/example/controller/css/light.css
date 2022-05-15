@@ -7,8 +7,16 @@
     -fx-background-radius: 0;
 }
 
+#errorLabel{
+    -fx-text-fill: RED
+}
+
 .label, .check-box {
     -fx-text-fill: #3b507b;
+}
+
+#errorLabel{
+    -fx-text-fill: RED
 }
 
 #datePicker, #fromTimePicker, #toTimePicker{
@@ -50,6 +58,7 @@
 #devicesList{
     -fx-background-color:  linear-gradient(to left, #e9edf5, #ced9ed);
 }
+
 
 .chart {
     -fx-padding: 10px;

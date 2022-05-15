@@ -84,29 +84,29 @@ class QueriesDB(private val connection: Connection, private val statement: State
         )
     }
 
-    fun selectIndicator(layoutX: Double, layoutY: Double, idObj: Int): Indicator? {
+    fun selectIndicator(layoutX: Double, layoutY: Double, idObj: Int): Widget? {
         val result = select("SELECT * from INDICATORS where LAYOUT_X=$layoutX and LAYOUT_Y=$layoutY and ID_OBJECT=$idObj",
             TableBD.INDICATORS.column)
         return if (result.isNotEmpty())
-            Indicator(result[0][0].toInt(), result[0][1].toInt(), result[0][2], result[0][3].toDouble(),
+            Widget(result[0][0].toInt(), result[0][1].toInt(), result[0][2], result[0][3].toDouble(),
                 result[0][4].toDouble(), result[0][5], result[0][6], result[0][7])
         else null
     }
 
-    fun selectIndicators(idObj: String): List<Indicator>? {
+    fun selectIndicators(idObj: String): List<Widget>? {
         val resultList = select("SELECT * from INDICATORS where ID_OBJECT='$idObj'", TableBD.INDICATORS.column)
         return if (resultList.isNotEmpty()) {
-            val indicators = mutableListOf<Indicator>()
+            val indicators = mutableListOf<Widget>()
             resultList.forEach {
-                indicators.add(Indicator(it[0].toInt(),it[1].toInt(),it[2],it[3].toDouble(),it[4].toDouble(),it[5],it[6],it[7]))
+                indicators.add(Widget(it[0].toInt(),it[1].toInt(),it[2],it[3].toDouble(),it[4].toDouble(),it[5],it[6],it[7]))
             }
             indicators
         } else null
     }
 
-    fun insertIntoIndicator(indicator: Indicator) {
+    fun insertIntoIndicator(indicator: Widget) {
         insertUpdateDelete("INSERT INTO INDICATORS (ID_OBJECT,NAME_INDICATOR,LAYOUT_X,LAYOUT_Y,NAME,UNIT,TYPE)" +
-                    "VALUES ('${indicator.getIdObject()}' , '${indicator.getNameIndicator()}', '${indicator.getLayoutX()}', " +
+                    "VALUES ('${indicator.getIdObject()}' , '${indicator.getNameWidget()}', '${indicator.getLayoutX()}', " +
                     "'${indicator.getLayoutY()}', '${indicator.getName()}', '${indicator.getUnit()}', '${indicator.getType()}');")
     }
 
@@ -118,28 +118,28 @@ class QueriesDB(private val connection: Connection, private val statement: State
         insertUpdateDelete("DELETE from INDICATORS where LAYOUT_X=$layoutX and LAYOUT_Y=$layoutY")
     }
 
-    fun selectChart(layoutX: Double, layoutY: Double, idObj: Int): Chart? {
+    fun selectChart(layoutX: Double, layoutY: Double, idObj: Int): Widget? {
         val result = select("SELECT * from CHARTS where LAYOUT_X=$layoutX and LAYOUT_Y=$layoutY and ID_OBJECT=$idObj", TableBD.CHARTS.column)
         return if (result.isNotEmpty())
-            Chart(result[0][0].toInt(), result[0][1].toInt(), result[0][2], result[0][3].toDouble(),
+            Widget(result[0][0].toInt(), result[0][1].toInt(), result[0][2], result[0][3].toDouble(),
                 result[0][4].toDouble(), result[0][5], result[0][6], result[0][7])
         else null
     }
 
-    fun selectCharts(idObj: String): List<Chart>? {
+    fun selectCharts(idObj: String): List<Widget>? {
         val resultList = select("SELECT * from CHARTS where ID_OBJECT='$idObj'", TableBD.CHARTS.column)
         return if (resultList.isNotEmpty()) {
-            val charts = mutableListOf<Chart>()
+            val charts = mutableListOf<Widget>()
             resultList.forEach {
-                charts.add(Chart(it[0].toInt(),it[1].toInt(),it[2],it[3].toDouble(),it[4].toDouble(),it[5],it[6],it[7]))
+                charts.add(Widget(it[0].toInt(),it[1].toInt(),it[2],it[3].toDouble(),it[4].toDouble(),it[5],it[6],it[7]))
             }
             charts
         } else null
     }
 
-    fun insertIntoChart(chart: Chart) {
+    fun insertIntoChart(chart: Widget) {
         insertUpdateDelete("INSERT INTO CHARTS (ID_OBJECT,NAME_CHART,LAYOUT_X,LAYOUT_Y,NAME,UNIT,TYPE) VALUES ('${chart.getIdObject()}' , " +
-              "'${chart.getNameChart()}','${chart.getLayoutX()}','${chart.getLayoutY()}','${chart.getName()}','${chart.getUnit()}','${chart.getType()}');")
+              "'${chart.getNameWidget()}','${chart.getLayoutX()}','${chart.getLayoutY()}','${chart.getName()}','${chart.getUnit()}','${chart.getType()}');")
     }
 
     fun updateChart(id: Int, field: String, value: String) {

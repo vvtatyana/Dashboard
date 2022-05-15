@@ -10,6 +10,7 @@ import com.example.widget.*
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.jfoenix.controls.JFXListView
 import javafx.animation.TranslateTransition
 import javafx.collections.FXCollections
 import javafx.event.EventHandler
@@ -20,7 +21,6 @@ import javafx.geometry.Insets
 import javafx.scene.chart.XYChart
 import javafx.scene.control.Button
 import javafx.scene.control.Label
-import javafx.scene.control.ListView
 import javafx.scene.control.Tooltip
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.BorderPane.setMargin
@@ -68,7 +68,7 @@ class WindowController : Initializable {
     private lateinit var chartPane: AnchorPane
 
     @FXML
-    private lateinit var devicesList: ListView<String>
+    private lateinit var devicesList: JFXListView<String>
 
     private val request = RequestGeneration()
     private val processingJSON = ProcessingJSON()
@@ -184,7 +184,7 @@ class WindowController : Initializable {
             chartButton.isVisible = false
 
             val fxmlLoader = FXMLLoader(fxmlLoader("alarmOrInfo.fxml"))
-            val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, "Error", false)
+            val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, "Ошибка", false)
 
             val controller: AlarmOrInfoController = fxmlLoader.getController()
             controller.load(message)
@@ -268,7 +268,7 @@ class WindowController : Initializable {
         name: Label
     ) {
         val fxmlLoader = FXMLLoader(fxmlLoader("settingChart.fxml"))
-        val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, "Setting", false)
+        val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, "Настройки графика", false)
 
         val controller: SettingChartController = fxmlLoader.getController()
         val chart = queriesDB.selectChart(layoutX, layoutY, objectData.getId())!!
@@ -359,7 +359,7 @@ class WindowController : Initializable {
     ) {
         val fxmlLoader = FXMLLoader(fxmlLoader("settingIndicator.fxml"))
 
-        val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, "Setting", false)
+        val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, "Настройки индикатора", false)
 
         val controller: SettingIndicatorController = fxmlLoader.getController()
 
@@ -461,7 +461,7 @@ class WindowController : Initializable {
      * @unitText - единицы измерения
      * @typeWidget - тип графика
      */
-    private fun addObjects(addWidget: Widget) {
+    private fun addObjects(addWidget: DataWidget) {
         if (indicatorPane.isVisible) {
             val pos = getPositionIndicator()
             val address = request.addressGeneration(ADDRESS, OBJECTS)
@@ -470,7 +470,7 @@ class WindowController : Initializable {
             val data = objectData(addWidget.getWidget(), obj!!.getIdObject(), address)
 
             queriesDB.insertIntoIndicator(
-                Indicator(
+                Widget(
                     null,
                     objectData.getId(),
                     addWidget.getWidget(),
@@ -490,7 +490,7 @@ class WindowController : Initializable {
         if (chartPane.isVisible) {
             val pos = getPositionChart()
             queriesDB.insertIntoChart(
-                Chart(
+                Widget(
                     null,
                     objectData.getId(),
                     addWidget.getWidget(),
@@ -510,7 +510,7 @@ class WindowController : Initializable {
         }
     }
 
-    private fun addIndicatorToPanel(indicator: Indicator, data: String): Boolean {
+    private fun addIndicatorToPanel(indicator: Widget, data: String): Boolean {
         val address = request.addressGeneration(ADDRESS, MODELS)
         val strModel = request.getRequest(
             request.addressGeneration(
@@ -528,7 +528,7 @@ class WindowController : Initializable {
                         indicator.getName(),
                         indicator.getUnit(),
                         data,
-                        indicator.getNameIndicator(),
+                        indicator.getNameWidget(),
                         strModel
                     )
                 }
@@ -539,7 +539,7 @@ class WindowController : Initializable {
                         Pref.INDICATOR.prefWidth,
                         indicator.getName(),
                         data,
-                        indicator.getNameIndicator(),
+                        indicator.getNameWidget(),
                         strModel
                     )
                 }
@@ -550,7 +550,7 @@ class WindowController : Initializable {
                         Pref.INDICATOR.prefWidth,
                         indicator.getName(),
                         data,
-                        indicator.getNameIndicator(),
+                        indicator.getNameWidget(),
                         strModel
                     )
                 }
@@ -561,7 +561,7 @@ class WindowController : Initializable {
                         Pref.INDICATOR.prefWidth,
                         indicator.getName(),
                         data,
-                        indicator.getNameIndicator(),
+                        indicator.getNameWidget(),
                         strModel
                     )
                 }
@@ -573,7 +573,7 @@ class WindowController : Initializable {
                 settingIndicatorClick(
                     indicator.getId(),
                     panel,
-                    listOf(indicator.getLayoutX(), indicator.getLayoutY()), indicator.getNameIndicator(),
+                    listOf(indicator.getLayoutX(), indicator.getLayoutY()), indicator.getNameWidget(),
                     indicator.getType()
                 )
             }
@@ -584,8 +584,8 @@ class WindowController : Initializable {
         return false
     }
 
-    private fun addChartToPanel(chart: Chart): Boolean {
-        val tp = chartData(chart.getNameChart(), objectData.getIdObject())
+    private fun addChartToPanel(chart: Widget): Boolean {
+        val tp = chartData(chart.getNameWidget(), objectData.getIdObject())
         if (tp != null) {
             val panel = ChartWidget(
                 chart.getLayoutX(),
@@ -625,7 +625,7 @@ class WindowController : Initializable {
                         indicator.getLayoutX(), indicator.getLayoutY()
                     )
                 ) {
-                    flag = addIndicatorToPanel(indicator, data[indicator.getNameIndicator()].toString())
+                    flag = addIndicatorToPanel(indicator, data[indicator.getNameWidget()].toString())
                 }
                 if (!flag) break
             }
@@ -744,11 +744,17 @@ class WindowController : Initializable {
 
     @FXML
     private fun clickIndicators() {
-        val fxmlLoader = if (indicatorPane.isVisible)
+        var title = ""
+        val fxmlLoader = if (indicatorPane.isVisible) {
+            title = "Добавить индикатор"
             FXMLLoader(fxmlLoader("addWidgetIndicator.fxml"))
-        else FXMLLoader(fxmlLoader("addWidgetChart.fxml"))
+        }
+        else {
+            title = "Добавить график"
+            FXMLLoader(fxmlLoader("addWidgetChart.fxml"))
+        }
 
-        val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, "Add", false)
+        val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, title, false)
         val controller: AddWidgetController = fxmlLoader.getController()
         val error = if (indicatorPane.isVisible)
             controller.load(objectData.getIdModel(), true)
@@ -838,7 +844,7 @@ class WindowController : Initializable {
     @FXML
     private fun accountClick() {
         val fxmlLoader = FXMLLoader(fxmlLoader("account.fxml"))
-        val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, "Account", false)
+        val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, "Аккаунт", false)
 
         val token = user.getToken()
         val addressDev = user.getAddress()
@@ -868,7 +874,7 @@ class WindowController : Initializable {
             var newStage: Stage = dataButton.scene.window as Stage
             newStage.close()
             val newFxmlLoader = FXMLLoader(fxmlLoader("loginWindow.fxml"))
-            newStage = createStage(newFxmlLoader, Modality.APPLICATION_MODAL, "login", false)
+            newStage = createStage(newFxmlLoader, Modality.APPLICATION_MODAL, "Вход", false)
             newStage.show()
         }
     }
@@ -977,7 +983,7 @@ class WindowController : Initializable {
 
         val oldTheme = THEME
         val fxmlLoader = FXMLLoader(fxmlLoader("setting.fxml"))
-        val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, "Setting", false)
+        val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, "Настройки", false)
 
         val controller: SettingController = fxmlLoader.getController()
         controller.loader(user)

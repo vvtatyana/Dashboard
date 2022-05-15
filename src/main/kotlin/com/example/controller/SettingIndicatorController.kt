@@ -1,6 +1,6 @@
 package com.example.controller
 
-import com.example.building.Widget
+import com.example.building.DataWidget
 import com.example.restAPI.ProcessingJSON
 import com.example.restAPI.RequestGeneration
 import com.example.util.*
@@ -70,7 +70,7 @@ class SettingIndicatorController {
 
     private lateinit var type: String
 
-    var dataWidget: Widget? = null
+    var dataWidget: DataWidget? = null
     var delete = false
     var save = false
     var message: String = ""
@@ -170,7 +170,7 @@ class SettingIndicatorController {
     @FXML
     private fun saveClick() {
         save = true
-        dataWidget = Widget(nameIndicators.text, unitIndicators.text)
+        dataWidget = DataWidget(nameIndicators.text, unitIndicators.text)
         val stage: Stage = saveButton.scene.window as Stage
         stage.close()
     }
