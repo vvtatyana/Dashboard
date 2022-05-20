@@ -1,15 +1,12 @@
 package com.example.building
 
 class Object {
-
-    private var id: Int = 0
     private val idObject: String
     private var idUser: Int = 0
     private val idModel: String
     private val nameObject: String
 
-    constructor(id: Int, idObject: String, idUser: Int, idModel: String, nameObject: String){
-        this.id = id
+    constructor(idObject: String, idUser: Int, idModel: String, nameObject: String){
         this.idObject = idObject
         this.idUser = idUser
         this.idModel = idModel
@@ -21,8 +18,6 @@ class Object {
         this.idModel = idModel
         this.nameObject = nameObject
     }
-
-    fun getId(): Int = id
 
     fun getIdObject(): String = idObject
 

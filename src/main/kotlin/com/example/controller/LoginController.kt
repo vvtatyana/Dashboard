@@ -1,6 +1,5 @@
 package com.example.controller
 
-import com.example.database.Database
 import com.example.database.QueriesDB
 import com.example.util.*
 import javafx.fxml.FXML
@@ -29,32 +28,32 @@ class LoginController {
     @FXML
     private lateinit var errorLabel: Label
 
-    private lateinit var database: Database
-
     fun initialize() {
         passwordReset.isVisible = false
     }
 
     @FXML
     private fun onEnterButtonClick() {
-        database = Database()
-        val queriesDB = QueriesDB(database.getConnection(), database.getStatement())
-        val user = queriesDB.selectUser(UsersTable.LOGIN.name, loginText.text)
-        if (user != null && PasswordEncoderFactories.createDelegatingPasswordEncoder()
-                .matches(passwordText.text, user.getPassword())
-        ) {
-            HEADERS_AUTH = "Bearer ${user.getToken()}"
-            if (memoryCheck.isSelected) {
-                queriesDB.updateUser(user.getId(), UsersTable.CASTLE.name, true.toString())
+        if (loginText.text.isEmpty()) errorLabel.text = "Введите логин"
+        else if (passwordText.text.isEmpty()) errorLabel.text = "Введите пароль"
+        else if (loginText.text.isNotEmpty() && passwordText.text.isNotEmpty()) {
+            val queriesDB = QueriesDB()
+            val user = queriesDB.selectUser(UsersTable.LOGIN.name, loginText.text)
+
+            if (user != null && PasswordEncoderFactories.createDelegatingPasswordEncoder()
+                    .matches(passwordText.text, user.getPassword())
+            ) {
+                HEADERS_AUTH = "Bearer ${user.getToken()}"
+                if (memoryCheck.isSelected) {
+                    queriesDB.updateUser(user.getId(), UsersTable.CASTLE.name, true.toString())
+                }
+
+                showWindow(Modality.APPLICATION_MODAL, "window.fxml", "RIC", true)
+
+            } else {
+                errorLabel.text = "Не верный логин или пароль."
+                passwordReset.isVisible = true
             }
-
-            database.closeBD()
-
-            showWindow(Modality.APPLICATION_MODAL, "window.fxml", "RIC", true)
-
-        } else {
-            errorLabel.text = "Не верный логин или пароль."
-            passwordReset.isVisible = true
         }
     }
 
@@ -65,7 +64,6 @@ class LoginController {
 
     @FXML
     fun onPasswordResetClick() {
-        database.closeBD()
         showWindow(Modality.WINDOW_MODAL, "passwordReset.fxml", "Восстановление пароля", false)
     }
 

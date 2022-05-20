@@ -63,7 +63,7 @@
             </ImageView>
         </graphic>
     </Button>
-    <JFXTimePicker fx:id="toTimePicker" defaultColor="#5e82c4" editable="true" layoutX="5.0" layoutY="281.0" prefHeight="20.0" prefWidth="166.0" promptText="13:00" AnchorPane.bottomAnchor="73.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
-    <JFXTimePicker fx:id="fromTimePicker" defaultColor="#5e82c4" editable="true" layoutX="5.0" layoutY="227.0" prefHeight="20.0" prefWidth="166.0" promptText="12:00" AnchorPane.bottomAnchor="127.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
-    <JFXDatePicker fx:id="datePicker" defaultColor="#5e82c4" layoutX="5.0" layoutY="173.0" promptText="01.01.2022" AnchorPane.bottomAnchor="181.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+    <JFXTimePicker fx:id="toTimePicker" defaultColor="#5e82c4" editable="true" layoutX="5.0" layoutY="281.0" prefHeight="20.0" prefWidth="166.0" AnchorPane.bottomAnchor="73.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+    <JFXTimePicker fx:id="fromTimePicker" defaultColor="#5e82c4" editable="true" layoutX="5.0" layoutY="227.0" prefHeight="20.0" prefWidth="166.0" AnchorPane.bottomAnchor="127.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+    <JFXDatePicker fx:id="datePicker" defaultColor="#5e82c4" layoutX="5.0" layoutY="173.0" AnchorPane.bottomAnchor="181.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
 </AnchorPane>

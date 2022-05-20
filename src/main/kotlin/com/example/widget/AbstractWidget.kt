@@ -10,8 +10,9 @@ import javafx.scene.layout.AnchorPane
 import java.io.FileInputStream
 
 abstract class AbstractWidget(
-    private val layoutX: Double,
-    private val layoutY: Double,
+    private val id: Int,
+    private var layoutX: Double,
+    private var layoutY: Double,
     private val size: Double,
     private val name: String
 ) {
@@ -26,6 +27,7 @@ abstract class AbstractWidget(
         panel.layoutY = layoutY
         panel.prefWidth = size
         panel.prefHeight = size
+        panel.effect = dropShadow()
         return panel
     }
 
@@ -59,4 +61,22 @@ abstract class AbstractWidget(
 
     @JvmName("setting")
     fun getSetting(): Button = setting
+
+    fun getLayoutX(): Double = layoutX
+
+    fun getLayoutY(): Double = layoutY
+
+    fun getId(): Int = id
+
+    fun setLayoutX(newValue: Double){
+        layoutX = newValue
+        panel.layoutX = newValue
+    }
+
+    fun setLayoutY(newValue: Double){
+        layoutY = newValue
+        panel.layoutY = newValue
+    }
+
+    override fun toString(): String = "id=$id, panel.id=${panel.id}, layoutX=$layoutX, layoutY=$layoutY, name=$name"
 }

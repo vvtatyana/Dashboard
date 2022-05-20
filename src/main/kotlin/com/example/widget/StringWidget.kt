@@ -1,6 +1,7 @@
 package com.example.widget
 
 import com.example.restAPI.ProcessingJSON
+import com.example.util.dropShadow
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import javafx.geometry.Pos
@@ -9,6 +10,7 @@ import javafx.scene.layout.AnchorPane
 import javafx.scene.text.Font
 
 class StringWidget(
+    id: Int,
     layoutX: Double,
     layoutY: Double,
     pref: Double,
@@ -16,7 +18,7 @@ class StringWidget(
     private val data: String?,
     private val typeWidget: String,
     private val strModel: String
-) : AbstractWidget(layoutX, layoutY, pref, name) {
+) : AbstractWidget(id, layoutX, layoutY, pref, name) {
 
     private var string: Label
 
@@ -33,6 +35,7 @@ class StringWidget(
         val stringLabel = Label(data)
         stringLabel.font = Font.font("Segoe UI Semibold", 14.0)
         stringLabel.alignment = Pos.CENTER
+        stringLabel.effect = dropShadow()
         AnchorPane.setTopAnchor(stringLabel, 25.0)
         AnchorPane.setBottomAnchor(stringLabel, 30.0)
         AnchorPane.setRightAnchor(stringLabel, 15.0)

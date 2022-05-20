@@ -1,6 +1,8 @@
 package com.example.widget
 
 import com.example.restAPI.ProcessingJSON
+import com.example.util.TypeIndicator
+import com.example.util.dropShadow
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import eu.hansolo.medusa.Gauge
@@ -10,6 +12,7 @@ import javafx.scene.layout.AnchorPane
 import javafx.scene.paint.Color
 
 class NumericWidget(
+    id: Int,
     layoutX: Double,
     layoutY: Double,
     pref: Double,
@@ -17,12 +20,12 @@ class NumericWidget(
     private val unitText: String,
     private val data: String?,
     private val typeWidget: String,
+    private val typeData: String,
     private val strModel: String
-) : AbstractWidget(layoutX, layoutY, pref, name) {
+) : AbstractWidget(id, layoutX, layoutY, pref, name) {
 
     private val processingJSON = ProcessingJSON()
     private var gauge: Gauge
-    private var type: Boolean = false
     private var rang: Double = 0.0
 
     init {
@@ -35,7 +38,6 @@ class NumericWidget(
 
     private fun createGauge(): Gauge {
         val jsonModel = Gson().fromJson(strModel, JsonObject::class.java)
-        type = processingJSON.typeNumeric(jsonModel, typeWidget)
 
         val borderFrom = processingJSON.readBorderFrom(jsonModel, typeWidget).toMutableMap()
         val borderColor = processingJSON.readBorderColor(jsonModel, typeWidget).toMutableMap()
@@ -50,7 +52,7 @@ class NumericWidget(
             .minValue(borderFrom[keys[0]]!!.toDouble())
         val sections = mutableListOf<Section>()
         borderFrom[keys[0]] = gaugeBuilder.build().minValue.toInt().toString()
-        if (type) {
+        if (typeData == TypeIndicator.NUMBER.type) {
             val borderTo = processingJSON.readBorderTo(jsonModel, typeWidget).toMutableMap()
 
             gaugeBuilder.tickLabelDecimals(1)
@@ -77,8 +79,10 @@ class NumericWidget(
         }
 
         val gauge = gaugeBuilder.sections(sections).build()
+        gauge.effect = dropShadow()
+        gauge.tickLabelColor = Color.web("#9ba7c5")
         if (data != null) {
-            gauge.value = if (type) data.toDouble()
+            gauge.value = if (typeData == TypeIndicator.NUMBER.type) data.toDouble()
             else data.toDouble()
         }
         AnchorPane.setTopAnchor(gauge, 27.0)
@@ -89,7 +93,7 @@ class NumericWidget(
     }
 
     fun setValue(newValue: Double) {
-        gauge.value = if (type) newValue
+        gauge.value = if (typeData == TypeIndicator.NUMBER.type) newValue
         else newValue
     }
 

@@ -1,6 +1,7 @@
 package com.example.controller
 
-import com.example.building.DataWidget
+import com.example.building.Widget
+import com.example.building.WidgetDesigner
 import com.example.restAPI.ProcessingJSON
 import com.example.restAPI.RequestGeneration
 import com.example.util.*
@@ -13,6 +14,9 @@ import javafx.scene.layout.AnchorPane
 import javafx.stage.Stage
 
 class SettingIndicatorController {
+
+    @FXML
+    private lateinit var unitLabel: Label
 
     @FXML
     private lateinit var nameLevel: TextField
@@ -70,15 +74,20 @@ class SettingIndicatorController {
 
     private lateinit var type: String
 
-    var dataWidget: DataWidget? = null
+    var dataWidget: WidgetDesigner? = null
     var delete = false
     var save = false
     var message: String = ""
 
-    fun load(idModel: String, name: String, type: String): Boolean {
+    fun load(idModel: String, indicator: Widget): Boolean {
         this.idModel = idModel
-        this.name = name
-        this.type = type
+        this.name = indicator.getName()
+        this.type = indicator.getType()
+        println(type)
+
+        nameIndicators.text = indicator.getName()
+        if (indicator.getUnit().isNotEmpty())
+            unitIndicators.text = indicator.getUnit()
 
         saveButton.tooltip = Tooltip("Сохранить изменения")
 
@@ -126,6 +135,8 @@ class SettingIndicatorController {
                     oldValueTo = valueIntervalTo.text
                 }
                 TypeIndicator.BOOLEAN.type -> {
+                    unitIndicators.isVisible = false
+                    unitLabel.isVisible = false
                     fromLabel.isVisible = false
                     valueIntervalFrom.isVisible = false
                     toLabel.isVisible = false
@@ -135,6 +146,8 @@ class SettingIndicatorController {
                     fromLabel.text = "Значение"
                     toLabel.isVisible = false
                     valueIntervalTo.isVisible = false
+                    unitIndicators.isVisible = false
+                    unitLabel.isVisible = false
                 }
             }
 
@@ -170,7 +183,7 @@ class SettingIndicatorController {
     @FXML
     private fun saveClick() {
         save = true
-        dataWidget = DataWidget(nameIndicators.text, unitIndicators.text)
+        dataWidget = WidgetDesigner(nameIndicators.text, unitIndicators.text)
         val stage: Stage = saveButton.scene.window as Stage
         stage.close()
     }

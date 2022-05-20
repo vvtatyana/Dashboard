@@ -2,9 +2,7 @@ package com.example.util
 
 enum class TableBD (val column: Int){
     USERS(11),
-    OBJECTS(5),
-    INDICATORS(8),
-    CHARTS(8)
+    WIDGETS(10)
 }
 
 enum class UsersTable{
@@ -21,17 +19,10 @@ enum class UsersTable{
     TIMER
 }
 
-enum class ObjectsTable{
+enum class WidgetsTable{
     ID,
     ID_OBJECT,
-    ID_USER,
-    ID_MODEL,
-    NAME_OBJECT
-}
-
-enum class IndicatorsTable{
-    ID,
-    ID_OBJECT,
+    TYPE_WIDGET,
     NAME_INDICATOR,
     LAYOUT_X,
     LAYOUT_Y,
@@ -39,15 +30,3 @@ enum class IndicatorsTable{
     UNIT,
     TYPE
 }
-
-enum class ChartsTable{
-    ID,
-    ID_OBJECT,
-    NAME_INDICATOR,
-    LAYOUT_X,
-    LAYOUT_Y,
-    NAME,
-    UNIT,
-    TYPE
-}
-

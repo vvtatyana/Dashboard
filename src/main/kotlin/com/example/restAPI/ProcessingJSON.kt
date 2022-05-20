@@ -10,6 +10,10 @@ import com.google.gson.JsonObject
 
 class ProcessingJSON {
     private val INFINITY = "Infinity"
+    private val FROM = "a"
+    private val TO = "b"
+    private val COLOR = "color"
+
 
     fun read(jsonObject: JsonObject, value: String): JsonElement? = jsonObject.get(value)
 
@@ -28,9 +32,7 @@ class ProcessingJSON {
         val objects = ArrayList<Object>()
         while (iterator.hasNext()) {
             val slide: JsonObject = Gson().fromJson(iterator.next().toString(), JsonObject::class.java)
-            val obj =
-                Object(slide.get(_ID).asString, slide.get(MODEL).asString, slide.get(NAME).asString)
-            objects.add(obj)
+            objects.add(Object(slide.get(_ID).asString, slide.get(MODEL).asString, slide.get(NAME).asString))
         }
         return objects
     }
@@ -58,7 +60,6 @@ class ProcessingJSON {
     private fun readBorder(jsonObject: JsonObject, name: String): JsonArray? {
         val children =
             jsonObject.get(DATA).asJsonObject.get(CHILDREN).asJsonArray[1].asJsonObject.get(CHILDREN).asJsonArray
-
         children.forEach {
             if (it.asJsonObject.get(ID).asString == name && it.asJsonObject.get(LEVELS) != null
                 && it.asJsonObject.get(LEVELS).asJsonObject.get(VALUE).toString() != "null"
@@ -71,30 +72,15 @@ class ProcessingJSON {
         val borderColor = mutableMapOf<String, String>()
         val children =
             jsonObject.get(DATA).asJsonObject.get(CHILDREN).asJsonArray[1].asJsonObject.get(CHILDREN).asJsonArray
-
         children.forEach { it ->
             if (it.asJsonObject.get(ID).asString == name) {
                 val values: JsonArray = it.asJsonObject.get(LEVELS).asJsonObject.get(VALUE).asJsonArray
                 values.forEach {
-                    borderColor[it.asJsonObject.get(NAME).asString] =
-                        it.asJsonObject.get("color").asString
+                    borderColor[it.asJsonObject.get(NAME).asString] = it.asJsonObject.get(COLOR).asString
                 }
             }
         }
         return borderColor
-    }
-
-    fun typeNumeric(jsonObject: JsonObject, name: String): Boolean {
-        val values = readBorder(jsonObject, name)
-        if (values != null) {
-            try {
-                if (values[0].asJsonObject.get(VALUE).asJsonObject.get("a").asString != null)
-                    return true
-            } catch (ill: IllegalStateException) {
-                return false
-            }
-        }
-        return false
     }
 
     fun readBorderFrom(jsonObject: JsonObject, name: String): Map<String, String> {
@@ -102,14 +88,14 @@ class ProcessingJSON {
         val values = readBorder(jsonObject, name)
         if (values != null) {
             try {
-                if (values[0].asJsonObject.get(VALUE).asJsonObject.get("a").asString != null) {
+                if (values[0].asJsonObject.get(VALUE).asJsonObject.get(FROM).asString != null) {
                    values.forEach {
-                        if (it.asJsonObject.get(VALUE).asJsonObject.get("a").asString != "-$INFINITY")
+                        if (it.asJsonObject.get(VALUE).asJsonObject.get(FROM).asString != "-$INFINITY")
                             border[it.asJsonObject.get(NAME).asString] =
-                                it.asJsonObject.get(VALUE).asJsonObject.get("a").asString
-                        else if (it.asJsonObject.get(VALUE).asJsonObject.get("a").asString == "-$INFINITY") {
+                                it.asJsonObject.get(VALUE).asJsonObject.get(FROM).asString
+                        else if (it.asJsonObject.get(VALUE).asJsonObject.get(FROM).asString == "-$INFINITY") {
                             border[it.asJsonObject.get(NAME).asString] =
-                                (it.asJsonObject.get(VALUE).asJsonObject.get("b").asInt - 10).toString()
+                                (it.asJsonObject.get(VALUE).asJsonObject.get(TO).asInt - 10).toString()
                         }
                     }
                 }
@@ -128,12 +114,12 @@ class ProcessingJSON {
         if (values != null) {
             try {
                 values.forEach {
-                    if (it.asJsonObject.get(VALUE).asJsonObject.get("b").asString != INFINITY)
+                    if (it.asJsonObject.get(VALUE).asJsonObject.get(TO).asString != INFINITY)
                         border[it.asJsonObject.get(NAME).asString] =
-                            it.asJsonObject.get(VALUE).asJsonObject.get("b").asString
-                    else if (it.asJsonObject.get(VALUE).asJsonObject.get("b").asString == INFINITY) {
+                            it.asJsonObject.get(VALUE).asJsonObject.get(TO).asString
+                    else if (it.asJsonObject.get(VALUE).asJsonObject.get(TO).asString == INFINITY) {
                         border[it.asJsonObject.get(NAME).asString] =
-                            ((it.asJsonObject.get(VALUE).asJsonObject.get("a").asInt / 10 + 2) * 10).toString()
+                            ((it.asJsonObject.get(VALUE).asJsonObject.get(FROM).asInt / 10 + 2) * 10).toString()
                     }
                 }
             } catch (ill: IllegalStateException) {
@@ -155,20 +141,21 @@ class ProcessingJSON {
         val iterator: Iterator<*> = jsonArray.iterator()
         val axisData = ArrayList<ArrayList<Number>>()
         while (iterator.hasNext()) {
-            val one = ArrayList<Number>()
+            val thisData = ArrayList<Number>()
             val slide: JsonObject = Gson().fromJson(iterator.next().toString(), JsonObject::class.java)
             val getTopic = slide.get(TOPIC)
             if (getTopic != null && getTopic.asString == topic) {
-                val time = slide.get(TIME)
-                val payload = slide.get(PAYLOAD)
-                one.add(time.asLong)
-                if (payload.asString.indexOf("true") == -1 && payload.asString.indexOf("false") == -1) {
-                    one.add(payload.asString.replace(",", ".").toDouble())
-                } else {
-                    if (payload.asString.indexOf("true") != -1) one.add(1)
-                    else if (payload.asString.indexOf("false") != -1) one.add(0)
+                val payload = slide.get(PAYLOAD).asString
+                if (payload.isNotEmpty()) {
+                    thisData.add(slide.get(TIME).asLong)
+                    if (payload.indexOf(true.toString()) == -1 && payload.indexOf(false.toString()) == -1) {
+                        thisData.add(payload.replace(",", ".").toDouble())
+                    } else {
+                        if (payload.indexOf(true.toString()) != -1) thisData.add(1)
+                        else if (payload.indexOf(false.toString()) != -1) thisData.add(0)
+                    }
+                    axisData.add(thisData)
                 }
-                axisData.add(one)
             }
         }
         return axisData

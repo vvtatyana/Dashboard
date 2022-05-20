@@ -9,13 +9,14 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ChartWidget(
+    id: Int,
     layoutX: Double,
     layoutY: Double,
     pref: Double,
     name: String,
     private val data: List<List<Number>>,
     private var chartType: String
-) : AbstractWidget(layoutX, layoutY, pref, name) {
+) : AbstractWidget(id, layoutX, layoutY, pref, name) {
 
     private var chart: XYChart<String, Number>
 

@@ -14,8 +14,20 @@ class User {
     private lateinit var theme: String
     private var timer: Int = 1
 
-    constructor(id: Int, idUser: String, username: String, login: String, password: String,
-        address: String, token: String, castle: Boolean, icon: Int, theme: String, timer: Int) {
+    constructor(
+        id: Int,
+        idUser: String,
+        username: String,
+        login: String,
+        password: String,
+        address:
+        String,
+        token: String,
+        castle: Boolean,
+        icon: Int,
+        theme: String,
+        timer: Int
+    ) {
         this.id = id
         this.idUser = idUser
         this.username = username

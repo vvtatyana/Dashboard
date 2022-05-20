@@ -1,14 +1,10 @@
 #dataPane, #headerPane, #mainPane, #chartPane, #indicatorPane{
-    -fx-background-color: linear-gradient(to left, #d0daf0, #bac9e8);
+    -fx-background-color: linear-gradient(to left, #dee4f0, #cdd9f1);
 }
 
 .text-field, .combo-box, #pane {
-    -fx-background-color:  linear-gradient(to left, #e1e6f0, #ced9ed);
+    -fx-background-color:  linear-gradient(to left, #edf1f8, #dee5f1);
     -fx-background-radius: 0;
-}
-
-#errorLabel{
-    -fx-text-fill: RED
 }
 
 .label, .check-box {
@@ -26,7 +22,7 @@
 }
 
 .text-field, #login, #time{
-    -fx-background-color:  linear-gradient(to left, #e1e6f0, #ced9ed);
+    -fx-background-color:  linear-gradient(to left, #edf1f8, #dee5f1);
     -fx-background-radius: 0;
     -fx-text-fill: #3b507b;
 }
@@ -46,7 +42,6 @@
     -fx-text-fill: white;
 }
 
-
 .list-cell {
     -fx-control-inner-background: transparent;
     -fx-control-inner-background-alt: transparent;
@@ -56,7 +51,7 @@
 }
 
 #devicesList{
-    -fx-background-color:  linear-gradient(to left, #e9edf5, #ced9ed);
+    -fx-background-color:  linear-gradient(to left, #edf1f8, #dee5f1);
 }
 
 

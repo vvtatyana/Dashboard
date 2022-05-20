@@ -1,6 +1,7 @@
 package com.example.widget
 
 import com.example.restAPI.ProcessingJSON
+import com.example.util.dropShadow
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import javafx.geometry.Pos
@@ -10,6 +11,7 @@ import javafx.scene.paint.Paint
 import javafx.scene.shape.Circle
 
 class BooleanWidget(
+    id: Int,
     layoutX: Double,
     layoutY: Double,
     pref: Double,
@@ -17,7 +19,7 @@ class BooleanWidget(
     private val data: String?,
     private val typeWidget: String,
     strModel: String
-) : AbstractWidget(layoutX, layoutY, pref, name) {
+) : AbstractWidget(id, layoutX, layoutY, pref, name) {
 
     private var circle: Circle
     private var text: Label
@@ -26,6 +28,7 @@ class BooleanWidget(
 
     init {
         circle = createCircle(74.0, 24.0, 19.0, 23.0, 23.0, true)
+        circle.effect = dropShadow()
         text = createCircleText()
         panel.children.add(title)
         panel.children.add(circle)
@@ -45,7 +48,7 @@ class BooleanWidget(
         } else if (!flag) circle.fill = Paint.valueOf("#636161")
         circle.radius = radius
         circle.stroke = Paint.valueOf("white")
-        circle.strokeWidth = 3.0
+        circle.strokeWidth = 3.5
         AnchorPane.setTopAnchor(circle, top)
         AnchorPane.setBottomAnchor(circle, bottom)
         AnchorPane.setRightAnchor(circle, right)

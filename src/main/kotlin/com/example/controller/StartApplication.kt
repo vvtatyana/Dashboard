@@ -1,6 +1,5 @@
 package com.example.controller
 
-import com.example.database.Database
 import com.example.database.QueriesDB
 import com.example.util.*
 import javafx.application.Application
@@ -11,11 +10,9 @@ import javafx.stage.Stage
 class StartApplication : Application() {
 
     override fun start(stage: Stage) {
-        val database = Database()
-        val queriesDB = QueriesDB(database.getConnection(), database.getStatement())
+        val queriesDB = QueriesDB()
 
         val user = queriesDB.selectUser(UsersTable.CASTLE.name, true.toString())
-        database.closeBD()
         if(user != null) {
             HEADERS_AUTH = "Bearer " + user.getToken()
             THEME = user.getTheme()

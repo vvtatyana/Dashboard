@@ -16,7 +16,7 @@
             <Font name="Segoe UI Semibold" size="14.0" />
         </font>
     </TextField>
-    <Label layoutX="5.0" layoutY="91.0" text="Единицы измерения" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="91.0">
+    <Label fx:id="unitLabel" layoutX="5.0" layoutY="91.0" text="Единицы измерения" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="91.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>

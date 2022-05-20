@@ -1,6 +1,6 @@
 package com.example.building
 
-class DataWidget {
+class WidgetDesigner {
 
     private lateinit var widget: String
     private var name: String
@@ -45,3 +45,4 @@ class DataWidget {
 
     fun getTo(): String = to
 }
+
