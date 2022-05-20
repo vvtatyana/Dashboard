@@ -76,5 +76,4 @@ class User {
     fun getTheme(): String = theme
     fun getTimer(): Int = timer
     fun setTimer(newValue: Int) { timer = newValue }
-
 }

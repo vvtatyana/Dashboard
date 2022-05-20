@@ -5,7 +5,7 @@ import com.example.util.TableBD
 import org.slf4j.LoggerFactory
 
 class QueriesDB {
-    private val LOGGER = LoggerFactory.getLogger(javaClass)
+    private val logger = LoggerFactory.getLogger(javaClass)
 
     private val database: Database = Database()
     private fun select(sql: String, column: Int): List<List<String>> {
@@ -21,7 +21,7 @@ class QueriesDB {
             }
             rs.close()
         } catch (e: Exception) {
-            LOGGER.error(sql + " " + e.javaClass.name + ": " + e.message)
+            logger.error(sql + " " + e.javaClass.name + ": " + e.message)
         } finally {
             database.close()
         }
@@ -34,7 +34,7 @@ class QueriesDB {
             database.getStatement().executeUpdate(sql)
             database.getConnection().commit()
         } catch (e: java.lang.Exception) {
-            LOGGER.error(sql + " " + e.javaClass.name + ": " + e.message)
+            logger.error(sql + " " + e.javaClass.name + ": " + e.message)
         } finally {
             database.close()
         }

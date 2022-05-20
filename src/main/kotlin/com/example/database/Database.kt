@@ -8,7 +8,7 @@ import java.sql.Statement
 import kotlin.system.exitProcess
 
 class Database {
-    private val LOGGER = LoggerFactory.getLogger(javaClass)
+    private val logger = LoggerFactory.getLogger(javaClass)
     private lateinit var connection: Connection
     private lateinit var statement: Statement
 
@@ -20,7 +20,7 @@ class Database {
             statement.executeUpdate(createWidgetsTable())
 
         } catch (e: java.lang.Exception) {
-            LOGGER.error("Create BD " + e.javaClass.name + ": " + e.message)
+            logger.error("Create BD " + e.javaClass.name + ": " + e.message)
             exitProcess(0)
         } finally {
             close()
@@ -34,7 +34,7 @@ class Database {
     fun open() {
         Class.forName("org.sqlite.JDBC")
         connection =
-            DriverManager.getConnection("jdbc:sqlite:src/main/resources/com/example/controller/database/SmartHome.db")
+            DriverManager.getConnection("jdbc:sqlite:$filePath/database/SmartHome.db")
         statement = connection.createStatement()
         connection.autoCommit = false
     }

@@ -83,7 +83,6 @@ class SettingIndicatorController {
         this.idModel = idModel
         this.name = indicator.getName()
         this.type = indicator.getType()
-        println(type)
 
         nameIndicators.text = indicator.getName()
         if (indicator.getUnit().isNotEmpty())
@@ -99,11 +98,9 @@ class SettingIndicatorController {
         }
         else {
             val model = Gson().fromJson(getData, JsonObject::class.java)
-
             when (type) {
-                TypeIndicator.NUMBER.type, TypeIndicator.BOOLEAN.type, TypeIndicator.STRING.type -> {
+                TypeIndicator.NUMBER.type, TypeIndicator.BOOLEAN.type, TypeIndicator.STRING.type ->
                     settingData(model)
-                }
                 else -> borderPane.isVisible = false
             }
             true
@@ -111,6 +108,11 @@ class SettingIndicatorController {
     }
 
     private fun settingData(model: JsonObject) {
+        if(type == TypeIndicator.BOOLEAN.type || type == TypeIndicator.STRING.type) {
+            unitIndicators.isVisible = false
+            unitLabel.isVisible = false
+        }
+
         borderFrom = if (type == TypeIndicator.NUMBER.type) {
             borderTo = ProcessingJSON().readBorderTo(model, name)
             ProcessingJSON().readBorderFrom(model, name)
@@ -135,8 +137,6 @@ class SettingIndicatorController {
                     oldValueTo = valueIntervalTo.text
                 }
                 TypeIndicator.BOOLEAN.type -> {
-                    unitIndicators.isVisible = false
-                    unitLabel.isVisible = false
                     fromLabel.isVisible = false
                     valueIntervalFrom.isVisible = false
                     toLabel.isVisible = false
@@ -146,8 +146,6 @@ class SettingIndicatorController {
                     fromLabel.text = "Значение"
                     toLabel.isVisible = false
                     valueIntervalTo.isVisible = false
-                    unitIndicators.isVisible = false
-                    unitLabel.isVisible = false
                 }
             }
 

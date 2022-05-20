@@ -12,10 +12,6 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 class SettingChartController {
-//    lateinit var minuteTo: Spinner<Int>
-//    lateinit var hourTo: Spinner<Int>
-//    lateinit var minuteFrom: Spinner<Int>
-//    lateinit var hourFrom: Spinner<Int>
 
     @FXML
     private lateinit var toTimePicker: JFXTimePicker

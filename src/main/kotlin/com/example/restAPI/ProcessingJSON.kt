@@ -9,12 +9,6 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 
 class ProcessingJSON {
-    private val INFINITY = "Infinity"
-    private val FROM = "a"
-    private val TO = "b"
-    private val COLOR = "color"
-
-
     fun read(jsonObject: JsonObject, value: String): JsonElement? = jsonObject.get(value)
 
     fun readAllUsers(jsonArray: JsonArray): List<User> {
@@ -90,10 +84,10 @@ class ProcessingJSON {
             try {
                 if (values[0].asJsonObject.get(VALUE).asJsonObject.get(FROM).asString != null) {
                    values.forEach {
-                        if (it.asJsonObject.get(VALUE).asJsonObject.get(FROM).asString != "-$INFINITY")
+                        if (it.asJsonObject.get(VALUE).asJsonObject.get(FROM).asString != "-${INFINITY}")
                             border[it.asJsonObject.get(NAME).asString] =
                                 it.asJsonObject.get(VALUE).asJsonObject.get(FROM).asString
-                        else if (it.asJsonObject.get(VALUE).asJsonObject.get(FROM).asString == "-$INFINITY") {
+                        else if (it.asJsonObject.get(VALUE).asJsonObject.get(FROM).asString == "-${INFINITY}") {
                             border[it.asJsonObject.get(NAME).asString] =
                                 (it.asJsonObject.get(VALUE).asJsonObject.get(TO).asInt - 10).toString()
                         }
@@ -181,5 +175,12 @@ class ProcessingJSON {
             }
         }
         return null
+    }
+
+    companion object {
+        const val INFINITY = "Infinity"
+        const val FROM = "a"
+        const val TO = "b"
+        const val COLOR = "color"
     }
 }

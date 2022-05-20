@@ -21,7 +21,5 @@ class Widget(private val id: Int?,
     fun getName(): String = name
     fun getUnit(): String = unit
     fun getType(): String = type
-
-    override fun toString(): String = "[id=$id, layoutX=$layoutX, layoutY=$layoutY, name=$name]"
 }
 

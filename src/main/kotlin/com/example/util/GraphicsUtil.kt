@@ -7,7 +7,6 @@ import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.stage.Modality
 import javafx.stage.Stage
-import java.awt.Color
 import java.io.File
 import java.io.FileInputStream
 import java.net.URL
@@ -27,12 +26,11 @@ fun theme(): String = File("$filePath/css/$THEME.css").toURI().toURL().toExterna
 fun fxmlLoader(nameFile: String): URL = File("$filePath/$nameFile").toURI().toURL()
 
 enum class ChartType(val type: String){
-    AREA_CHART ("AreaChart"),
-    BAR_CHART ("BarChart"),
-    LINE_CHART ("LineChart"),
-    SCATTER_CHART ("ScatterChart");
+    AREA_CHART ("Диаграмма с областями"),
+    BAR_CHART ("Гистограмма"),
+    LINE_CHART ("График"),
+    SCATTER_CHART ("Точечная диаграмма");
 }
-
 
 enum class Pref(val size: Double){
     INDICATOR (200.0),
