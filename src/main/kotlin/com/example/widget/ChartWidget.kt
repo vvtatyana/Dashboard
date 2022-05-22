@@ -1,6 +1,7 @@
 package com.example.widget
 
 import com.example.util.*
+import javafx.event.EventHandler
 import javafx.geometry.Side
 import javafx.scene.chart.*
 import javafx.scene.text.Font
@@ -66,7 +67,7 @@ class ChartWidget(
         areaChart.layoutX = Decoration.CHARTS.layoutX
         areaChart.layoutY = Decoration.CHARTS.layoutY
         areaChart.prefWidth = Decoration.CHARTS.pref
-        areaChart.prefHeight = Decoration.CHARTS.pref
+        areaChart.prefHeight = Decoration.CHARTS.pref - 20
         areaChart.data.add(dataChart)
         return areaChart
     }

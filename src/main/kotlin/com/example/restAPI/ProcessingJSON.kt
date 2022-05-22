@@ -51,7 +51,7 @@ class ProcessingJSON {
     }
 
 
-    private fun readBorder(jsonObject: JsonObject, name: String): JsonArray? {
+    fun readBorder(jsonObject: JsonObject, name: String): JsonArray? {
         val children =
             jsonObject.get(DATA).asJsonObject.get(CHILDREN).asJsonArray[1].asJsonObject.get(CHILDREN).asJsonArray
         children.forEach {
@@ -153,28 +153,6 @@ class ProcessingJSON {
             }
         }
         return axisData
-    }
-
-    fun updateModel(data: String, name: String, value: String, field: String, property: String): String? {
-        val jsonModel: JsonObject = Gson().fromJson(data, JsonObject::class.java)
-        readBorder(jsonModel, name)?.forEach {
-            if (it.asJsonObject.get(NAME).asString == value) {
-                it.asJsonObject.addProperty(property, field)
-                return jsonModel.toString()
-            }
-        }
-        return null
-    }
-
-    fun updateBorder(data: String, name: String, value: String, field: String, level: String): String? {
-        val jsonModel: JsonObject = Gson().fromJson(data, JsonObject::class.java)
-        readBorder(jsonModel, name)?.forEach {
-            if (it.asJsonObject.get(NAME).asString == value) {
-                it.asJsonObject.get(VALUE).asJsonObject.addProperty(level, field)
-                return jsonModel.toString()
-            }
-        }
-        return null
     }
 
     companion object {

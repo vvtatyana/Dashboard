@@ -5,28 +5,28 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="dataPane" prefHeight="506.0" prefWidth="324.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.SettingIndicatorController">
-    <Label layoutX="5.0" layoutY="35.0" text="Название" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="35.0">
+<AnchorPane fx:id="dataPane" prefHeight="524.0" prefWidth="324.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.SettingIndicatorController">
+    <Label layoutX="5.0" layoutY="38.0" text="Название" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="38.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <TextField fx:id="nameIndicators" layoutX="5.0" layoutY="61.0" prefHeight="26.0" prefWidth="140.0" promptText="Температура" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="61.0">
+    <TextField fx:id="nameIndicators" layoutX="5.0" layoutY="64.0" prefHeight="26.0" prefWidth="140.0" promptText="Температура" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="64.0">
         <font>
             <Font name="Segoe UI Semibold" size="14.0" />
         </font>
     </TextField>
-    <Label fx:id="unitLabel" layoutX="5.0" layoutY="91.0" text="Единицы измерения" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="91.0">
+    <Label fx:id="unitLabel" layoutX="5.0" layoutY="94.0" text="Единицы измерения" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="94.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <TextField fx:id="unitIndicators" layoutX="5.0" layoutY="117.0" prefHeight="26.0" prefWidth="140.0" promptText="°C" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="117.0">
+    <TextField fx:id="unitIndicators" layoutX="5.0" layoutY="120.0" prefHeight="26.0" prefWidth="140.0" promptText="°C" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="120.0">
         <font>
             <Font name="Segoe UI Semibold" size="14.0" />
         </font>
     </TextField>
-    <AnchorPane fx:id="borderPane" layoutX="5.0" layoutY="147.0" prefHeight="319.0" prefWidth="314.0" AnchorPane.bottomAnchor="35.80000000000001" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+    <AnchorPane fx:id="borderPane" layoutX="5.0" layoutY="150.0" prefHeight="319.0" prefWidth="314.0" AnchorPane.bottomAnchor="50.80000000000001" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
         <Label layoutY="52.0" prefHeight="20.0" prefWidth="304.0" text="Название уровня" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="53.0">
             <font>
                 <Font name="Segoe UI Semibold" size="16.0" />
@@ -82,7 +82,7 @@
             </graphic>
         </Button>
     </AnchorPane>
-    <Label fx:id="errorLabel" alignment="CENTER" layoutX="5.0" layoutY="479.0" prefHeight="17.0" prefWidth="314.0" textFill="RED" AnchorPane.bottomAnchor="1.3999999999999773" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+    <Label fx:id="errorLabel" alignment="CENTER" layoutX="5.0" layoutY="473.0" prefHeight="17.0" prefWidth="314.0" textFill="RED" AnchorPane.bottomAnchor="25.399999999999977" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>

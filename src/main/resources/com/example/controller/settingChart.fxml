@@ -6,45 +6,45 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="dataPane" prefHeight="400.0" prefWidth="324.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.SettingChartController">
-    <Label layoutX="5.0" layoutY="35.0" text="Название" AnchorPane.bottomAnchor="321.4" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+<AnchorPane fx:id="dataPane" prefHeight="414.0" prefWidth="324.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.SettingChartController">
+    <Label layoutX="5.0" layoutY="38.0" text="Название" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="38.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <ComboBox fx:id="chartsType" layoutX="5.0" layoutY="335.0" prefWidth="150.0" AnchorPane.bottomAnchor="21.399999999999977" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+    <ComboBox fx:id="chartsType" layoutX="5.0" layoutY="338.0" prefWidth="150.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="338.0" />
 
-    <TextField fx:id="nameChart" layoutX="5.0" layoutY="61.0" prefHeight="26.0" prefWidth="140.0" promptText="Температура" AnchorPane.bottomAnchor="291.4" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+    <TextField fx:id="nameChart" layoutX="5.0" layoutY="64.0" prefHeight="26.0" prefWidth="140.0" promptText="Температура" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="64.0">
         <font>
             <Font name="Segoe UI Semibold" size="14.0" />
         </font>
     </TextField>
-    <Label layoutX="5.0" layoutY="91.0" text="Единицы измерения" AnchorPane.bottomAnchor="265.4" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+    <Label layoutX="5.0" layoutY="94.0" text="Единицы измерения" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="94.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <TextField fx:id="unitChart" layoutX="5.0" layoutY="117.0" prefHeight="26.0" prefWidth="140.0" promptText="°C" AnchorPane.bottomAnchor="235.4" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+    <TextField fx:id="unitChart" layoutX="5.0" layoutY="120.0" prefHeight="26.0" prefWidth="140.0" promptText="°C" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="120.0">
         <font>
             <Font name="Segoe UI Semibold" size="14.0" />
         </font>
     </TextField>
-    <Label layoutX="5.0" layoutY="201.0" text="Начало" AnchorPane.bottomAnchor="155.4" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+    <Label layoutX="5.0" layoutY="204.0" text="Начало" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="204.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <Label layoutX="5.0" layoutY="255.0" text="Конец" AnchorPane.bottomAnchor="101.39999999999998" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+    <Label layoutX="5.0" layoutY="258.0" text="Конец" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="258.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <Label layoutX="5.0" layoutY="147.0" text="Дата" AnchorPane.bottomAnchor="209.4" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+    <Label layoutX="5.0" layoutY="150.0" text="Дата" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="150.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <Label layoutX="5.0" layoutY="309.0" text="Тип диаграммы" AnchorPane.bottomAnchor="47.39999999999998" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+    <Label layoutX="5.0" layoutY="312.0" text="Тип диаграммы" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="312.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
@@ -63,7 +63,7 @@
             </ImageView>
         </graphic>
     </Button>
-    <JFXTimePicker fx:id="toTimePicker" defaultColor="#5e82c4" editable="true" layoutX="5.0" layoutY="281.0" prefHeight="20.0" prefWidth="166.0" AnchorPane.bottomAnchor="73.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
-    <JFXTimePicker fx:id="fromTimePicker" defaultColor="#5e82c4" editable="true" layoutX="5.0" layoutY="227.0" prefHeight="20.0" prefWidth="166.0" AnchorPane.bottomAnchor="127.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
-    <JFXDatePicker fx:id="datePicker" defaultColor="#5e82c4" layoutX="5.0" layoutY="173.0" AnchorPane.bottomAnchor="181.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+    <JFXTimePicker fx:id="toTimePicker" defaultColor="#5e82c4" editable="true" layoutX="5.0" layoutY="284.0" prefHeight="20.0" prefWidth="166.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="284.0" />
+    <JFXTimePicker fx:id="fromTimePicker" defaultColor="#5e82c4" editable="true" layoutX="5.0" layoutY="230.0" prefHeight="20.0" prefWidth="166.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="230.0" />
+    <JFXDatePicker fx:id="datePicker" defaultColor="#5e82c4" layoutX="5.0" layoutY="176.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="176.0" />
 </AnchorPane>

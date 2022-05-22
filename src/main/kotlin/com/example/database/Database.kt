@@ -20,7 +20,7 @@ class Database {
             statement.executeUpdate(createWidgetsTable())
 
         } catch (e: java.lang.Exception) {
-            logger.error("Create BD " + e.javaClass.name + ": " + e.message)
+            logger.error(e.javaClass.name + ": " + e.message)
             exitProcess(0)
         } finally {
             close()

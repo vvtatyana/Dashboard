@@ -9,7 +9,7 @@ class Widget(private val id: Int?,
              private val layoutY: Double,
              private val name: String,
              private val unit: String,
-             private val type: String) {
+             private var type: String) {
 
     fun getId(): Int = id ?: 0
     fun getIdUser(): Int = idUser
@@ -21,5 +21,8 @@ class Widget(private val id: Int?,
     fun getName(): String = name
     fun getUnit(): String = unit
     fun getType(): String = type
+    fun setType(newValue: String) {
+        type = newValue
+    }
 }
 

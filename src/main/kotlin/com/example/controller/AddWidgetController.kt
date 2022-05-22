@@ -66,10 +66,10 @@ class AddWidgetController {
             var itemsIndicator = mutableListOf<String>()
             if (!typeWidget) {
                 val items = mutableListOf<String>()
-                ChartType.values().forEach { items.add(it.type) }
+                ChartType.values().forEach { items.add(it.translation) }
                 chartsType.items =
                     FXCollections.observableArrayList(items)
-                chartsType.value = ChartType.values()[0].type
+                chartsType.value = ChartType.values()[0].translation
 
                 modelState.forEach {
                     if (stateType[it] != TypeIndicator.STRING.type) {
@@ -113,7 +113,7 @@ class AddWidgetController {
     @FXML
     private fun addClick() {
         add = true
-        val type = if (!typeWidget && chartsType.value != null) chartsType.value
+        val type = if (!typeWidget && chartsType.value != null) ChartType.getType(chartsType.value).type
         else dataType
         widget = WidgetDesigner(addIndicators.value, nameTextField.text, unitTextField.text, type)
         val stage: Stage = addButton.scene.window as Stage

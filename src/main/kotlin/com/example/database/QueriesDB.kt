@@ -8,6 +8,7 @@ class QueriesDB {
     private val logger = LoggerFactory.getLogger(javaClass)
 
     private val database: Database = Database()
+
     private fun select(sql: String, column: Int): List<List<String>> {
         val result = mutableListOf<List<String>>()
         try {

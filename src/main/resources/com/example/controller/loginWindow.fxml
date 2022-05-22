@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="dataPane" prefHeight="336.0" prefWidth="438.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.LoginController">
+<AnchorPane fx:id="dataPane" prefHeight="368.0" prefWidth="438.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.LoginController">
     <Label layoutX="187.0" layoutY="18.0" prefHeight="54.0" prefWidth="105.0" text="войти" textAlignment="CENTER" AnchorPane.leftAnchor="187.0" AnchorPane.rightAnchor="136.0" AnchorPane.topAnchor="18.0">
         <font>
             <Font name="Segoe UI Semibold" size="30.0" />
@@ -54,7 +54,7 @@
             <Font name="Segoe UI Semibold" size="14.0" />
         </font>
     </PasswordField>
-    <Button fx:id="passwordReset" layoutX="45.0" layoutY="292.0" mnemonicParsing="false" onAction="#onPasswordResetClick" prefHeight="30.0" prefWidth="347.0" style="-fx-background-color: transparent;" text="забыли пароль?" textFill="#3b507b">
+    <Button fx:id="passwordReset" layoutX="45.0" layoutY="302.0" mnemonicParsing="false" onAction="#onPasswordResetClick" prefHeight="30.0" prefWidth="347.0" style="-fx-background-color: transparent;" text="забыли пароль?" textFill="#3b507b">
         <font>
             <Font name="Segoe UI Semibold" size="14.0" />
         </font>

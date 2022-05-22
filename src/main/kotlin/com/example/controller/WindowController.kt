@@ -113,22 +113,24 @@ class WindowController : Initializable {
     private fun schedule() {
         Platform.runLater {
             val address = request.addressGeneration(ADDRESS, OBJECTS)
-            val values = valuesObject(objectData.getNameObject(), objects, address)!!
-            val data = objectsData(objectData.getNameObject(), objects, address, values)
+            val values = valuesObject(objectData.getNameObject(), objects, address)
+            if (values != null) {
+                val data = objectsData(objectData.getNameObject(), objects, address, values)
 
-            for (widget in widgets) {
-                val typeWidget = if (widget is ChartWidget) CHART
-                else INDICATOR
-                val indicator = queriesDB.selectWidget(user.getId(), objectData.getIdObject(), typeWidget, widget.getLayoutX(), widget.getLayoutY())
-                if (indicator != null && data != null) {
-                    if (widget is BooleanWidget) {
-                        widget.setValue(data[indicator.getIdentifier()].toBoolean())
-                    }
-                    if (widget is NumericWidget) {
-                        widget.setValue(data[indicator.getIdentifier()]!!.toDouble())
-                    }
-                    if (widget is StringWidget) {
-                        widget.setValue(data[indicator.getIdentifier()].toString())
+                widgets.forEach {
+                    val typeWidget = if (it is ChartWidget) CHART
+                    else INDICATOR
+                    val indicator = queriesDB.selectWidget(
+                        user.getId(),
+                        objectData.getIdObject(),
+                        typeWidget,
+                        it.getLayoutX(),
+                        it.getLayoutY()
+                    )
+                    if (indicator != null && data != null) {
+                        if (it is BooleanWidget) { it.setValue(data[indicator.getIdentifier()].toBoolean()) }
+                        if (it is NumericWidget) { it.setValue(data[indicator.getIdentifier()]!!.toDouble()) }
+                        if (it is StringWidget) { it.setValue(data[indicator.getIdentifier()].toString()) }
                     }
                 }
             }
@@ -232,8 +234,8 @@ class WindowController : Initializable {
                 indicatorPane.children.remove(0, indicatorPane.children.size)
                 chartPane.children.remove(0, chartPane.children.size)
                 var objDB: Object? = null
-                objects.forEach{
-                    if(it.getNameObject() == newValue) objDB = it
+                objects.forEach {
+                    if (it.getNameObject() == newValue) objDB = it
                 }
 
                 if (objDB != null) {
@@ -272,12 +274,19 @@ class WindowController : Initializable {
         stage.showAndWait()
         if (controller.delete) {
             chartPane.children.remove(panel)
-            queriesDB.deleteWidget(user.getId(), objectData.getIdObject(),CHART, panel.layoutX, panel.layoutY)
+            widgets.remove(chartWidget)
+            queriesDB.deleteWidget(user.getId(), objectData.getIdObject(), CHART, panel.layoutX, panel.layoutY)
         } else if (controller.save) {
             val dataWidget = controller.dataWidget
 
-            if (chart.getType() != dataWidget.getType())
-                chartWidget.updateType(dataWidget.getType())
+            if (chart.getType() != dataWidget.getType()) {
+                widgets.forEach {
+                    if (it.getId() == chartWidget.getId() && it is ChartWidget) {
+                        it.updateType(dataWidget.getType())
+                        chart.setType(dataWidget.getType())
+                    }
+                }
+            }
 
             updateObject(chart.getId(), dataWidget.getName(), dataWidget.getUnit(), dataWidget.getType())
             if (dataWidget.getName().isNotEmpty() && dataWidget.getName() != chart.getName())
@@ -361,7 +370,13 @@ class WindowController : Initializable {
 
             if (controller.delete) {
                 indicatorPane.children.remove(panel.getPanel())
-                queriesDB.deleteWidget(user.getId(), objectData.getIdObject(),INDICATOR, indicator.getLayoutX(), indicator.getLayoutY())
+                queriesDB.deleteWidget(
+                    user.getId(),
+                    objectData.getIdObject(),
+                    INDICATOR,
+                    indicator.getLayoutX(),
+                    indicator.getLayoutY()
+                )
             } else if (controller.save) {
                 val dataWidget = controller.dataWidget
                 if (dataWidget != null) {
@@ -457,7 +472,7 @@ class WindowController : Initializable {
             val address = request.addressGeneration(ADDRESS, OBJECTS)
             var obj: Object? = null
             objects.forEach {
-                if(it.getIdObject() == objectData.getIdObject()) obj = it
+                if (it.getIdObject() == objectData.getIdObject()) obj = it
             }
 
             val data = objectData(addWidget.getWidget(), obj!!.getIdObject(), address)
@@ -753,8 +768,7 @@ class WindowController : Initializable {
         val fxmlLoader = if (indicatorPane.isVisible) {
             title = "Добавить индикатор"
             FXMLLoader(fxmlLoader("addWidgetIndicator.fxml"))
-        }
-        else {
+        } else {
             title = "Добавить график"
             FXMLLoader(fxmlLoader("addWidgetChart.fxml"))
         }
@@ -900,12 +914,13 @@ class WindowController : Initializable {
         reloadClick()
     }
 
-    private fun updatePositionIndicator(layoutX: Double, layoutY: Double, panel: AnchorPane){
+    private fun updatePositionIndicator(layoutX: Double, layoutY: Double, panel: AnchorPane) {
         val newPos = shift(panel.layoutX, panel.layoutY, Pref.INDICATOR.size)
         val indicator = queriesDB.selectWidget(user.getId(), objectData.getIdObject(), INDICATOR, layoutX, layoutY)
 
         if (positionFree(newPos[0], newPos[1])) {
-            val anotherIndicator = queriesDB.selectWidget(user.getId(), objectData.getIdObject(), INDICATOR, newPos[0], newPos[1])
+            val anotherIndicator =
+                queriesDB.selectWidget(user.getId(), objectData.getIdObject(), INDICATOR, newPos[0], newPos[1])
             if (anotherIndicator != null) {
                 widgets.forEach {
                     if (it.getId() == anotherIndicator.getId()) {
@@ -913,8 +928,18 @@ class WindowController : Initializable {
                         it.setLayoutY(layoutY)
                     }
                 }
-                queriesDB.updateWidget(anotherIndicator.getId(), INDICATOR, WidgetsTable.LAYOUT_X.name, layoutX.toString())
-                queriesDB.updateWidget(anotherIndicator.getId(), INDICATOR, WidgetsTable.LAYOUT_Y.name, layoutY.toString())
+                queriesDB.updateWidget(
+                    anotherIndicator.getId(),
+                    INDICATOR,
+                    WidgetsTable.LAYOUT_X.name,
+                    layoutX.toString()
+                )
+                queriesDB.updateWidget(
+                    anotherIndicator.getId(),
+                    INDICATOR,
+                    WidgetsTable.LAYOUT_Y.name,
+                    layoutY.toString()
+                )
             }
         }
         if (indicator != null) {
@@ -929,12 +954,13 @@ class WindowController : Initializable {
         }
     }
 
-    private fun updatePositionChart(layoutX: Double, layoutY: Double, panel: AnchorPane){
+    private fun updatePositionChart(layoutX: Double, layoutY: Double, panel: AnchorPane) {
         val newPos = shift(panel.layoutX, panel.layoutY, Pref.CHART.size)
         val chart = queriesDB.selectWidget(user.getId(), objectData.getIdObject(), CHART, layoutX, layoutY)
 
         if (positionFree(newPos[0], newPos[1])) {
-            val anotherChart = queriesDB.selectWidget(user.getId(), objectData.getIdObject(), CHART, newPos[0], newPos[1])
+            val anotherChart =
+                queriesDB.selectWidget(user.getId(), objectData.getIdObject(), CHART, newPos[0], newPos[1])
             if (anotherChart != null) {
                 widgets.forEach {
                     if (it.getId() == anotherChart.getId()) {

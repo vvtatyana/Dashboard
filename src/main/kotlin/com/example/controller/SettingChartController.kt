@@ -49,10 +49,10 @@ class SettingChartController {
         chartsType.items =
             FXCollections.observableArrayList(
                 mutableListOf(
-                    ChartType.AREA_CHART.type,
-                    ChartType.BAR_CHART.type,
-                    ChartType.LINE_CHART.type,
-                    ChartType.SCATTER_CHART.type
+                    ChartType.AREA_CHART.translation,
+                    ChartType.BAR_CHART.translation,
+                    ChartType.LINE_CHART.translation,
+                    ChartType.SCATTER_CHART.translation
                 )
             )
     }
@@ -60,7 +60,7 @@ class SettingChartController {
     fun load(layoutX: Double, layoutY: Double, chart: Widget) {
         this.layoutX = layoutX
         this.layoutY = layoutY
-        chartsType.value = chart.getType()
+        chartsType.value = ChartType.getTranslation(chart.getType()).translation
         nameChart.text = chart.getName()
         unitChart.text = chart.getUnit()
     }
@@ -85,7 +85,7 @@ class SettingChartController {
             to = toTimePicker.value.format(DateTimeFormatter.ofPattern(TIME_FORMAT))
         }
         val type = if (chartsType.value == null) ""
-        else chartsType.value
+        else ChartType.getType(chartsType.value).type
         dataWidget = WidgetDesigner(nameChart.text, unitChart.text, type, date, from, to)
         val stage: Stage = saveButton.scene.window as Stage
         stage.close()

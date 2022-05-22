@@ -81,7 +81,7 @@ class SettingIndicatorController {
 
     fun load(idModel: String, indicator: Widget): Boolean {
         this.idModel = idModel
-        this.name = indicator.getName()
+        this.name = indicator.getIdentifier()
         this.type = indicator.getType()
 
         nameIndicators.text = indicator.getName()
@@ -108,17 +108,15 @@ class SettingIndicatorController {
     }
 
     private fun settingData(model: JsonObject) {
-        if(type == TypeIndicator.BOOLEAN.type || type == TypeIndicator.STRING.type) {
-            unitIndicators.isVisible = false
-            unitLabel.isVisible = false
-        }
-
         borderFrom = if (type == TypeIndicator.NUMBER.type) {
             borderTo = ProcessingJSON().readBorderTo(model, name)
             ProcessingJSON().readBorderFrom(model, name)
         } else {
+            unitIndicators.isVisible = false
+            unitLabel.isVisible = false
             ProcessingJSON().readBorderBooleanOrString(model, name)
         }
+
         if (borderFrom.isNotEmpty()) {
             borderColor = ProcessingJSON().readBorderColor(model, name)
 
@@ -154,26 +152,19 @@ class SettingIndicatorController {
 
             colorPane.style = "-fx-background-color:${oldColor}"
             nameIntervalComboBox.setOnAction {
-                if (nameIntervalComboBox.value == "Добавить уровень") {
-                    nameLevel.text = ""
-                    colorInterval.text = ""
-                    colorPane.style = "-fx-background-color: #ffffff"
-                    valueIntervalFrom.text = ""
-                    valueIntervalTo.text = ""
-                } else {
-                    valueIntervalFrom.text = borderFrom[nameIntervalComboBox.value]
-                    oldValueFrom = valueIntervalFrom.text
-                    nameLevel.text = nameIntervalComboBox.value
-                    oldNameLevel = nameLevel.text
-                    if (type == "number") {
-                        valueIntervalTo.text = borderTo[nameIntervalComboBox.value]
-                        oldValueTo = valueIntervalTo.text
-                    }
 
-                    colorInterval.text = borderColor[nameIntervalComboBox.value]
-                    oldColor = colorInterval.text
-                    colorPane.style = "-fx-background-color:${oldColor}"
+                valueIntervalFrom.text = borderFrom[nameIntervalComboBox.value]
+                oldValueFrom = valueIntervalFrom.text
+                nameLevel.text = nameIntervalComboBox.value
+                oldNameLevel = nameLevel.text
+                if (type == "number") {
+                    valueIntervalTo.text = borderTo[nameIntervalComboBox.value]
+                    oldValueTo = valueIntervalTo.text
                 }
+
+                colorInterval.text = borderColor[nameIntervalComboBox.value]
+                oldColor = colorInterval.text
+                colorPane.style = "-fx-background-color:${oldColor}"
             }
         } else borderPane.isVisible = false
     }
@@ -195,10 +186,28 @@ class SettingIndicatorController {
             stage.close()
         }
         else {
-            val data = if (border) ProcessingJSON().updateBorder(getData, name, field, value, property)
-            else ProcessingJSON().updateModel(getData, name, field, value, property)
-            if (data != null)
+            var data = ""
+            if (border) {
+                val jsonModel: JsonObject = Gson().fromJson(getData, JsonObject::class.java)
+                ProcessingJSON().readBorder(jsonModel, name)?.forEach {
+                    if (it.asJsonObject.get(NAME).asString == value) {
+                        it.asJsonObject.get(VALUE).asJsonObject.addProperty(property, field)
+                        data = jsonModel.toString()
+                    }
+                }
+            }
+            else {
+                val jsonModel: JsonObject = Gson().fromJson(getData, JsonObject::class.java)
+                ProcessingJSON().readBorder(jsonModel, name)?.forEach {
+                    if (it.asJsonObject.get(NAME).asString == value) {
+                        it.asJsonObject.addProperty(property, field)
+                        data = jsonModel.toString()
+                    }
+                }
+            }
+            if (data.isNotEmpty()) {
                 RequestGeneration().patchRequest(address, data)
+            }
         }
     }
 

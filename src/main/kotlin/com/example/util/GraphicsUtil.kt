@@ -25,11 +25,20 @@ const val filePath = "./src/main/resources/com/example/controller"
 fun theme(): String = File("$filePath/css/$THEME.css").toURI().toURL().toExternalForm()
 fun fxmlLoader(nameFile: String): URL = File("$filePath/$nameFile").toURI().toURL()
 
-enum class ChartType(val type: String){
-    AREA_CHART ("Диаграмма с областями"),
-    BAR_CHART ("Гистограмма"),
-    LINE_CHART ("График"),
-    SCATTER_CHART ("Точечная диаграмма");
+enum class ChartType(val translation: String, val type: String){
+    AREA_CHART ("Диаграмма с областями", "AreaChart"),
+    BAR_CHART ("Гистограмма", "BarChart"),
+    LINE_CHART ("График", "LineChart"),
+    SCATTER_CHART ("Точечная диаграмма", "ScatterChart");
+    companion object {
+        fun getTranslation(type: String): ChartType {
+            return values().find { it.type == type }!!
+        }
+
+        fun getType(translation: String): ChartType {
+            return values().find { it.translation == translation }!!
+        }
+    }
 }
 
 enum class Pref(val size: Double){
