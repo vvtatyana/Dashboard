@@ -34,7 +34,7 @@ class Database {
     fun open() {
         Class.forName("org.sqlite.JDBC")
         connection =
-            DriverManager.getConnection("jdbc:sqlite:$filePath/database/SmartHome.db")
+            DriverManager.getConnection("jdbc:sqlite:$filePath/database/DashboardRIC.db")
         statement = connection.createStatement()
         connection.autoCommit = false
     }

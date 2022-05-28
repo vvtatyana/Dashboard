@@ -15,13 +15,13 @@ var THEME = "light"
 
 const val DATA_FORMAT = "dd MMM yyy"
 const val TIME_FORMAT = "HH:mm"
-const val ICON = "smart_house"
+const val ICON = "ric"
 
 const val CHART = "chart"
 const val INDICATOR = "indicator"
 
 const val filePath = "./src/main/resources/com/example/controller"
-//val filePath = "C:/Users/${System.getProperty("user.name")}/AppData/Roaming/Dashboard/controller"
+//val filePath = "C:/Users/${System.getProperty("user.name")}/AppData/Roaming/DashboardRIC/controller"
 fun theme(): String = File("$filePath/css/$THEME.css").toURI().toURL().toExternalForm()
 fun fxmlLoader(nameFile: String): URL = File("$filePath/$nameFile").toURI().toURL()
 
@@ -43,12 +43,12 @@ enum class ChartType(val translation: String, val type: String){
 
 enum class Pref(val size: Double){
     INDICATOR (200.0),
-    CHART (305.0)
+    CHART (300.0)
 }
 
 enum class Decoration(val pref: Double, val layoutX: Double, val layoutY: Double, val style: String){
     NAME (0.0, 14.0, 4.0,"-fx-font-size: 15px; -fx-font-family: \"Segoe UI Semibold\";"),
-    CHARTS (295.0,0.0,7.0, "")
+    CHARTS (290.0,0.0,7.0, "")
 }
 
 
@@ -77,7 +77,7 @@ fun createFxmlLoader(nameFile: String): FXMLLoader {
 
 fun createStage(fxmlLoader: FXMLLoader, modal: Modality, title: String, isResizable: Boolean): Stage {
     val stage = Stage()
-    stage.icons.add(loadImage("smart_house"))
+    stage.icons.add(loadImage(ICON))
     stage.initModality(modal)
     stage.title = title
     stage.isResizable = isResizable

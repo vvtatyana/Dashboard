@@ -42,6 +42,11 @@
     -fx-text-fill: white;
 }
 
+#refreshMenu{
+    -fx-background-color: linear-gradient(to left, #edf1f8, #dee5f1);
+    -fx-text-fill: #3b507b;
+}
+
 .list-cell {
     -fx-control-inner-background: transparent;
     -fx-control-inner-background-alt: transparent;

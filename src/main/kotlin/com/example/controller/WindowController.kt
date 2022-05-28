@@ -37,6 +37,9 @@ import java.util.concurrent.TimeUnit
 class WindowController : Initializable {
 
     @FXML
+    private lateinit var settingButton: Button
+
+    @FXML
     private lateinit var accountButton: Button
 
     @FXML
@@ -69,29 +72,27 @@ class WindowController : Initializable {
     @FXML
     private lateinit var devicesList: JFXListView<String>
 
+    @FXML
+    private lateinit var refreshMenu: Button
+
     private val request = RequestGeneration()
     private val processingJSON = ProcessingJSON()
-
     private lateinit var objectData: Object
     private lateinit var user: User
     private var objects = mutableListOf<Object>()
-
     private lateinit var queriesDB: QueriesDB
-
     private var devicesFlag: Boolean = false
-
     private var mouseFlag: Boolean = false
     private lateinit var executorService: ScheduledExecutorService
-
     private val widgets = mutableListOf<AbstractWidget>()
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         addButton.tooltip = Tooltip("Добавить виджет")
-        chartButton.tooltip = Tooltip("Показать изменение")
-        dataButton.tooltip = Tooltip("Список объектов")
+        dataButton.tooltip = Tooltip("Список устройств")
         movingButton.tooltip = Tooltip("Перемещение виджетов")
         accountButton.tooltip = Tooltip("Аккаунт")
         reloadButton.tooltip = Tooltip("Обновить данные")
+        settingButton.tooltip = Tooltip("Настройки")
 
         queriesDB = QueriesDB()
 
@@ -128,9 +129,15 @@ class WindowController : Initializable {
                         it.getLayoutY()
                     )
                     if (indicator != null && data != null) {
-                        if (it is BooleanWidget) { it.setValue(data[indicator.getIdentifier()].toBoolean()) }
-                        if (it is NumericWidget) { it.setValue(data[indicator.getIdentifier()]!!.toDouble()) }
-                        if (it is StringWidget) { it.setValue(data[indicator.getIdentifier()].toString()) }
+                        if (it is BooleanWidget) {
+                            it.setValue(data[indicator.getIdentifier()].toBoolean())
+                        }
+                        if (it is NumericWidget) {
+                            it.setValue(data[indicator.getIdentifier()]!!.toDouble())
+                        }
+                        if (it is StringWidget) {
+                            it.setValue(data[indicator.getIdentifier()].toString())
+                        }
                     }
                 }
             }
@@ -176,41 +183,36 @@ class WindowController : Initializable {
         setMargin(panelSlide, Insets(0.0, 0.0, 0.0, toX))
     }
 
-    private fun errorMessage(message: String): Boolean {
-        return if (message == "401 Unauthorized" || message == "403 Forbidden" || message == "404 Not Found" || message == "600 No connection") {
+    @FXML
+    private fun refreshMenuClick() {
+        objects()
+    }
+
+    private fun errorMessage(message: String): Boolean =
+        if (message == "401 Unauthorized" || message == "403 Forbidden" || message == "404 Not Found" || message == "600 No connection") {
             indicatorPane.children.remove(0, indicatorPane.children.size)
             chartPane.children.remove(0, chartPane.children.size)
             indicatorPane.isVisible = true
             chartPane.isVisible = false
             indicatorButton.isVisible = false
             chartButton.isVisible = false
-
-            val fxmlLoader = FXMLLoader(fxmlLoader("alarmOrInfo.fxml"))
-            val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, "Ошибка", false)
-
-            val controller: AlarmOrInfoController = fxmlLoader.getController()
-            controller.load(message)
-
-            stage.showAndWait()
+            devicesList.items = FXCollections.observableArrayList(listOf<String>())
+            imageViewVisible(false)
+            alarmOrInfo("Ошибка", message)
             true
         } else false
-    }
 
     /**
      * Считывает все объекты у пользоввателя и загружает в бд если их там нет
      */
     private fun objects() {
         devicesList.items.remove(0, devicesList.items.size)
-
         val strObjects = request.getRequest(request.addressGeneration(ADDRESS, OBJECTS))
-
         if (!errorMessage(strObjects)) {
             val jsonObjects = Gson().fromJson(strObjects, JsonArray::class.java)
             objects = processingJSON.readAllObjects(jsonObjects) as MutableList<Object>
-
             showObject()
         }
-
     }
 
     /**
@@ -219,24 +221,18 @@ class WindowController : Initializable {
     private fun showObject() {
         val address = request.addressGeneration(ADDRESS, OBJECTS)
         val nameListObjects = ArrayList<String>()
-        objects.forEach {
-            nameListObjects.add(it.getNameObject())
-        }
+        objects.forEach { nameListObjects.add(it.getNameObject()) }
         val namesObjects = FXCollections.observableArrayList(nameListObjects)
         devicesList.items = namesObjects
 
         devicesList.onMouseClicked = EventHandler {
-
             imageViewVisible(true)
-
             val newValue = devicesList.selectionModel.selectedItem
             if (newValue != null) {
                 indicatorPane.children.remove(0, indicatorPane.children.size)
                 chartPane.children.remove(0, chartPane.children.size)
                 var objDB: Object? = null
-                objects.forEach {
-                    if (it.getNameObject() == newValue) objDB = it
-                }
+                objects.forEach { if (it.getNameObject() == newValue) objDB = it }
 
                 if (objDB != null) {
                     objectData = objDB as Object
@@ -278,7 +274,6 @@ class WindowController : Initializable {
             queriesDB.deleteWidget(user.getId(), objectData.getIdObject(), CHART, panel.layoutX, panel.layoutY)
         } else if (controller.save) {
             val dataWidget = controller.dataWidget
-
             if (chart.getType() != dataWidget.getType()) {
                 widgets.forEach {
                     if (it.getId() == chartWidget.getId() && it is ChartWidget) {
@@ -287,20 +282,17 @@ class WindowController : Initializable {
                     }
                 }
             }
-
             updateObject(chart.getId(), dataWidget.getName(), dataWidget.getUnit(), dataWidget.getType())
             if (dataWidget.getName().isNotEmpty() && dataWidget.getName() != chart.getName())
                 dataWidget.getName() + chartWidget.getTitle().text.substring(
                     chartWidget.getTitle().text.indexOf(",", 0), chartWidget.getTitle().text.length
                 )
-
             if (dataWidget.getUnit().isNotEmpty() && dataWidget.getName() != chart.getUnit()) chartWidget.setTitle(
                 chartWidget.getTitle().text.substring(
                     0,
                     chartWidget.getTitle().text.indexOf(",", 0) + 1
                 ) + dataWidget.getUnit()
             )
-
             if (dataWidget.getDate().isNotEmpty()) {
                 val series = XYChart.Series<String, Number>()
                 val simpleDateFormat = SimpleDateFormat(DATA_FORMAT)
@@ -359,15 +351,10 @@ class WindowController : Initializable {
         panel: AbstractWidget,
     ) {
         val fxmlLoader = FXMLLoader(fxmlLoader("settingIndicator.fxml"))
-
         val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, "Настройки индикатора", false)
-
         val controller: SettingIndicatorController = fxmlLoader.getController()
-
         if (controller.load(objectData.getIdModel(), indicator)) {
-
             stage.showAndWait()
-
             if (controller.delete) {
                 indicatorPane.children.remove(panel.getPanel())
                 queriesDB.deleteWidget(
@@ -396,7 +383,6 @@ class WindowController : Initializable {
             if (nameText.isNotEmpty()) {
                 queriesDB.updateWidget(id, INDICATOR, WidgetsTable.NAME.name, nameText)
             }
-
             if (unitText.isNotEmpty()) {
                 queriesDB.updateWidget(id, INDICATOR, WidgetsTable.UNIT.name, unitText)
             }
@@ -405,11 +391,9 @@ class WindowController : Initializable {
             if (nameText.isNotEmpty()) {
                 queriesDB.updateWidget(id, CHART, WidgetsTable.NAME.name, nameText)
             }
-
             if (unitText.isNotEmpty()) {
                 queriesDB.updateWidget(id, CHART, WidgetsTable.UNIT.name, unitText)
             }
-
             if (type.isNotEmpty()) {
                 queriesDB.updateWidget(id, CHART, WidgetsTable.TYPE.name, type)
             }
@@ -428,14 +412,12 @@ class WindowController : Initializable {
             anchorY = panel.layoutY - event.sceneY
             panel.toFront()
         }
-
         panel.setOnMouseDragged { event ->
             if (mouseFlag) {
                 panel.layoutX = event.sceneX + anchorX
                 panel.layoutY = event.sceneY + anchorY
             }
         }
-
         if (panel.prefHeight == Pref.CHART.size) {
             panel.setOnMouseReleased {
                 if (mouseFlag) {
@@ -469,55 +451,55 @@ class WindowController : Initializable {
     private fun addObjects(addWidget: WidgetDesigner) {
         if (indicatorPane.isVisible) {
             val pos = getPositionIndicator()
-            val address = request.addressGeneration(ADDRESS, OBJECTS)
-            var obj: Object? = null
-            objects.forEach {
-                if (it.getIdObject() == objectData.getIdObject()) obj = it
-            }
-
-            val data = objectData(addWidget.getWidget(), obj!!.getIdObject(), address)
-
-            queriesDB.insertIntoWidget(
-                Widget(
-                    null,
-                    user.getId(),
-                    objectData.getIdObject(),
-                    INDICATOR,
-                    addWidget.getWidget(),
-                    pos[0],
-                    pos[1],
-                    addWidget.getName(),
-                    addWidget.getUnit(),
-                    addWidget.getType()
+            if (pos[0] != -1.0 || pos[1] != -1.0) {
+                val address = request.addressGeneration(ADDRESS, OBJECTS)
+                var obj: Object? = null
+                objects.forEach {
+                    if (it.getIdObject() == objectData.getIdObject()) obj = it
+                }
+                val data = objectData(addWidget.getWidget(), obj!!.getIdObject(), address)
+                queriesDB.insertIntoWidget(
+                    Widget(
+                        null,
+                        user.getId(),
+                        objectData.getIdObject(),
+                        INDICATOR,
+                        addWidget.getWidget(),
+                        pos[0],
+                        pos[1],
+                        addWidget.getName(),
+                        addWidget.getUnit(),
+                        addWidget.getType()
+                    )
                 )
-            )
-            val indicator = queriesDB.selectWidget(user.getId(), objectData.getIdObject(), INDICATOR, pos[0], pos[1])
-
-            if (indicator != null) {
-                addIndicatorToPanel(indicator, data.toString())
+                val indicator =
+                    queriesDB.selectWidget(user.getId(), objectData.getIdObject(), INDICATOR, pos[0], pos[1])
+                if (indicator != null) {
+                    addIndicatorToPanel(indicator, data.toString())
+                }
             }
         }
         if (chartPane.isVisible) {
             val pos = getPositionChart()
-            queriesDB.insertIntoWidget(
-                Widget(
-                    null,
-                    user.getId(),
-                    objectData.getIdObject(),
-                    CHART,
-                    addWidget.getWidget(),
-                    pos[0],
-                    pos[1],
-                    addWidget.getName(),
-                    addWidget.getUnit(),
-                    addWidget.getType()
+            if (pos[0] != -1.0 || pos[1] != -1.0) {
+                queriesDB.insertIntoWidget(
+                    Widget(
+                        null,
+                        user.getId(),
+                        objectData.getIdObject(),
+                        CHART,
+                        addWidget.getWidget(),
+                        pos[0],
+                        pos[1],
+                        addWidget.getName(),
+                        addWidget.getUnit(),
+                        addWidget.getType()
+                    )
                 )
-            )
-
-            val chart = queriesDB.selectWidget(user.getId(), objectData.getIdObject(), CHART, pos[0], pos[1])
-
-            if (chart != null) {
-                addChartToPanel(chart)
+                val chart = queriesDB.selectWidget(user.getId(), objectData.getIdObject(), CHART, pos[0], pos[1])
+                if (chart != null) {
+                    addChartToPanel(chart)
+                }
             }
         }
     }
@@ -587,7 +569,6 @@ class WindowController : Initializable {
                     )
                 }
             }
-
             mouseDraggedPanel(panel.getPanel())
             val setting = panel.getSetting()
             setting.onMouseClicked = EventHandler {
@@ -605,7 +586,7 @@ class WindowController : Initializable {
 
     private fun addChartToPanel(chart: Widget): Boolean {
         val cData = chartData(chart.getIdentifier(), objectData.getIdObject())
-        if (cData != null) {
+        return if (cData != null) {
             val title = if (chart.getUnit().isNotEmpty())
                 "${chart.getName()}, ${chart.getUnit()}"
             else chart.getName()
@@ -629,8 +610,8 @@ class WindowController : Initializable {
             }
             widgets.add(panel)
             chartPane.children.add(panel.getPanel())
-            return true
-        } else return false
+            true
+        } else false
     }
 
     /**
@@ -652,7 +633,6 @@ class WindowController : Initializable {
             }
         }
         val charts = queriesDB.selectWidgets(user.getId(), objectData.getIdObject(), CHART)
-
         if (charts != null) {
             var flag = true
             for (chart in charts) {
@@ -680,7 +660,6 @@ class WindowController : Initializable {
                 val str = request.getRequest(request.addressGeneration(addressAll, it.getIdObject()))
                 if (!errorMessage(str)) {
                     var json = Gson().fromJson(str, JsonObject::class.java)
-
                     val state = processingJSON.read(json, STATE)
                     if (state != null) {
                         val address = request.addressGeneration(ADDRESS, MODELS)
@@ -723,7 +702,6 @@ class WindowController : Initializable {
                         json = Gson().fromJson(state, JsonObject::class.java)
                         for (dao in dataObject) {
                             val pars = processingJSON.read(json, dao)?.asString
-
                             if (pars != null) data[dao] = pars
                         }
                     }
@@ -738,7 +716,6 @@ class WindowController : Initializable {
         val str = request.getRequest(request.addressGeneration(addressAll, objects))
         if (!errorMessage(str)) {
             var json = Gson().fromJson(str, JsonObject::class.java)
-
             val state = processingJSON.read(json, STATE)
             if (state != null) {
                 json = Gson().fromJson(state, JsonObject::class.java)
@@ -751,9 +728,7 @@ class WindowController : Initializable {
 
     private fun chartData(name: String, idObjects: String): List<List<Number>>? {
         val address = request.addressGeneration(request.addressGeneration(ADDRESS, OBJECTS), idObjects)
-
         val str = request.getRequest(request.addressGeneration(address, "packets"))
-
         if (!errorMessage(str)) {
             val json = Gson().fromJson(str, JsonArray::class.java)
             val topic = "$TOPIC_WAY$name"
@@ -772,14 +747,12 @@ class WindowController : Initializable {
             title = "Добавить график"
             FXMLLoader(fxmlLoader("addWidgetChart.fxml"))
         }
-
         val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, title, false)
         val controller: AddWidgetController = fxmlLoader.getController()
         val error = if (indicatorPane.isVisible)
             controller.load(objectData.getIdModel(), true)
         else
             controller.load(objectData.getIdModel(), false)
-
         if (!error) {
             stage.showAndWait()
             if (controller.add) {
@@ -796,25 +769,41 @@ class WindowController : Initializable {
         var layoutX = 0.0
         var layoutY = 0.0
         indicatorPane.children.forEach {
-            if (it.layoutX + it.prefWidth(0.0) < 1393.0 && it.prefWidth(0.0) == 200.0) {
+            if (it.layoutX + it.prefWidth(0.0) < 1235.0 && it.prefWidth(0.0) == Pref.INDICATOR.size) {
                 layoutX = it.layoutX + it.prefWidth(0.0) + 5.0
-            } else if (it.prefWidth(0.0) == 200.0) {
+            } else if (it.layoutY + it.prefHeight(0.0) < 416.0 && it.prefWidth(0.0) == Pref.INDICATOR.size) {
                 layoutX = 0.0
                 layoutY = it.layoutY + it.prefHeight(0.0) + 5.0
+            } else {
+                alarmOrInfo("Внимание", "На дашборде закончилось место")
+                layoutX = -1.0
+                layoutY = -1.0
             }
         }
         return mutableListOf(layoutX, layoutY)
     }
 
+    private fun alarmOrInfo(title: String, message: String) {
+        val fxmlLoader = FXMLLoader(fxmlLoader("alarmOrInfo.fxml"))
+        val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, title, false)
+        val controller: AlarmOrInfoController = fxmlLoader.getController()
+        controller.load(message)
+        stage.showAndWait()
+    }
+
     private fun getPositionChart(): List<Double> {
         var layoutX = 0.0
         var layoutY = 0.0
-        for (ch in chartPane.children) {
-            if (ch.layoutX + ch.prefWidth(0.0) < 1240.0 && ch.prefWidth(0.0) == 305.0) {
-                layoutX = ch.layoutX + ch.prefWidth(0.0) + 5.0
-            } else if (ch.prefWidth(0.0) == 305.0) {
+        chartPane.children.forEach {
+            if (it.layoutX + it.prefWidth(0.0) < 1226.0 && it.prefWidth(0.0) == Pref.CHART.size) {
+                layoutX = it.layoutX + it.prefWidth(0.0) + 5.0
+            } else if (it.layoutY + it.prefHeight(0.0) < 311.0 && it.prefWidth(0.0) == Pref.CHART.size) {
                 layoutX = 0.0
-                layoutY = ch.layoutY + ch.prefHeight(0.0) + 5.0
+                layoutY = it.layoutY + it.prefHeight(0.0) + 5.0
+            } else {
+                alarmOrInfo("Внимание", "На дашборде закончилось место")
+                layoutX = -1.0
+                layoutY = -1.0
             }
         }
         return mutableListOf(layoutX, layoutY)

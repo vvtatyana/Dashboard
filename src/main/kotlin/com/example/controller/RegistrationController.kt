@@ -72,12 +72,12 @@ class RegistrationController {
         val login: String = loginText.text
         val token: String = tokenText.text
 
-        if(username.isEmpty()) errorLabel.text = "Введите имя"
-        else if(login.isEmpty()) errorLabel.text = "Введите логин"
-        else if(token.isEmpty()) errorLabel.text = "Введите токен"
-        else if(passwordTextOne.text.isEmpty()) errorLabel.text = "Введите пароль"
-        else if(passwordTextTwo.text.isEmpty()) errorLabel.text = "Введите второй пароль"
-        else if(username.isNotEmpty() && login.isNotEmpty() && token.isNotEmpty() && passwordTextOne.text.isNotEmpty() && passwordTextTwo.text.isNotEmpty()) {
+        if (username.isEmpty()) errorLabel.text = "Введите имя"
+        else if (login.isEmpty()) errorLabel.text = "Введите логин"
+        else if (token.isEmpty()) errorLabel.text = "Введите токен"
+        else if (passwordTextOne.text.isEmpty()) errorLabel.text = "Введите пароль"
+        else if (passwordTextTwo.text.isEmpty()) errorLabel.text = "Введите второй пароль"
+        else if (username.isNotEmpty() && login.isNotEmpty() && token.isNotEmpty() && passwordTextOne.text.isNotEmpty() && passwordTextTwo.text.isNotEmpty()) {
             if (hostText.text.isNotEmpty()) {
                 val defAddress = "https://${hostText.text}/api/v1"
                 ADDRESS = defAddress
@@ -87,51 +87,56 @@ class RegistrationController {
             HEADERS_AUTH = "Bearer $token"
             val address = request.addressGeneration(ADDRESS, USERS)
             val getData = request.getRequest(address)
-            if (!errorMessage(getData)) {
-                val json: JsonArray = Gson().fromJson(getData, JsonArray::class.java)
-                val users = ProcessingJSON().readAllUsers(json)
-                for (user in users) {
-                    if (user.getUsername() == username && user.getLogin() == login) {
-                        val icon = (1..20).random()
-                        if (passwordTextOne.text == passwordTextTwo.text) {
-                            if (memoryCheck.isSelected)
-                                queriesDB.insertIntoUser(
-                                    User(
-                                        user.getIdUser(),
-                                        username,
-                                        login,
-                                        PasswordEncoderFactories.createDelegatingPasswordEncoder()
-                                            .encode(passwordTextOne.text),
-                                        ADDRESS,
-                                        token,
-                                        castle = true,
-                                        icon = icon,
-                                        theme = THEME,
-                                        timer = 1
+            val userBD = QueriesDB().selectUser(UsersTable.LOGIN.name, loginText.text)
+            if (userBD != null) {
+                errorLabel.text = "Пользователь с таким логином уже существует."
+            } else {
+                if (!errorMessage(getData)) {
+                    val json: JsonArray = Gson().fromJson(getData, JsonArray::class.java)
+                    val users = ProcessingJSON().readAllUsers(json)
+                    for (user in users) {
+                        if (user.getUsername() == username && user.getLogin() == login) {
+                            val icon = (1..20).random()
+                            if (passwordTextOne.text == passwordTextTwo.text) {
+                                if (memoryCheck.isSelected)
+                                    queriesDB.insertIntoUser(
+                                        User(
+                                            user.getIdUser(),
+                                            username,
+                                            login,
+                                            PasswordEncoderFactories.createDelegatingPasswordEncoder()
+                                                .encode(passwordTextOne.text),
+                                            ADDRESS,
+                                            token,
+                                            castle = true,
+                                            icon = icon,
+                                            theme = THEME,
+                                            timer = 1
+                                        )
                                     )
-                                )
-                            else {
-                                queriesDB.insertIntoUser(
-                                    User(
-                                        user.getIdUser(),
-                                        username,
-                                        login,
-                                        PasswordEncoderFactories.createDelegatingPasswordEncoder()
-                                            .encode(passwordTextOne.text),
-                                        ADDRESS,
-                                        token,
-                                        false,
-                                        icon = icon,
-                                        theme = THEME,
-                                        timer = 1
+                                else {
+                                    queriesDB.insertIntoUser(
+                                        User(
+                                            user.getIdUser(),
+                                            username,
+                                            login,
+                                            PasswordEncoderFactories.createDelegatingPasswordEncoder()
+                                                .encode(passwordTextOne.text),
+                                            ADDRESS,
+                                            token,
+                                            false,
+                                            icon = icon,
+                                            theme = THEME,
+                                            timer = 1
+                                        )
                                     )
-                                )
-                            }
-                            val fxmlLoader = createFxmlLoader("window.fxml")
-                            val stage = showWindow("RIC", Modality.APPLICATION_MODAL, fxmlLoader, true)
-                            stage.show()
-                        } else errorLabel.text = "Пароли не совпадают."
-                    } else errorLabel.text = "Не верные имя или логин."
+                                }
+                                val fxmlLoader = createFxmlLoader("window.fxml")
+                                val stage = showWindow("RIC", Modality.APPLICATION_MODAL, fxmlLoader, true)
+                                stage.show()
+                            } else errorLabel.text = "Пароли не совпадают."
+                        } else errorLabel.text = "Не верные имя или логин."
+                    }
                 }
             }
         }

@@ -181,11 +181,7 @@ class SettingIndicatorController {
         var address = RequestGeneration().addressGeneration(ADDRESS, MODELS)
         address = RequestGeneration().addressGeneration(address, idModel)
         val getData = RequestGeneration().getRequest(address)
-        if (getData == "403 Forbidden" || getData == "404 Not Found" || getData == "600 No connection"){
-            val stage: Stage = saveButton.scene.window as Stage
-            stage.close()
-        }
-        else {
+        if (checkRequest(getData)){
             var data = ""
             if (border) {
                 val jsonModel: JsonObject = Gson().fromJson(getData, JsonObject::class.java)
@@ -206,9 +202,18 @@ class SettingIndicatorController {
                 }
             }
             if (data.isNotEmpty()) {
-                RequestGeneration().patchRequest(address, data)
+                checkRequest(RequestGeneration().patchRequest(address, data))
             }
         }
+    }
+
+    private fun checkRequest(message: String): Boolean{
+        return if (message == "403 Forbidden" || message == "404 Not Found" || message == "600 No connection"){
+            val stage: Stage = saveButton.scene.window as Stage
+            stage.close()
+            false
+        }
+        else true
     }
 
     @FXML
