@@ -31,9 +31,9 @@ class RequestGeneration {
                 /*String(*/response.toString()/*.toByteArray(Charset.forName("Windows-1251")))*/
             } else "$responseCode ${connection.responseMessage}"
         } catch (u: UnknownHostException) {
-            return "600 No connection"
+            return "No connection"
         } catch (n: NoRouteToHostException) {
-            return "600 No connection"
+            return "No connection"
         }
     }
 

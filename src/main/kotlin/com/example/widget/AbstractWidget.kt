@@ -42,7 +42,6 @@ abstract class AbstractWidget(
         settingButton.graphic = createImageView("setting", 25.0)
         settingButton.prefHeight = 25.0
         settingButton.prefWidth = 25.0
-
         AnchorPane.setRightAnchor(settingButton, -5.0)
         AnchorPane.setBottomAnchor(settingButton, 0.0)
         return settingButton
@@ -75,5 +74,5 @@ abstract class AbstractWidget(
         panel.layoutY = newValue
     }
 
-    override fun toString(): String = "id=$id, panel.id=${panel.id}, layoutX=$layoutX, layoutY=$layoutY, name=$name"
+    open fun setColor(strModel: String){}
 }

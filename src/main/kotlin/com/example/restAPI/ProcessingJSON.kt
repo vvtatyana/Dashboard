@@ -155,6 +155,19 @@ class ProcessingJSON {
         return axisData
     }
 
+    fun readTypeNumeric(jsonObject: JsonObject, name: String): Boolean{
+        val values = readBorder(jsonObject, name)
+        if (values != null) {
+            try {
+                if (values[0].asJsonObject.get(VALUE).asJsonObject.get("a").asString != null)
+                    return true
+            } catch (ill: IllegalStateException){
+                return false
+            }
+        }
+        return false
+    }
+
     companion object {
         const val INFINITY = "Infinity"
         const val FROM = "a"

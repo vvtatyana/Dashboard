@@ -11,16 +11,13 @@ class StartApplication : Application() {
 
     override fun start(stage: Stage) {
         val queriesDB = QueriesDB()
-
         val user = queriesDB.selectUser(UsersTable.CASTLE.name, true.toString())
         if(user != null) {
             HEADERS_AUTH = "Bearer " + user.getToken()
             THEME = user.getTheme()
             showWindow(stage, "window.fxml", "RIC", true)
         }
-        else{
-            showWindow(stage, "loginWindow.fxml", "Вход", false)
-        }
+        else showWindow(stage, "loginWindow.fxml", "Вход", false)
     }
 
     /**

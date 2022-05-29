@@ -56,7 +56,6 @@ class SettingChartController {
                 )
             )
     }
-
     fun load(layoutX: Double, layoutY: Double, chart: Widget) {
         this.layoutX = layoutX
         this.layoutY = layoutY
@@ -64,7 +63,6 @@ class SettingChartController {
         nameChart.text = chart.getName()
         unitChart.text = chart.getUnit()
     }
-
     @FXML
     private fun saveClick() {
         save = true
@@ -78,12 +76,11 @@ class SettingChartController {
             cal[Calendar.YEAR] = datePicker.value.year
             date = cal.timeInMillis.toString()
         }
-        if (fromTimePicker.value != null) {
+        if (fromTimePicker.value != null)
             from = fromTimePicker.value.format(DateTimeFormatter.ofPattern(TIME_FORMAT))
-        }
-        if (toTimePicker.value != null) {
+        if (toTimePicker.value != null)
             to = toTimePicker.value.format(DateTimeFormatter.ofPattern(TIME_FORMAT))
-        }
+
         val type = if (chartsType.value == null) ""
         else ChartType.getType(chartsType.value).type
         dataWidget = WidgetDesigner(nameChart.text, unitChart.text, type, date, from, to)

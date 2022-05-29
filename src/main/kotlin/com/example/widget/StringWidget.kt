@@ -1,6 +1,7 @@
 package com.example.widget
 
 import com.example.restAPI.ProcessingJSON
+import com.example.util.FONT_FAMILY
 import com.example.util.dropShadow
 import com.google.gson.Gson
 import com.google.gson.JsonObject
@@ -17,14 +18,14 @@ class StringWidget(
     name: String,
     private val data: String?,
     private val typeWidget: String,
-    private val strModel: String
+    private var strModel: String
 ) : AbstractWidget(id, layoutX, layoutY, pref, name) {
 
     private var string: Label
 
     init {
         string = createString()
-        updateString()
+        setColor("")
         setting = createSetting()
         panel.children.add(title)
         panel.children.add(string)
@@ -33,7 +34,7 @@ class StringWidget(
 
     private fun createString(): Label {
         val stringLabel = Label(data)
-        stringLabel.font = Font.font("Segoe UI Semibold", 14.0)
+        stringLabel.font = Font.font(FONT_FAMILY, 14.0)
         stringLabel.alignment = Pos.CENTER
         stringLabel.effect = dropShadow()
         AnchorPane.setTopAnchor(stringLabel, 25.0)
@@ -43,15 +44,19 @@ class StringWidget(
         return stringLabel
     }
 
-    fun updateString() {
-        val model = Gson().fromJson(strModel, JsonObject::class.java)
+    override fun setColor(strModel: String) {
+        if (strModel.isNotEmpty())
+            this.strModel = strModel
+        val model = Gson().fromJson(this.strModel, JsonObject::class.java)
         val border = ProcessingJSON().readBorderBooleanOrString(model, typeWidget)
-        if (border.isNotEmpty()) {
+        if (border.isNotEmpty() && border.containsValue(data)) {
+            var name = ""
+            border.forEach{
+                if (it.value == data) name = it.key
+            }
             val borderColor = ProcessingJSON().readBorderColor(model, typeWidget)
             if (data != null) {
-                if (borderColor.containsKey(data)) {
-                    string.style = "-fx-background-color: ${borderColor[data]}; -fx-border-color: white; -fx-border-width: 3;"
-                }
+                    string.style = "-fx-background-color: ${borderColor[name]}; -fx-border-color: white; -fx-border-width: 3;"
             }
         }
     }

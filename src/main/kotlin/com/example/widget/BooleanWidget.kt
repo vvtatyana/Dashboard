@@ -16,15 +16,17 @@ class BooleanWidget(
     layoutY: Double,
     pref: Double,
     name: String,
-    private val data: String?,
+    private var data: String?,
     private val typeWidget: String,
-    strModel: String
+    private var strModel: String
 ) : AbstractWidget(id, layoutX, layoutY, pref, name) {
 
     private var circle: Circle
     private var text: Label
-
-    private val model = Gson().fromJson(strModel, JsonObject::class.java)
+    private val defaultColor = mutableMapOf("True" to "#6bdb6b", "False" to "#ff4e33")
+    private val model: () -> JsonObject = {
+        Gson().fromJson(strModel, JsonObject::class.java)
+    }
 
     init {
         circle = createCircle(74.0, 24.0, 19.0, 23.0, 23.0, true)
@@ -38,13 +40,11 @@ class BooleanWidget(
     }
 
     private fun createCircle(radius: Double, top: Double, bottom: Double, right: Double, left: Double, flag: Boolean ): Circle {
+        val model = model()
         val circle = Circle()
         val border = ProcessingJSON().readBorderBooleanOrString(model, typeWidget)
         if (flag && data != null) {
-            val borderColor = if (border.isNotEmpty()) ProcessingJSON().readBorderColor(model, typeWidget)
-            else mutableMapOf("True" to "#6bdb6b", "False" to "#ff4e33")
-            circle.fill = if (data.toBoolean()) Paint.valueOf(borderColor["True"])
-            else Paint.valueOf(borderColor["False"])
+            circle.fill = borderColor(border, model)
         } else if (!flag) circle.fill = Paint.valueOf("#636161")
         circle.radius = radius
         circle.stroke = Paint.valueOf("white")
@@ -59,8 +59,7 @@ class BooleanWidget(
     private fun createCircleText(): Label {
         val circleLabel = Label()
         circleLabel.id = "circleLabel"
-        circleLabel.text = if (data.toBoolean()) "Да"
-        else  "Нет"
+        circleLabel.text = text(data.toBoolean())
         circleLabel.alignment = Pos.CENTER
         AnchorPane.setTopAnchor(circleLabel, 70.0)
         AnchorPane.setBottomAnchor(circleLabel, 70.0)
@@ -70,15 +69,31 @@ class BooleanWidget(
     }
 
     fun setValue(newValue: Boolean) {
+        data = newValue.toString()
+        val model = model()
         val border = ProcessingJSON().readBorderBooleanOrString(model, typeWidget)
-        val borderColor = if (border.isNotEmpty()) ProcessingJSON().readBorderColor(model, typeWidget)
-        else mutableMapOf("True" to "#6bdb6b", "False" to "#ff4e33")
-        if (newValue) {
-            text.text = "Да"
-            circle.fill = Paint.valueOf(borderColor["True"])
-        } else {
-            text.text = "Нет"
-            circle.fill = Paint.valueOf(borderColor["False"])
+        circle.fill = borderColor(border, model)
+        text.text = text(newValue)
+    }
+    override fun setColor(strModel: String){
+        this.strModel = strModel
+        val model = model()
+        val border = ProcessingJSON().readBorderBooleanOrString(model, typeWidget)
+        if (data != null) {
+            circle.fill = borderColor(border, model)
         }
     }
+
+    private fun borderColor(border: Map<String, String>, model: JsonObject): Paint {
+        val color = if (border.isNotEmpty()) ProcessingJSON().readBorderColor(model, typeWidget)
+        else defaultColor
+
+        var name = ""
+        border.forEach{ if(it.value == data) name = it.key }
+        return Paint.valueOf(color[name])
+    }
+
+    private fun text(value: Boolean): String =
+        if (value) "Да"
+        else "Нет"
 }

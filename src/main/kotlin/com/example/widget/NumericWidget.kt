@@ -21,7 +21,7 @@ class NumericWidget(
     private val data: String?,
     private val typeWidget: String,
     private val typeData: String,
-    private val strModel: String
+    private var strModel: String
 ) : AbstractWidget(id, layoutX, layoutY, pref, name) {
 
     private val processingJSON = ProcessingJSON()
@@ -41,22 +41,42 @@ class NumericWidget(
     }
 
     private fun createGauge(): Gauge {
+        val gauge = gaugeBuilder()
+        gauge(gauge)
+        gauge.tickLabelDecimals = 1
+        gauge.decimals = 1
+        gauge.effect = dropShadow()
+        gauge.tickLabelColor = Color.web("#9ba7c5")
+        if (data != null && data != "null")
+            gauge.value = data.toDouble()
+        return gauge
+    }
+
+    private fun gaugeBuilder(): Gauge = GaugeBuilder.create()
+        .skinType(Gauge.SkinType.SIMPLE)
+        .sectionsVisible(true)
+        .title(unitText)
+        .animated(true).build()
+
+    private fun gauge(gauge: Gauge) {
         val jsonModel = Gson().fromJson(strModel, JsonObject::class.java)
         val borderFrom = processingJSON.readBorderFrom(jsonModel, typeWidget).toMutableMap()
         val borderColor = processingJSON.readBorderColor(jsonModel, typeWidget).toMutableMap()
         val keys = borderFrom.keys.toList()
         if (borderFrom.isNotEmpty() && borderFrom[keys[0]]!!.toDouble() < 0.0)
             borderFrom[keys[0]] = (borderFrom[keys[0]]!!.toDouble() + 10.0).toString()
-        val gaugeBuilder = gaugeBuilder().minValue(borderFrom[keys[0]]!!.toDouble())
+
+        gauge.minValue = borderFrom[keys[0]]!!.toDouble()
         val sections = mutableListOf<Section>()
-        borderFrom[keys[0]] = gaugeBuilder.build().minValue.toInt().toString()
-        if (typeData == TypeIndicator.NUMBER.type) {
+        borderFrom[keys[0]] = gauge.minValue.toInt().toString()
+        if (processingJSON.readTypeNumeric(jsonModel, typeWidget)) {
             val borderTo = processingJSON.readBorderTo(jsonModel, typeWidget).toMutableMap()
-            gaugeBuilder.tickLabelDecimals(1).decimals(1).maxValue(borderTo[keys[keys.size - 1]]!!.toDouble())
-            keys.indices.forEach { sections.add(Section(borderFrom[keys[it]]!!.toDouble(),
+            gauge.maxValue = borderTo[keys[keys.size - 1]]!!.toDouble()
+            keys.indices.forEach {
+                sections.add(Section(borderFrom[keys[it]]!!.toDouble(),
                 borderTo[keys[it]]!!.toDouble(), it.toString(), Color.web(borderColor[keys[it]])))}
         } else {
-            gaugeBuilder.maxValue(borderFrom[keys[keys.size - 1]]!!.toDouble()).sectionTextVisible(true)
+            gauge.maxValue = borderFrom[keys[keys.size - 1]]!!.toDouble()
             rang = (borderFrom[keys[keys.size - 1]]!!.toDouble() - borderFrom[keys[0]]!!.toDouble()) / keys.size
             val colorValue = borderColor.values.toList()
             var start = borderFrom[keys[0]]!!.toDouble()
@@ -64,22 +84,10 @@ class NumericWidget(
                 val stop: Double = start + rang
                 sections.add(Section(start,stop,borderFrom[keys[it]]!!.toString(),Color.web(colorValue[it])))
                 start = stop
-            } }
-        val gauge = gaugeBuilder.sections(sections).build()
-        gauge.effect = dropShadow()
-        gauge.tickLabelColor = Color.web("#9ba7c5")
-        if (data != null)
-            gauge.value = data.toDouble()
-        return gauge
+            }
+        }
+        gauge.setSections(sections)
     }
-
-    private fun gaugeBuilder(): GaugeBuilder<*> = GaugeBuilder.create()
-        .skinType(Gauge.SkinType.SIMPLE)
-        .sectionsVisible(true)
-        .title(unitText)
-        .animated(true)
-
-    fun number(){}
 
     fun setValue(newValue: Double) {
         gauge.value = if (typeData == TypeIndicator.NUMBER.type) newValue
@@ -88,5 +96,10 @@ class NumericWidget(
 
     fun setUnit(unit: String) {
         gauge.title = unit
+    }
+
+    override fun setColor(strModel: String){
+        this.strModel = strModel
+        gauge(this.gauge)
     }
 }

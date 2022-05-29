@@ -78,6 +78,7 @@ class SettingIndicatorController {
     var delete = false
     var save = false
     var message: String = ""
+    var typeNumber: Boolean = true
 
     fun load(idModel: String, indicator: Widget): Boolean {
         this.idModel = idModel
@@ -92,12 +93,10 @@ class SettingIndicatorController {
 
         val address = RequestGeneration().addressGeneration(ADDRESS, MODELS)
         val getData = RequestGeneration().getRequest(RequestGeneration().addressGeneration(address, idModel))
-        return if (getData == "403 Forbidden" || getData == "404 Not Found" || getData == "600 No connection") {
-            message = getData
-            false
-        }
+        return if (!checkRequest(message)) false
         else {
             val model = Gson().fromJson(getData, JsonObject::class.java)
+            typeNumber = ProcessingJSON().readTypeNumeric(model, name)
             when (type) {
                 TypeIndicator.NUMBER.type, TypeIndicator.BOOLEAN.type, TypeIndicator.STRING.type ->
                     settingData(model)
@@ -131,8 +130,15 @@ class SettingIndicatorController {
 
             when (type) {
                 TypeIndicator.NUMBER.type -> {
-                    valueIntervalTo.text = borderTo[nameIntervalComboBox.value]
-                    oldValueTo = valueIntervalTo.text
+                    if(typeNumber) {
+                        valueIntervalTo.text = borderTo[nameIntervalComboBox.value]
+                        oldValueTo = valueIntervalTo.text
+                    }
+                    else {
+                        fromLabel.text = "Значение"
+                        valueIntervalTo.isVisible = false
+                        toLabel.isVisible = false
+                    }
                 }
                 TypeIndicator.BOOLEAN.type -> {
                     fromLabel.isVisible = false
@@ -157,7 +163,7 @@ class SettingIndicatorController {
                 oldValueFrom = valueIntervalFrom.text
                 nameLevel.text = nameIntervalComboBox.value
                 oldNameLevel = nameLevel.text
-                if (type == "number") {
+                if (type == "number" && typeNumber) {
                     valueIntervalTo.text = borderTo[nameIntervalComboBox.value]
                     oldValueTo = valueIntervalTo.text
                 }
@@ -181,40 +187,38 @@ class SettingIndicatorController {
         var address = RequestGeneration().addressGeneration(ADDRESS, MODELS)
         address = RequestGeneration().addressGeneration(address, idModel)
         val getData = RequestGeneration().getRequest(address)
-        if (checkRequest(getData)){
+        if (checkRequest(getData)) {
+            val jsonModel: JsonObject = Gson().fromJson(getData, JsonObject::class.java)
             var data = ""
-            if (border) {
-                val jsonModel: JsonObject = Gson().fromJson(getData, JsonObject::class.java)
-                ProcessingJSON().readBorder(jsonModel, name)?.forEach {
-                    if (it.asJsonObject.get(NAME).asString == value) {
-                        it.asJsonObject.get(VALUE).asJsonObject.addProperty(property, field)
+            ProcessingJSON().readBorder(jsonModel, name)?.forEach {
+                if (border && typeNumber) {
+                    if (it.asJsonObject.get(NAME).asString == field) {
+                        it.asJsonObject.get(VALUE).asJsonObject.addProperty(property, value)
                         data = jsonModel.toString()
                     }
-                }
-            }
-            else {
-                val jsonModel: JsonObject = Gson().fromJson(getData, JsonObject::class.java)
-                ProcessingJSON().readBorder(jsonModel, name)?.forEach {
-                    if (it.asJsonObject.get(NAME).asString == value) {
-                        it.asJsonObject.addProperty(property, field)
+                } else {
+                    if (it.asJsonObject.get(NAME).asString == field) {
+                        it.asJsonObject.addProperty(property, value)
                         data = jsonModel.toString()
                     }
                 }
             }
             if (data.isNotEmpty()) {
-                checkRequest(RequestGeneration().patchRequest(address, data))
+                val path = RequestGeneration().patchRequest(address, data)
+                checkRequest(path)
             }
         }
     }
 
-    private fun checkRequest(message: String): Boolean{
-        return if (message == "403 Forbidden" || message == "404 Not Found" || message == "600 No connection"){
+    private fun checkRequest(message: String): Boolean =
+        if (message == "403 Forbidden" || message == "404 Not Found" || message == "No connection"){
+            this.message = message
             val stage: Stage = saveButton.scene.window as Stage
             stage.close()
             false
         }
         else true
-    }
+
 
     @FXML
     private fun deleteClick() {
@@ -229,14 +233,17 @@ class SettingIndicatorController {
         val newColor = colorInterval.text
         val newValueFrom = valueIntervalFrom.text
 
-        if (newNameLevel != "" && newNameLevel != oldNameLevel) {
+        if (newNameLevel != "" && newNameLevel != oldNameLevel)
             update(nameIntervalComboBox.value, newNameLevel, NAME)
-        }
 
         if (type == TypeIndicator.NUMBER.type) {
             val newValueTo = valueIntervalTo.text
-            if (newValueFrom != "" && oldValueFrom != newValueFrom) {
+            if (typeNumber && newValueFrom != "" && oldValueFrom != newValueFrom) {
                 update(nameIntervalComboBox.value, newValueFrom, "a", true)
+                oldValueFrom = newValueFrom
+            }
+            else if (newValueFrom != "" && oldValueFrom != newValueFrom){
+                update(nameIntervalComboBox.value, newValueFrom, "value", true)
                 oldValueFrom = newValueFrom
             }
             if (newValueTo != "" && oldValueTo != newValueTo) {
@@ -244,14 +251,13 @@ class SettingIndicatorController {
                 oldValueTo = newValueTo
             }
 
-            if (newValueFrom == "" && newColor == "" && newValueTo == "" && newNameLevel == "") {
+            if (newValueFrom == "" && newColor == "" && newValueTo == "" && newNameLevel == "")
                 errorLabel.text = "Заполните поля значение или цвет"
-            }
 
             if (newColor != "" && oldColor != newColor) {
-                if (newColor.length != 7 || newColor[0] != '#') {
+                if (newColor.length != 7 || newColor[0] != '#')
                     errorLabel.text = "Введена не верная кодировка цвета"
-                } else {
+                else {
                     update(nameIntervalComboBox.value, newColor, "color")
                     colorPane.style = "-fx-background-color:${newColor}"
                     oldColor = newColor
@@ -259,9 +265,9 @@ class SettingIndicatorController {
             }
         } else if (type == TypeIndicator.BOOLEAN.type) {
             if (newColor != "" && oldColor != newColor) {
-                if (newColor.length != 7 || newColor[0] != '#') {
+                if (newColor.length != 7 || newColor[0] != '#')
                     errorLabel.text = "Введена не верная кодировка цвета"
-                } else {
+                else {
                     update(nameIntervalComboBox.value, newColor, "color")
                     colorPane.style = "-fx-background-color:${newColor}"
                     oldColor = newColor
@@ -273,14 +279,13 @@ class SettingIndicatorController {
                 oldValueFrom = newValueFrom
             }
 
-            if (newValueFrom == "" && newColor == "" && newNameLevel == "") {
+            if (newValueFrom == "" && newColor == "" && newNameLevel == "")
                 errorLabel.text = "Заполните поля значение или цвет"
-            }
 
             if (newColor != "" && oldColor != newColor) {
-                if (newColor.length != 7 || newColor[0] != '#') {
+                if (newColor.length != 7 || newColor[0] != '#')
                     errorLabel.text = "Введена не верная кодировка цвета"
-                } else {
+                else {
                     update(nameIntervalComboBox.value, newColor, "color")
                     colorPane.style = "-fx-background-color:${newColor}"
                     oldColor = newColor

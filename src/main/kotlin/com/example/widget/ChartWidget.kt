@@ -1,7 +1,6 @@
 package com.example.widget
 
 import com.example.util.*
-import javafx.event.EventHandler
 import javafx.geometry.Side
 import javafx.scene.chart.*
 import javafx.scene.text.Font
@@ -52,7 +51,7 @@ class ChartWidget(
         val dataChart = series ?: dataSeries()
         val xAxis = CategoryAxis()
         xAxis.side = Side.BOTTOM
-        xAxis.tickLabelFont = Font("Segoe UI Semibold", 12.0)
+        xAxis.tickLabelFont = Font(FONT_FAMILY, 12.0)
 
         val yAxis = NumberAxis()
         yAxis.side = Side.BOTTOM

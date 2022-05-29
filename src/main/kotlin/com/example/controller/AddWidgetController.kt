@@ -51,11 +51,10 @@ class AddWidgetController {
 
     fun load(idModel: String, typeWidget: Boolean): Boolean {
         this.typeWidget = typeWidget
-
         val address = request.addressGeneration(ADDRESS, MODELS)
-
         val getData = request.getRequest(request.addressGeneration(address, idModel))
-        return if (getData == "403 Forbidden" || getData == "404 Not Found" || getData == "600 No connection") {
+
+        return if (getData == "403 Forbidden" || getData == "404 Not Found" || getData == "No connection") {
             message = getData
             true
         } else {

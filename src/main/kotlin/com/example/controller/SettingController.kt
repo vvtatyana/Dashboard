@@ -24,7 +24,6 @@ class SettingController {
 
     fun initialize() {
         dayNight.graphic = createImageView(THEME, 30.0)
-
         saveButton.tooltip = Tooltip("Сохранить изменения")
         dayNight.tooltip = Tooltip("Тема приложения")
     }
@@ -45,15 +44,9 @@ class SettingController {
     @FXML
     private fun dayNightClick() {
         THEME = when (THEME) {
-            "light" -> {
-                "dark"
-            }
-            "dark" -> {
-                "light"
-            }
-            else -> {
-                "light"
-            }
+            "light" ->  "dark"
+            "dark" -> "light"
+            else -> "light"
         }
         dayNight.graphic = createImageView(THEME, 30.0)
     }

@@ -88,9 +88,9 @@ class RegistrationController {
             val address = request.addressGeneration(ADDRESS, USERS)
             val getData = request.getRequest(address)
             val userBD = QueriesDB().selectUser(UsersTable.LOGIN.name, loginText.text)
-            if (userBD != null) {
+            if (userBD != null)
                 errorLabel.text = "Пользователь с таким логином уже существует."
-            } else {
+            else {
                 if (!errorMessage(getData)) {
                     val json: JsonArray = Gson().fromJson(getData, JsonArray::class.java)
                     val users = ProcessingJSON().readAllUsers(json)
@@ -142,8 +142,8 @@ class RegistrationController {
         }
     }
 
-    private fun errorMessage(message: String): Boolean {
-        return if (message == "401 Unauthorized" || message == "403 Forbidden" || message == "404 Not Found" || message == "600 No connection") {
+    private fun errorMessage(message: String): Boolean =
+        if (message == "401 Unauthorized" || message == "403 Forbidden" || message == "404 Not Found" || message == "No connection") {
             val fxmlLoader = createFxmlLoader("alarmOrInfo.fxml")
             val stage = showWindow("Ошибка", Modality.WINDOW_MODAL, fxmlLoader, false)
             val controller: AlarmOrInfoController = fxmlLoader.getController()
@@ -151,7 +151,6 @@ class RegistrationController {
             stage.showAndWait()
             true
         } else false
-    }
 
     @FXML
     private fun onLoginButtonClick() {

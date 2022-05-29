@@ -8,14 +8,16 @@ import javafx.scene.image.ImageView
 class AlarmOrInfoController {
     @FXML
     private lateinit var infoImage: ImageView
+
     @FXML
     private lateinit var messageLabel: Label
+
     @FXML
     private lateinit var headerLabel: Label
 
     fun load(message: String) {
-        if (message == "401 Unauthorized" || message == "403 Forbidden" || message == "404 Not Found" || message == "600 No connection") {
-            headerLabel.text = message.subSequence(4, message.length).toString()
+        if (message == "401 Unauthorized" || message == "403 Forbidden" || message == "404 Not Found" || message == "No connection") {
+            headerLabel.text = message
             infoImage.image = loadImage("error")
             if (message == "401 Unauthorized")
                 messageLabel.text = "Токен не указан, или истек его срок действия"
@@ -23,14 +25,13 @@ class AlarmOrInfoController {
                 messageLabel.text = "Запрос недоступен согласно настройкам доступа или ограничениям лицензии"
             if (message == "404 Not Found")
                 messageLabel.text = "Запрос несуществующего ресурса"
-            if (message == "600 No connection")
+            if (message == "No connection")
                 messageLabel.text = "Нет подключения к интернету или указан не верный хост"
-        } else if (message == "На дашборде закончилось место"){
+        } else if (message == "На дашборде закончилось место") {
             headerLabel.text = "Внимание"
             infoImage.image = loadImage("info")
             messageLabel.text = message
-        }
-        else {
+        } else {
             headerLabel.text = message
             infoImage.image = loadImage("info")
             if (message == "Имя пользователя")

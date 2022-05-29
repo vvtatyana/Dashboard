@@ -47,9 +47,7 @@ class LoginController {
                 if (memoryCheck.isSelected) {
                     queriesDB.updateUser(user.getId(), UsersTable.CASTLE.name, true.toString())
                 }
-
                 showWindow(Modality.APPLICATION_MODAL, "window.fxml", "RIC", true)
-
             } else {
                 errorLabel.text = "Не верный логин или пароль."
                 passwordReset.isVisible = true
@@ -64,7 +62,7 @@ class LoginController {
 
     @FXML
     fun onPasswordResetClick() {
-        showWindow(Modality.WINDOW_MODAL, "passwordReset.fxml", "Восстановление пароля", false)
+        showWindow(Modality.WINDOW_MODAL, "passwordReset.fxml", "Сброс пароля", false)
     }
 
     private fun showWindow(modality: Modality, nameFile: String, title: String, isResizable: Boolean) {
