@@ -21,8 +21,8 @@ const val CHART = "chart"
 const val INDICATOR = "indicator"
 const val FONT_FAMILY = "Segoe UI Semibold"
 
-//const val filePath = "./src/main/resources/com/example/controller"
-val filePath = "C:/Users/${System.getProperty("user.name")}/AppData/Roaming/DashboardRIC/controller"
+const val filePath = "./src/main/resources/com/example/controller"
+//val filePath = "C:/Users/${System.getProperty("user.name")}/AppData/Roaming/DashboardRIC/controller"
 fun theme(): String = File("$filePath/css/$THEME.css").toURI().toURL().toExternalForm()
 fun fxmlLoader(nameFile: String): URL = File("$filePath/$nameFile").toURI().toURL()
 

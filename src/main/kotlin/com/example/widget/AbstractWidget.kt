@@ -75,4 +75,6 @@ abstract class AbstractWidget(
     }
 
     open fun setColor(strModel: String){}
+
+    open fun setValue(newValue: String){}
 }

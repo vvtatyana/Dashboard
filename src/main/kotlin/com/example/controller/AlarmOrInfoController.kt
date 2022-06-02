@@ -2,10 +2,15 @@ package com.example.controller
 
 import com.example.util.loadImage
 import javafx.fxml.FXML
+import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.image.ImageView
+import javafx.stage.Stage
 
 class AlarmOrInfoController {
+    @FXML
+    private lateinit var okButton: Button
+
     @FXML
     private lateinit var infoImage: ImageView
 
@@ -29,7 +34,7 @@ class AlarmOrInfoController {
                 messageLabel.text = "Нет подключения к интернету или указан не верный хост"
         } else if (message == "На дашборде закончилось место") {
             headerLabel.text = "Внимание"
-            infoImage.image = loadImage("info")
+            infoImage.image = loadImage("warn")
             messageLabel.text = message
         } else {
             headerLabel.text = message
@@ -47,5 +52,11 @@ class AlarmOrInfoController {
                 messageLabel.text =
                     "Хост, на который будет отправлен запрос. Является полным адресом ресурса. По умолчанию dev.rightech.io."
         }
+    }
+
+    @FXML
+    private fun okClick(){
+        val stage: Stage = okButton.scene.window as Stage
+        stage.close()
     }
 }

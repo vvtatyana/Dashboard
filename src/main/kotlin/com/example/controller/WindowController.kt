@@ -117,7 +117,6 @@ class WindowController : Initializable {
             val values = valuesObject(objectData.getNameObject(), objects, address)
             if (values != null) {
                 val data = objectsData(objectData.getNameObject(), objects, address, values)
-
                 widgets.forEach {
                     val typeWidget = if (it is ChartWidget) CHART
                     else INDICATOR
@@ -128,16 +127,9 @@ class WindowController : Initializable {
                         it.getLayoutX(),
                         it.getLayoutY()
                     )
-                    if (indicator != null && data != null && data.containsKey(indicator.getIdentifier())) {
-                        if (it is BooleanWidget) {
-                            it.setValue(data[indicator.getIdentifier()].toBoolean())
-                        }
-                        if (it is NumericWidget) {
-                            it.setValue(data[indicator.getIdentifier()]!!.toDouble())
-                        }
-                        if (it is StringWidget) {
-                            it.setValue(data[indicator.getIdentifier()].toString())
-                        }
+                    if (indicator != null && data != null) {
+                        val newValue = data[indicator.getIdentifier()]
+                        if (newValue != null) it.setValue(newValue)
                     }
                 }
             }
@@ -550,7 +542,7 @@ class WindowController : Initializable {
             )
         )
         if (!errorMessage(strModel)) {
-            var panel = when (indicator.getType()) {
+            val panel = when (indicator.getType()) {
                 TypeIndicator.NUMBER.type -> {
                     NumericWidget(
                         indicator.getId(),
@@ -879,7 +871,6 @@ class WindowController : Initializable {
 
         val token = user.getToken()
         val addressDev = user.getAddress()
-        val icon = user.getIcon()
 
         val controller: AccountController = fxmlLoader.getController()
         controller.load(user)
@@ -894,8 +885,6 @@ class WindowController : Initializable {
                 queriesDB.updateUser(user.getId(), UsersTable.ADDRESS.name, user.getAddress())
                 objects()
             }
-            if (user.getIcon() != icon)
-                queriesDB.updateUser(user.getId(), UsersTable.ICON.name, user.getIcon().toString())
         }
         if (controller.exit) {
             queriesDB.updateUser(user.getId(), UsersTable.CASTLE.name, false.toString())

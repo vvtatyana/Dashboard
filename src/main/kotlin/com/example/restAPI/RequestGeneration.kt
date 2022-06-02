@@ -13,14 +13,13 @@ class RequestGeneration {
     fun addressGeneration(address: String, description: String): String = "$address/$description"
 
     fun getRequest(address: String): String {
-        val urlForGetRequest = URL(address)
-        val connection = urlForGetRequest.openConnection() as HttpURLConnection
+        val connection = URL(address).openConnection() as HttpURLConnection
         connection.requestMethod = GET
         connection.setRequestProperty(AUTHORIZATION, HEADERS_AUTH)
         connection.setRequestProperty(CONTENT_TYPE, HEADERS_CONTENT)
-        try {
+        return try {
             val responseCode = connection.responseCode
-            return if (responseCode == HttpURLConnection.HTTP_OK) {
+            if (responseCode == HttpURLConnection.HTTP_OK) {
                 val input = BufferedReader(InputStreamReader(connection.inputStream))
                 val response = StringBuffer()
                 var readLine: String?
@@ -28,15 +27,11 @@ class RequestGeneration {
                     response.append(readLine)
                 }
                 input.close()
-                /*String(*/response.toString()/*.toByteArray(Charset.forName("Windows-1251")))*/
+               /* String(*/response.toString()/*.toByteArray(Charset.forName("Windows-1251")))*/
             } else "$responseCode ${connection.responseMessage}"
-        } catch (u: UnknownHostException) {
-            return "No connection"
-        } catch (n: NoRouteToHostException) {
-            return "No connection"
-        }
+        } catch (u: UnknownHostException) { "No connection" }
+        catch (n: NoRouteToHostException) { "No connection" }
     }
-
 
     fun patchRequest(address: String, postParams: String): String {
         val url = URL(address)

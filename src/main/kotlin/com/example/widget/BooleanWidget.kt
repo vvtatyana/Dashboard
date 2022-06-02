@@ -39,7 +39,8 @@ class BooleanWidget(
         panel.children.add(setting)
     }
 
-    private fun createCircle(radius: Double, top: Double, bottom: Double, right: Double, left: Double, flag: Boolean ): Circle {
+    private fun createCircle(radius: Double, top: Double, bottom: Double,
+                             right: Double, left: Double, flag: Boolean ): Circle {
         val model = model()
         val circle = Circle()
         val border = ProcessingJSON().readBorderBooleanOrString(model, typeWidget)
@@ -68,12 +69,12 @@ class BooleanWidget(
         return circleLabel
     }
 
-    fun setValue(newValue: Boolean) {
-        data = newValue.toString()
+    override fun setValue(newValue: String) {
+        data = newValue
         val model = model()
         val border = ProcessingJSON().readBorderBooleanOrString(model, typeWidget)
         circle.fill = borderColor(border, model)
-        text.text = text(newValue)
+        text.text = text(newValue.toBoolean())
     }
     override fun setColor(strModel: String){
         this.strModel = strModel

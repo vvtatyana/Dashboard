@@ -96,7 +96,6 @@ class RegistrationController {
                     val users = ProcessingJSON().readAllUsers(json)
                     for (user in users) {
                         if (user.getUsername() == username && user.getLogin() == login) {
-                            val icon = (1..20).random()
                             if (passwordTextOne.text == passwordTextTwo.text) {
                                 if (memoryCheck.isSelected)
                                     queriesDB.insertIntoUser(
@@ -109,7 +108,6 @@ class RegistrationController {
                                             ADDRESS,
                                             token,
                                             castle = true,
-                                            icon = icon,
                                             theme = THEME,
                                             timer = 1
                                         )
@@ -125,7 +123,6 @@ class RegistrationController {
                                             ADDRESS,
                                             token,
                                             false,
-                                            icon = icon,
                                             theme = THEME,
                                             timer = 1
                                         )

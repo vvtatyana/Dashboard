@@ -42,8 +42,12 @@
     -fx-text-fill: white;
 }
 
+#okButton{
+    -fx-background-color: #edf1f8;
+    -fx-text-fill: #3b507b;
+}
+
 #refreshMenu{
-    -fx-background-color: linear-gradient(to left, #edf1f8, #dee5f1);
     -fx-text-fill: #3b507b;
 }
 

@@ -6,16 +6,10 @@ import javafx.fxml.FXML
 import javafx.scene.control.Label
 import javafx.scene.control.TextField
 import javafx.scene.control.Tooltip
-import javafx.scene.image.ImageView
 import javafx.stage.Stage
-import com.example.util.loadImage
 import javafx.scene.control.Button
 
 class AccountController {
-
-    @FXML
-    private lateinit var accountIcon: ImageView
-
     @FXML
     private lateinit var exitButton: Button
 
@@ -34,8 +28,6 @@ class AccountController {
     @FXML
     private lateinit var saveButton: Button
 
-    private var icon: Int = 0
-
     lateinit var user: User
 
     var exit: Boolean = false
@@ -50,7 +42,6 @@ class AccountController {
         this.user = user
         username.text = user.getUsername()
         login.text = user.getLogin()
-        accountIcon.image = loadImage("icon\\${user.getIcon()}")
     }
 
     @FXML
@@ -70,9 +61,6 @@ class AccountController {
             user.setAddress(host)
         }
 
-        if (icon != 0)
-            user.setIcon(icon)
-
         val stage: Stage = saveButton.scene.window as Stage
         stage.close()
     }
@@ -82,12 +70,5 @@ class AccountController {
         exit = true
         val stage: Stage = exitButton.scene.window as Stage
         stage.close()
-    }
-
-    @FXML
-    private fun accountIconClick() {
-        if (icon < 20) icon++
-        else icon = 1
-        accountIcon.image = loadImage("icon\\$icon")
     }
 }

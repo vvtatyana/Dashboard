@@ -61,7 +61,7 @@ class StringWidget(
         }
     }
 
-    fun setValue(newValue: String) {
+    override fun setValue(newValue: String) {
         string.text = newValue
     }
 }

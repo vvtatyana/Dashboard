@@ -41,7 +41,11 @@ class NumericWidget(
     }
 
     private fun createGauge(): Gauge {
-        val gauge = gaugeBuilder()
+        val gauge = GaugeBuilder.create()
+            .skinType(Gauge.SkinType.SIMPLE)
+            .sectionsVisible(true)
+            .title(unitText)
+            .animated(true).build()
         gauge(gauge)
         gauge.tickLabelDecimals = 1
         gauge.decimals = 1
@@ -52,12 +56,6 @@ class NumericWidget(
         return gauge
     }
 
-    private fun gaugeBuilder(): Gauge = GaugeBuilder.create()
-        .skinType(Gauge.SkinType.SIMPLE)
-        .sectionsVisible(true)
-        .title(unitText)
-        .animated(true).build()
-
     private fun gauge(gauge: Gauge) {
         val jsonModel = Gson().fromJson(strModel, JsonObject::class.java)
         val borderFrom = processingJSON.readBorderFrom(jsonModel, typeWidget).toMutableMap()
@@ -65,10 +63,9 @@ class NumericWidget(
         val keys = borderFrom.keys.toList()
         if (borderFrom.isNotEmpty() && borderFrom[keys[0]]!!.toDouble() < 0.0)
             borderFrom[keys[0]] = (borderFrom[keys[0]]!!.toDouble() + 10.0).toString()
-
         gauge.minValue = borderFrom[keys[0]]!!.toDouble()
-        val sections = mutableListOf<Section>()
         borderFrom[keys[0]] = gauge.minValue.toInt().toString()
+        val sections = mutableListOf<Section>()
         if (processingJSON.readTypeNumeric(jsonModel, typeWidget)) {
             val borderTo = processingJSON.readBorderTo(jsonModel, typeWidget).toMutableMap()
             gauge.maxValue = borderTo[keys[keys.size - 1]]!!.toDouble()
@@ -89,9 +86,8 @@ class NumericWidget(
         gauge.setSections(sections)
     }
 
-    fun setValue(newValue: Double) {
-        gauge.value = if (typeData == TypeIndicator.NUMBER.type) newValue
-        else newValue
+    override fun setValue(newValue: String) {
+        gauge.value = newValue.toDouble()
     }
 
     fun setUnit(unit: String) {

@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="mainPane" prefHeight="303.0" prefWidth="472.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.AlarmOrInfoController">
+<AnchorPane fx:id="mainPane" prefHeight="305.0" prefWidth="472.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.AlarmOrInfoController">
     <Label fx:id="headerLabel" alignment="TOP_CENTER" layoutX="131.0" layoutY="80.0" text="Тревога" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="80.0">
         <font>
             <Font name="Segoe UI Semibold" size="25.0" />
@@ -14,9 +14,14 @@
     <ImageView fx:id="infoImage" fitHeight="65.0" fitWidth="71.0" layoutX="201.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="201.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="14.0">
         <Image url="@images/error.png" />
     </ImageView>
-    <Label fx:id="messageLabel" alignment="CENTER" layoutX="41.0" layoutY="120.0" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="120.0">
+    <Label fx:id="messageLabel" alignment="CENTER" layoutX="41.0" layoutY="120.0" prefHeight="126.0" prefWidth="372.0" text="Токен — это средство авторизации для каждого запроса от клиента к серверу. Токен выдается только один раз при регистрации клиента в системе RIC. Его необходимо сохранить для дальнейшего использования." textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="120.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
+   <Button fx:id="okButton" layoutX="214.0" layoutY="246.0" mnemonicParsing="false" onMouseClicked="#okClick" text="OK">
+      <font>
+         <Font name="Segoe UI Semibold" size="16.0" />
+      </font>
+   </Button>
 </AnchorPane>

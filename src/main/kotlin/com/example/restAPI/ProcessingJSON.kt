@@ -94,9 +94,7 @@ class ProcessingJSON {
                     }
                 }
             } catch (ill: IllegalStateException) {
-                values.forEach {
-                    border[it.asJsonObject.get(NAME).asString] = it.asJsonObject.get(VALUE).asString
-                }
+                values.forEach { border[it.asJsonObject.get(NAME).asString] = it.asJsonObject.get(VALUE).asString }
             }
         }
         return border
@@ -116,9 +114,7 @@ class ProcessingJSON {
                             ((it.asJsonObject.get(VALUE).asJsonObject.get(FROM).asInt / 10 + 2) * 10).toString()
                     }
                 }
-            } catch (ill: IllegalStateException) {
-                return border
-            }
+            } catch (ill: IllegalStateException) { return border }
         }
         return border
     }
@@ -159,11 +155,9 @@ class ProcessingJSON {
         val values = readBorder(jsonObject, name)
         if (values != null) {
             try {
-                if (values[0].asJsonObject.get(VALUE).asJsonObject.get("a").asString != null)
+                if (values[0].asJsonObject.get(VALUE).asJsonObject.get(FROM).asString != null)
                     return true
-            } catch (ill: IllegalStateException){
-                return false
-            }
+            } catch (ill: IllegalStateException){ return false }
         }
         return false
     }

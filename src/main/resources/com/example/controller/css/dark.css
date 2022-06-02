@@ -36,6 +36,11 @@
     -fx-text-fill: white;
 }
 
+#okButton{
+    -fx-background-color: #2f649d;
+    -fx-text-fill: #dae5f2;
+}
+
 #circleLabel{
     -fx-text-fill: #e1e6f0;
     -fx-font-size: 20px;

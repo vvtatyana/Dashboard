@@ -53,7 +53,6 @@ class Database {
             " ADDRESS        VARCHAR(50)   NOT NULL," +
             " TOKEN          VARCHAR(1000) NOT NULL," +
             " CASTLE         VARCHAR(10)   NOT NULL," +
-            " ICON           VARCHAR(10)   NOT NULL," +
             " THEME          VARCHAR(20)   NOT NULL," +
             " TIMER          INTEGER       NOT NULL)"
 
