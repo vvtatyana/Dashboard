@@ -1,7 +1,11 @@
 package com.example.controller
 
 import com.example.building.User
+import com.example.restAPI.ProcessingJSON
+import com.example.restAPI.RequestGeneration
 import com.example.util.*
+import com.google.gson.Gson
+import com.google.gson.JsonArray
 import javafx.fxml.FXML
 import javafx.scene.control.Label
 import javafx.scene.control.TextField
@@ -10,6 +14,9 @@ import javafx.stage.Stage
 import javafx.scene.control.Button
 
 class AccountController {
+    @FXML
+    private lateinit var errorLabel: Label
+
     @FXML
     private lateinit var exitButton: Button
 
@@ -48,17 +55,26 @@ class AccountController {
     private fun saveClick() {
         save = true
         val token = tokenText.text
-        var host = hostText.text
+        val host = hostText.text
 
         if (token != "") {
-            HEADERS_AUTH = "Bearer $token"
-            user.setToken(token)
+            if (check(token, user.getAddress())){
+                user.setToken(token)
+            }
+            else {
+                HEADERS_AUTH = "Bearer ${user.getToken()}"
+                errorLabel.text = "Не верный токен"
+            }
         }
 
         if (host != "") {
-            ADDRESS = "https://${host}/api/v1"
-            host = ADDRESS
-            user.setAddress(host)
+            if (check(user.getToken(), host)){
+                user.setAddress(ADDRESS)
+            }
+            else {
+                ADDRESS = user.getAddress()
+                errorLabel.text = "Не верный хост"
+            }
         }
 
         val stage: Stage = saveButton.scene.window as Stage
@@ -71,4 +87,27 @@ class AccountController {
         val stage: Stage = exitButton.scene.window as Stage
         stage.close()
     }
+
+    private fun errorMessage(message: String): Boolean =
+        message == "401 Unauthorized" || message == "403 Forbidden" || message == "404 Not Found" || message == "No connection"
+
+    private fun check(token: String, host: String): Boolean {
+        HEADERS_AUTH = "Bearer $token"
+        ADDRESS = "https://${host}/api/v1"
+        val request = RequestGeneration()
+        val address = request.addressGeneration(ADDRESS, USERS)
+        val getData = request.getRequest(address)
+        if (!errorMessage(getData)) {
+            val json: JsonArray = Gson().fromJson(getData, JsonArray::class.java)
+            val users = ProcessingJSON().readAllUsers(json)
+            for (user in users) {
+                if (user.getLogin() == this.user.getLogin()) {
+                    user.setAddress(ADDRESS)
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
 }

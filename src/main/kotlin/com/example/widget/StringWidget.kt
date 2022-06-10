@@ -34,9 +34,8 @@ class StringWidget(
 
     private fun createString(): Label {
         val stringLabel = Label(data)
-        stringLabel.font = Font.font(FONT_FAMILY, 14.0)
+        stringLabel.id = "stringLabel"
         stringLabel.alignment = Pos.CENTER
-        stringLabel.effect = dropShadow()
         AnchorPane.setTopAnchor(stringLabel, 25.0)
         AnchorPane.setBottomAnchor(stringLabel, 30.0)
         AnchorPane.setRightAnchor(stringLabel, 15.0)

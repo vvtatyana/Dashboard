@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="dataPane" prefHeight="292.0" prefWidth="428.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.AccountController">
+<AnchorPane fx:id="mainPane" prefHeight="292.0" prefWidth="428.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.AccountController">
     <Label fx:id="username" alignment="TOP_CENTER" layoutX="165.0" layoutY="97.0" text="имя пользователя" AnchorPane.bottomAnchor="215.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
         <font>
             <Font name="Segoe UI Semibold" size="22.0" />
@@ -43,16 +43,21 @@
     </TextField>
     <Button fx:id="saveButton" layoutX="335.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#saveClick">
         <graphic>
-            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(one-pass-box, #cacdd5, 1.0, 1.0, 1.0, 1.0);">
                 <Image url="@images/save.png" />
             </ImageView>
         </graphic>
     </Button>
     <Button fx:id="exitButton" layoutX="377.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#exitClick" AnchorPane.rightAnchor="0.0">
         <graphic>
-            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                 <Image url="@images/exit.png" />
             </ImageView>
         </graphic>
     </Button>
+   <Label fx:id="errorLabel" layoutX="50.0" layoutY="261.0" prefHeight="18.0" prefWidth="328.0" textFill="RED">
+      <font>
+         <Font name="Segoe UI Semibold" size="14.0" />
+      </font>
+   </Label>
 </AnchorPane>

@@ -30,7 +30,7 @@ class BooleanWidget(
 
     init {
         circle = createCircle(74.0, 24.0, 19.0, 23.0, 23.0, true)
-        circle.effect = dropShadow()
+        circle.style = dropShadow()
         text = createCircleText()
         panel.children.add(title)
         panel.children.add(circle)
@@ -49,7 +49,7 @@ class BooleanWidget(
         } else if (!flag) circle.fill = Paint.valueOf("#636161")
         circle.radius = radius
         circle.stroke = Paint.valueOf("white")
-        circle.strokeWidth = 3.5
+        circle.strokeWidth = 3.0
         AnchorPane.setTopAnchor(circle, top)
         AnchorPane.setBottomAnchor(circle, bottom)
         AnchorPane.setRightAnchor(circle, right)
@@ -64,8 +64,8 @@ class BooleanWidget(
         circleLabel.alignment = Pos.CENTER
         AnchorPane.setTopAnchor(circleLabel, 70.0)
         AnchorPane.setBottomAnchor(circleLabel, 70.0)
-        AnchorPane.setRightAnchor(circleLabel, 70.0)
-        AnchorPane.setLeftAnchor(circleLabel, 70.0)
+        AnchorPane.setRightAnchor(circleLabel, 69.0)
+        AnchorPane.setLeftAnchor(circleLabel, 69.0)
         return circleLabel
     }
 
@@ -76,6 +76,7 @@ class BooleanWidget(
         circle.fill = borderColor(border, model)
         text.text = text(newValue.toBoolean())
     }
+
     override fun setColor(strModel: String){
         this.strModel = strModel
         val model = model()

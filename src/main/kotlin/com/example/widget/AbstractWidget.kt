@@ -4,6 +4,7 @@ import com.example.util.*
 import javafx.geometry.Pos
 import javafx.scene.control.Button
 import javafx.scene.control.Label
+import javafx.scene.effect.Effect
 import javafx.scene.layout.AnchorPane
 
 abstract class AbstractWidget(
@@ -24,7 +25,6 @@ abstract class AbstractWidget(
         panel.layoutY = layoutY
         panel.prefWidth = size
         panel.prefHeight = size
-        panel.effect = dropShadow()
         return panel
     }
 
@@ -42,6 +42,7 @@ abstract class AbstractWidget(
         settingButton.graphic = createImageView("setting", 25.0)
         settingButton.prefHeight = 25.0
         settingButton.prefWidth = 25.0
+        settingButton.style = dropShadow()
         AnchorPane.setRightAnchor(settingButton, -5.0)
         AnchorPane.setBottomAnchor(settingButton, 0.0)
         return settingButton

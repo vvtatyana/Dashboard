@@ -1,76 +1,127 @@
-#dataPane, #headerPane, #mainPane, #chartPane, #indicatorPane {
-    -fx-background-color: linear-gradient(to left, #2b4b6e, #1d334a);
+#mainPane{
+    -fx-background-color: linear-gradient(to bottom, #3c435c, #272c3c);
 }
 
-.combo-box, #pane {
-    -fx-background-color:  linear-gradient(to left, #2f649d, #224c77);
+#dataPane, #headerPane, #chartPane, #indicatorPane{
+    -fx-background-color: transparent;
+}
+
+#pane {
+    -fx-background-color: #2d2f3e;
+    -fx-border-color: #222433;
+    -fx-border-width: 1.0;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-effect: dropshadow(one-pass-box, #23242f, 1.0, 1.0, 1.0, 1.0);
+}
+
+#colorPane{
+    -fx-effect: dropshadow(one-pass-box, #23242f, 1.0, 1.0, 1.0, 1.0);
+}
+
+.text-field, .combo-box {
+    -fx-background-color: #2d2f3e;
+    -fx-border-color: #222433;
+    -fx-border-width: 1;
     -fx-background-radius: 0;
+    -fx-effect: dropshadow(one-pass-box, #23242f, 1.0, 1.0, 1.0, 1.0);
 }
 
-#datePicker, #fromTimePicker, #toTimePicker{
-    -fx-text-fill: #3b507b;
+.list-view{
+    -fx-background-color: #2d2f3e;
+}
+
+
+#imageView, #nameInfoOne, #nameInfoTwo, #nameInfoThree, #nameInfoFour{
+    -fx-effect: dropshadow(one-pass-box, #23242f, 1.0, 1.0, 1.0, 1.0);
+}
+
+.label, .check-box {
+    -fx-text-fill: #ecf0f3;
+}
+
+#stringLabel{
+    -fx-text-fill: #ecf0f3;
     -fx-font-size: 14px;
     -fx-font-family: "Segoe UI Semibold";
-}
-
-.label, .check-box{
-    -fx-text-fill: #dae5f2;
+    -fx-effect: dropshadow(one-pass-box, #23242f, 1.0, 1.0, 1.0, 1.0);
 }
 
 #errorLabel{
     -fx-text-fill: RED
 }
 
+#datePicker, #fromTimePicker, #toTimePicker{
+    -fx-text-fill: #ecf0f3;
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-effect: dropshadow(one-pass-box, #23242f, 1.0, 1.0, 1.0, 1.0);
+}
+
 .text-field, #login, #time{
-    -fx-background-color:  linear-gradient(to left, #2f649d, #224c77);
+    -fx-background-color: #2d2f3e;
+    -fx-border-color: #222433;
+    -fx-border-width: 1;
     -fx-background-radius: 0;
-    -fx-text-fill: #dae5f2;
-}
-
-.button{
-    -fx-background-color: transparent;
-    -fx-text-fill: #dae5f2;
-}
-
-#enterButton{
-    -fx-text-fill: white;
-}
-
-#okButton{
-    -fx-background-color: #2f649d;
-    -fx-text-fill: #dae5f2;
+    -fx-text-fill: #ecf0f3;
+    -fx-effect: dropshadow(one-pass-box, #23242f, 1.0, 1.0, 1.0, 1.0);
 }
 
 #circleLabel{
-    -fx-text-fill: #e1e6f0;
+    -fx-text-fill: #ecf0f3;
     -fx-font-size: 20px;
     -fx-font-family: "Segoe UI Semibold";
 }
 
+.button{
+    -fx-background-color: transparent;
+    -fx-text-fill: #ecf0f3;
+}
+
+#enterButton{
+    -fx-text-fill: #ecf0f3;
+    -fx-effect: dropshadow(one-pass-box, #23242f, 1.0, 1.0, 1.0, 1.0);
+}
+
+#okButton{
+    -fx-background-color: #2d2f3e;
+    -fx-text-fill: #ecf0f3;
+    -fx-effect: dropshadow(one-pass-box, #23242f, 1.0, 1.0, 1.0, 1.0);
+}
+
+#refreshMenu{
+    -fx-background-color: #2d2f3e;
+    -fx-text-fill: #ecf0f3;
+}
 
 .list-cell {
-    -fx-control-inner-background: #2f649d;
-    -fx-control-inner-background-alt: #2f649d;
-    -fx-text-fill: #dae5f2;
+    -fx-control-inner-background: transparent;
+    -fx-control-inner-background-alt: transparent;
+    -fx-text-fill: #ecf0f3;
     -fx-font-size: 14px;
     -fx-font-family: "Segoe UI Semibold";
 }
 
-#devicesList{
-    -fx-background-color:  linear-gradient(to left, #2f649d, #224c77);
+.list-cell:filled:hover, .list-cell:selected {
+    -fx-background-color: #3c435c;
 }
+
+#devicesList{
+    -fx-background-color:  #2d2f3e;
+}
+
 
 .chart {
     -fx-padding: 10px;
 }
 
 .chart-vertical-grid-lines {
-    -fx-stroke: #44619c;
+    -fx-stroke: #cacdd5;
     -fx-stroke-width: 1;
 }
 
 .chart-horizontal-grid-lines {
-    -fx-stroke: #44619c;
+    -fx-stroke: #cacdd5;
     -fx-stroke-width: 1;
 }
 
@@ -79,15 +130,28 @@
 }
 
 .default-color0.chart-area-symbol {
-    -fx-background-color: #deaa87, #f5f5dc;
+    -fx-background-color: #5ea6ff, #4123fd;
 }
 
 .default-color0.chart-series-area-line {
-    -fx-stroke: #deaa87;
-    -fx-effect: dropshadow(one-pass-box, #a15a2b, 1.0, 0.5, 0.5, 0.5);
+    -fx-stroke: #5ea6ff;
 }
 
 .default-color0.chart-series-area-fill {
-    -fx-fill: #f5f5dc;
+    -fx-fill: linear-gradient(to bottom, #2300fd, #8330fe);
     -fx-opacity: 0.5
+}
+
+.default-color0.chart-bar{
+    -fx-background-color: #5ea6ff;
+}
+
+.default-color0.chart-series-line{
+    -fx-stroke: #5ea6ff;
+}
+
+.default-color0.chart-line-symbol { -fx-background-color: #5ea6ff, #4123fd; }
+
+.default-color0.chart-symbol {
+    -fx-background-color: #5ea6ff;
 }

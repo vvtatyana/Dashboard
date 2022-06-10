@@ -1,14 +1,45 @@
-#dataPane, #headerPane, #mainPane, #chartPane, #indicatorPane{
-    -fx-background-color: linear-gradient(to left, #dee4f0, #cdd9f1);
+#mainPane{
+    -fx-background-color: linear-gradient(to bottom, #ecf0f3, #ced9e0);
 }
 
-.text-field, .combo-box, #pane {
-    -fx-background-color:  linear-gradient(to left, #edf1f8, #dee5f1);
+#dataPane, #headerPane, #chartPane, #indicatorPane{
+    -fx-background-color: transparent;
+}
+
+#pane {
+    -fx-background-color: #f4f7f9;
+    -fx-border-color: white;
+    -fx-border-width: 1.0;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-effect: dropshadow(one-pass-box, #cacdd5, 1.0, 1.0, 1.0, 1.0);
+}
+
+#colorPane{
+    -fx-effect: dropshadow(one-pass-box, #cacdd5, 1.0, 1.0, 1.0, 1.0);
+}
+
+.text-field, .combo-box {
+    -fx-background-color: #ebf0f4;
+    -fx-border-color: white;
+    -fx-border-width: 1;
     -fx-background-radius: 0;
+    -fx-effect: dropshadow(one-pass-box, #cacdd5, 1.0, 1.0, 1.0, 1.0);
+}
+
+#imageView, #nameInfoOne, #nameInfoTwo, #nameInfoThree, #nameInfoFour{
+    -fx-effect: dropshadow(one-pass-box, #cacdd5, 1.0, 1.0, 1.0, 1.0);
 }
 
 .label, .check-box {
-    -fx-text-fill: #3b507b;
+    -fx-text-fill: #3c435c;
+}
+
+#stringLabel{
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-effect: dropshadow(one-pass-box, #cacdd5, 1.0, 1.0, 1.0, 1.0);
 }
 
 #errorLabel{
@@ -16,65 +47,75 @@
 }
 
 #datePicker, #fromTimePicker, #toTimePicker{
-    -fx-text-fill: #3b507b;
+    -fx-text-fill: #3c435c;
     -fx-font-size: 14px;
     -fx-font-family: "Segoe UI Semibold";
+    -fx-effect: dropshadow(one-pass-box, #cacdd5, 1.0, 1.0, 1.0, 1.0);
 }
 
 .text-field, #login, #time{
-    -fx-background-color:  linear-gradient(to left, #edf1f8, #dee5f1);
+    -fx-background-color: #ebf0f4;
+    -fx-border-color: white;
+    -fx-border-width: 1;
     -fx-background-radius: 0;
-    -fx-text-fill: #3b507b;
+    -fx-text-fill: #3c435c;
+    -fx-effect: dropshadow(one-pass-box, #cacdd5, 1.0, 1.0, 1.0, 1.0);
 }
 
 #circleLabel{
-    -fx-text-fill: #e1e6f0;
+    -fx-text-fill: white;
     -fx-font-size: 20px;
     -fx-font-family: "Segoe UI Semibold";
 }
 
-.button{
+.button {
     -fx-background-color: transparent;
-    -fx-text-fill: #3b507b;
+    -fx-text-fill: #3c435c;
 }
 
 #enterButton{
     -fx-text-fill: white;
+    -fx-effect: dropshadow(one-pass-box, #cacdd5, 1.0, 1.0, 1.0, 1.0);
 }
 
 #okButton{
     -fx-background-color: #edf1f8;
-    -fx-text-fill: #3b507b;
+    -fx-text-fill: #3c435c;
+    -fx-effect: dropshadow(one-pass-box, #cacdd5, 1.0, 1.0, 1.0, 1.0);
 }
 
 #refreshMenu{
-    -fx-text-fill: #3b507b;
+    -fx-background-color: white;
+    -fx-text-fill: #3c435c;
 }
 
 .list-cell {
     -fx-control-inner-background: transparent;
     -fx-control-inner-background-alt: transparent;
-    -fx-text-fill: #3b507b;
+    -fx-text-fill: #3c435c;
     -fx-font-size: 14px;
     -fx-font-family: "Segoe UI Semibold";
 }
 
-#devicesList{
-    -fx-background-color:  linear-gradient(to left, #edf1f8, #dee5f1);
+.list-cell:filled:hover, .list-cell:selected {
+    -fx-background-color: #ecf0f3;
 }
 
+#devicesList{
+    -fx-background-color:  white;
+}
 
 .chart {
     -fx-padding: 10px;
 }
 
 .chart-vertical-grid-lines {
-    -fx-stroke: #44619c;
+    -fx-stroke: #cacdd5;
     -fx-stroke-width: 1;
 }
 
 .chart-horizontal-grid-lines {
-    -fx-stroke: #44619c;
+    -fx-stroke: #cacdd5;
     -fx-stroke-width: 1;
 }
 
@@ -83,15 +124,29 @@
 }
 
 .default-color0.chart-area-symbol {
-    -fx-background-color: #deaa87, #f5f5dc;
+    -fx-background-color: #44caad, #c0ebff;
 }
 
 .default-color0.chart-series-area-line {
-    -fx-stroke: #deaa87;
-    -fx-effect: dropshadow(one-pass-box, #a15a2b, 1.0, 0.5, 0.5, 0.5);
+    -fx-stroke: #44caad;
 }
 
 .default-color0.chart-series-area-fill {
-    -fx-fill: #f5f5dc;
+    -fx-fill: linear-gradient(to bottom, #c0ebff, #a3f7e5);
     -fx-opacity: 0.5
+}
+
+.default-color0.chart-bar{
+    -fx-background-color: #44caad;
+}
+
+.default-color0.chart-series-line{
+    -fx-stroke: #44caad;
+
+}
+
+.default-color0.chart-line-symbol { -fx-background-color: #44caad, white; }
+
+.default-color0.chart-symbol {
+    -fx-background-color: #44caad;
 }

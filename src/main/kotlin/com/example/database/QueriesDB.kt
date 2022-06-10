@@ -16,8 +16,7 @@ class QueriesDB {
             val rs = database.getStatement().executeQuery(sql)
             while (rs.next()) {
                 val res = mutableListOf<String>()
-                for (i in 1..column)
-                    res.add(rs.getString(i))
+                for (i in 1..column) res.add(rs.getString(i))
                 result.add(res)
             }
             rs.close()
@@ -42,21 +41,32 @@ class QueriesDB {
     }
 
     fun selectUser(field: String, value: String): User? {
-        val result = select("SELECT * from USERS where $field='$value'", TableBD.USERS.column)
+        val result = select(
+            "SELECT * from USERS where $field='$value'",
+            TableBD.USERS.column
+        )
         return if (result.isNotEmpty())
             User(
-                result[0][0].toInt(), result[0][1], result[0][2], result[0][3], result[0][4], result[0][5],
-                result[0][6], result[0][7].toBoolean(), result[0][8], result[0][9].toInt()
+                result[0][0].toInt(),
+                result[0][1],
+                result[0][2],
+                result[0][3],
+                result[0][4],
+                result[0][5],
+                result[0][6],
+                result[0][7].toBoolean(),
+                result[0][8],
+                result[0][9].toInt()
             )
         else null
     }
 
     fun insertIntoUser(user: User) {
         insertUpdateDelete(
-            "INSERT INTO USERS (ID_USER,USERNAME,LOGIN,PASSWORD,ADDRESS,TOKEN,CASTLE,THEME,TIMER)" +
+            "INSERT INTO USERS (ID_USER, USERNAME, LOGIN, PASSWORD, ADDRESS, TOKEN, CASTLE, THEME, TIMER)" +
                     "VALUES ('${user.getIdUser()}' , '${user.getUsername()}', '${user.getLogin()}', " +
-                    "'${user.getPassword()}', '${user.getAddress()}', '${user.getToken()}', '${user.getCastle()}'," +
-                    "'${user.getTheme()}', '${user.getTimer()}');"
+                    "'${user.getPassword()}', '${user.getAddress()}', '${user.getToken()}', " +
+                    "'${user.getCastle()}', '${user.getTheme()}', '${user.getTimer()}');"
         )
     }
 
@@ -65,10 +75,16 @@ class QueriesDB {
     }
 
     fun selectWidget(idUser: Int, idObj: String, typeWidget: String, layoutX: Double, layoutY: Double): Widget? {
-        val result =  select("SELECT * from WIDGETS where ${where(idUser, idObj, typeWidget)} and LAYOUT_X=$layoutX and LAYOUT_Y=$layoutY",
-            TableBD.WIDGETS.column)
-        return if (result.isNotEmpty()) Widget(result[0][0].toInt(), result[0][1].toInt(), result[0][2], result[0][3], result[0][4],
-            result[0][5].toDouble(), result[0][6].toDouble(), result[0][7], result[0][8], result[0][9])
+        val result = select(
+            "SELECT * from WIDGETS where ${
+                where(idUser, idObj, typeWidget)
+            } and LAYOUT_X=$layoutX and LAYOUT_Y=$layoutY",
+            TableBD.WIDGETS.column
+        )
+        return if (result.isNotEmpty()) Widget(
+            result[0][0].toInt(), result[0][1].toInt(), result[0][2], result[0][3], result[0][4],
+            result[0][5].toDouble(), result[0][6].toDouble(), result[0][7], result[0][8], result[0][9]
+        )
         else null
     }
 
@@ -78,16 +94,24 @@ class QueriesDB {
         return if (resultList.isNotEmpty()) {
             val indicators = mutableListOf<Widget>()
             resultList.forEach {
-                indicators.add(Widget(it[0].toInt(), it[1].toInt(), it[2], it[3], it[4], it[5].toDouble(), it[6].toDouble(), it[7], it[8], it[9]))
+                indicators.add(
+                    Widget(
+                        it[0].toInt(), it[1].toInt(), it[2], it[3], it[4],
+                        it[5].toDouble(), it[6].toDouble(), it[7], it[8], it[9]
+                    )
+                )
             }
             indicators
         } else null
     }
 
     fun insertIntoWidget(indicator: Widget) {
-        insertUpdateDelete("INSERT INTO WIDGETS (ID_USER, ID_OBJECT, TYPE_WIDGET, IDENTIFIER, LAYOUT_X, LAYOUT_Y, NAME, UNIT, TYPE)" +
-                    "VALUES ('${indicator.getIdUser()}','${indicator.getIdObject()}','${indicator.getTypeWidgets()}','${indicator.getIdentifier()}'," +
-                "'${indicator.getLayoutX()}','${indicator.getLayoutY()}','${indicator.getName()}','${indicator.getUnit()}','${indicator.getType()}');")
+        insertUpdateDelete(
+            "INSERT INTO WIDGETS (ID_USER,ID_OBJECT,TYPE_WIDGET,IDENTIFIER,LAYOUT_X,LAYOUT_Y,NAME,UNIT,TYPE)" +
+                    "VALUES ('${indicator.getIdUser()}','${indicator.getIdObject()}','${indicator.getTypeWidgets()}'," +
+                    "'${indicator.getIdentifier()}', '${indicator.getLayoutX()}','${indicator.getLayoutY()}'," +
+                    "'${indicator.getName()}','${indicator.getUnit()}','${indicator.getType()}');"
+        )
     }
 
     fun updateWidget(id: Int, typeWidget: String, field: String, value: String) {
@@ -95,8 +119,17 @@ class QueriesDB {
     }
 
     fun deleteWidget(idUser: Int, idObj: String, typeWidget: String, layoutX: Double, layoutY: Double) {
-        insertUpdateDelete("DELETE from WIDGETS where ${where(idUser, idObj, typeWidget)} and LAYOUT_X=$layoutX and LAYOUT_Y=$layoutY")
+        insertUpdateDelete(
+            "DELETE from WIDGETS where ${
+                where(
+                    idUser,
+                    idObj,
+                    typeWidget
+                )
+            } and LAYOUT_X=$layoutX and LAYOUT_Y=$layoutY"
+        )
     }
 
-    private fun where(idUser: Int, idObj: String, typeWidget: String): String = "ID_USER='$idUser' and ID_OBJECT='$idObj' and TYPE_WIDGET='$typeWidget'"
+    private fun where(idUser: Int, idObj: String, typeWidget: String): String =
+        "ID_USER='$idUser' and ID_OBJECT='$idObj' and TYPE_WIDGET='$typeWidget'"
 }

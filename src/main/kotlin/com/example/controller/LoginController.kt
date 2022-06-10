@@ -30,6 +30,7 @@ class LoginController {
 
     fun initialize() {
         passwordReset.isVisible = false
+        THEME = "light"
     }
 
     @FXML
@@ -38,7 +39,12 @@ class LoginController {
         else if (passwordText.text.isEmpty()) errorLabel.text = "Введите пароль"
         else if (loginText.text.isNotEmpty() && passwordText.text.isNotEmpty()) {
             val queriesDB = QueriesDB()
-            val user = queriesDB.selectUser(UsersTable.LOGIN.name, loginText.text)
+
+            val user =
+                queriesDB.selectUser(
+                    UsersTable.LOGIN.name,
+                    loginText.text
+                )
 
             if (user != null && PasswordEncoderFactories.createDelegatingPasswordEncoder()
                     .matches(passwordText.text, user.getPassword())
@@ -47,6 +53,7 @@ class LoginController {
                 if (memoryCheck.isSelected) {
                     queriesDB.updateUser(user.getId(), UsersTable.CASTLE.name, true.toString())
                 }
+                THEME=user.getTheme()
                 showWindow(Modality.APPLICATION_MODAL, "window.fxml", "RIC", true)
             } else {
                 errorLabel.text = "Не верный логин или пароль."

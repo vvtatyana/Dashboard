@@ -11,7 +11,7 @@
     <AnchorPane prefWidth="985.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <Button fx:id="indicatorButton" alignment="CENTER" layoutX="344.0" layoutY="3.0" mnemonicParsing="false" onMouseClicked="#indicatorClick" prefHeight="30.0" prefWidth="155.0" text="Индикаторы" AnchorPane.leftAnchor="344.0" AnchorPane.rightAnchor="500.80000000000007" AnchorPane.topAnchor="0.0">
             <graphic>
-                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="imageView" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@images/indicator.png" />
                 </ImageView>
             </graphic>
@@ -21,7 +21,7 @@
         </Button>
         <Button fx:id="chartButton" alignment="CENTER" layoutX="500.0" layoutY="3.0" mnemonicParsing="false" onMouseClicked="#chartClick" prefHeight="34.0" prefWidth="155.0" text="Диаграммы" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="345.0" AnchorPane.topAnchor="0.0">
             <graphic>
-                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="imageView" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@images/chart.png" />
                 </ImageView>
             </graphic>
@@ -31,42 +31,42 @@
         </Button>
         <Button fx:id="settingButton" layoutX="971.0" layoutY="-13.0" mnemonicParsing="false" onMouseClicked="#clickSetting" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <graphic>
-                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="imageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@images/settingSystem.png" />
                 </ImageView>
             </graphic>
         </Button>
         <Button fx:id="accountButton" layoutX="907.0" layoutY="-3.0" mnemonicParsing="false" onMouseClicked="#accountClick" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="0.0">
             <graphic>
-                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="imageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@images/account.png" />
                 </ImageView>
             </graphic>
         </Button>
         <Button fx:id="addButton" layoutX="876.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#clickIndicators" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="0.0">
             <graphic>
-                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="imageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@images/add.png" />
                 </ImageView>
             </graphic>
         </Button>
         <Button fx:id="reloadButton" layoutX="836.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#reloadClick" AnchorPane.rightAnchor="135.0" AnchorPane.topAnchor="0.0">
             <graphic>
-                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="imageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@images/reload.png" />
                 </ImageView>
             </graphic>
         </Button>
         <Button fx:id="movingButton" layoutX="790.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#movingClick" prefHeight="38.0" prefWidth="46.0" AnchorPane.rightAnchor="180.0" AnchorPane.topAnchor="0.0">
             <graphic>
-                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="imageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@images/lock.png" />
                 </ImageView>
             </graphic>
         </Button>
         <Button fx:id="dataButton" layoutX="50.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#devicesClick" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
             <graphic>
-                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="imageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@images/menu.png" />
                 </ImageView>
             </graphic>

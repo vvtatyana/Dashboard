@@ -58,6 +58,8 @@ class RegistrationController {
 
     private lateinit var queriesDB: QueriesDB
     fun initialize() {
+
+        THEME = "light"
         Tooltip.install(nameInfoOne, Tooltip("Справка"))
         Tooltip.install(nameInfoTwo, Tooltip("Справка"))
         Tooltip.install(nameInfoThree, Tooltip("Справка"))
@@ -72,12 +74,11 @@ class RegistrationController {
         val login: String = loginText.text
         val token: String = tokenText.text
 
-        if (username.isEmpty()) errorLabel.text = "Введите имя"
-        else if (login.isEmpty()) errorLabel.text = "Введите логин"
+        if (login.isEmpty()) errorLabel.text = "Введите логин"
         else if (token.isEmpty()) errorLabel.text = "Введите токен"
         else if (passwordTextOne.text.isEmpty()) errorLabel.text = "Введите пароль"
         else if (passwordTextTwo.text.isEmpty()) errorLabel.text = "Введите второй пароль"
-        else if (username.isNotEmpty() && login.isNotEmpty() && token.isNotEmpty() && passwordTextOne.text.isNotEmpty() && passwordTextTwo.text.isNotEmpty()) {
+        else if (login.isNotEmpty() && token.isNotEmpty() && passwordTextOne.text.isNotEmpty() && passwordTextTwo.text.isNotEmpty()) {
             if (hostText.text.isNotEmpty()) {
                 val defAddress = "https://${hostText.text}/api/v1"
                 ADDRESS = defAddress
@@ -95,7 +96,7 @@ class RegistrationController {
                     val json: JsonArray = Gson().fromJson(getData, JsonArray::class.java)
                     val users = ProcessingJSON().readAllUsers(json)
                     for (user in users) {
-                        if (user.getUsername() == username && user.getLogin() == login) {
+                        if (user.getLogin() == login) {
                             if (passwordTextOne.text == passwordTextTwo.text) {
                                 if (memoryCheck.isSelected)
                                     queriesDB.insertIntoUser(

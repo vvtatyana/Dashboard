@@ -7,16 +7,23 @@ import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import org.slf4j.LoggerFactory
 
 class ProcessingJSON {
-    fun read(jsonObject: JsonObject, value: String): JsonElement? = jsonObject.get(value)
+
+    fun read(jsonObject: JsonObject, value: String): JsonElement? =
+        jsonObject.get(value)
 
     fun readAllUsers(jsonArray: JsonArray): List<User> {
         val iterator: Iterator<*> = jsonArray.iterator()
         val users = ArrayList<User>()
         while (iterator.hasNext()) {
-            val slide: JsonObject = Gson().fromJson(iterator.next().toString(), JsonObject::class.java)
-            users.add(User(slide.get(_ID).asString, slide.get(NAME).asString,slide.get(LOGIN).asString))
+            val slide: JsonObject =
+                Gson().fromJson(iterator.next().toString(), JsonObject::class.java)
+            val user = User(
+                slide.get(_ID).asString, slide.get(NAME).asString, slide.get(LOGIN).asString
+            )
+            users.add(user)
         }
         return users
     }
@@ -25,8 +32,13 @@ class ProcessingJSON {
         val iterator: Iterator<*> = jsonArray.iterator()
         val objects = ArrayList<Object>()
         while (iterator.hasNext()) {
-            val slide: JsonObject = Gson().fromJson(iterator.next().toString(), JsonObject::class.java)
-            objects.add(Object(slide.get(_ID).asString, slide.get(MODEL).asString, slide.get(NAME).asString))
+            val slide: JsonObject =
+                Gson().fromJson(iterator.next().toString(), JsonObject::class.java)
+            objects.add(Object(
+                slide.get(_ID).asString,
+                slide.get(MODEL).asString,
+                slide.get(NAME).asString
+            ))
         }
         return objects
     }
@@ -35,10 +47,13 @@ class ProcessingJSON {
     fun readModelParameters(jsonObject: JsonObject): Map<String, String> {
         val params = mutableMapOf<String, String>()
         val children: JsonArray =
-            jsonObject.get(DATA).asJsonObject.get(CHILDREN).asJsonArray[1].asJsonObject.get(CHILDREN).asJsonArray
+            jsonObject.get(DATA).asJsonObject
+                .get(CHILDREN).asJsonArray[1].asJsonObject
+                .get(CHILDREN).asJsonArray
         for (i in 1 until children.size()) {
             if (children[i].asJsonObject.get(DATA_TYPE) != null)
-                params[children[i].asJsonObject.get(ID).asString] = children[i].asJsonObject.get(DATA_TYPE).asString
+                params[children[i].asJsonObject.get(ID).asString] =
+                    children[i].asJsonObject.get(DATA_TYPE).asString
         }
         return params
     }
@@ -53,9 +68,12 @@ class ProcessingJSON {
 
     fun readBorder(jsonObject: JsonObject, name: String): JsonArray? {
         val children =
-            jsonObject.get(DATA).asJsonObject.get(CHILDREN).asJsonArray[1].asJsonObject.get(CHILDREN).asJsonArray
+            jsonObject.get(DATA).asJsonObject
+                .get(CHILDREN).asJsonArray[1].asJsonObject
+                .get(CHILDREN).asJsonArray
         children.forEach {
-            if (it.asJsonObject.get(ID).asString == name && it.asJsonObject.get(LEVELS) != null
+            if (it.asJsonObject.get(ID).asString == name
+                && it.asJsonObject.get(LEVELS) != null
                 && it.asJsonObject.get(LEVELS).asJsonObject.get(VALUE).toString() != "null"
             ) return it.asJsonObject.get(LEVELS).asJsonObject.get(VALUE).asJsonArray
         }
@@ -65,14 +83,22 @@ class ProcessingJSON {
     fun readBorderColor(jsonObject: JsonObject, name: String): Map<String, String> {
         val borderColor = mutableMapOf<String, String>()
         val children =
-            jsonObject.get(DATA).asJsonObject.get(CHILDREN).asJsonArray[1].asJsonObject.get(CHILDREN).asJsonArray
-        children.forEach { it ->
-            if (it.asJsonObject.get(ID).asString == name) {
-                val values: JsonArray = it.asJsonObject.get(LEVELS).asJsonObject.get(VALUE).asJsonArray
-                values.forEach {
-                    borderColor[it.asJsonObject.get(NAME).asString] = it.asJsonObject.get(COLOR).asString
+            jsonObject.get(DATA).asJsonObject
+                .get(CHILDREN).asJsonArray[1].asJsonObject
+                .get(CHILDREN).asJsonArray
+        try {
+            children.forEach { it ->
+                if (it.asJsonObject.get(ID).asString == name) {
+                    val values: JsonArray =
+                        it.asJsonObject.get(LEVELS).asJsonObject.get(VALUE).asJsonArray
+                    values.forEach {
+                        borderColor[it.asJsonObject.get(NAME).asString] =
+                            it.asJsonObject.get(COLOR).asString
+                    }
                 }
             }
+        } catch (e: java.lang.Exception) {
+            return borderColor
         }
         return borderColor
     }
@@ -83,18 +109,21 @@ class ProcessingJSON {
         if (values != null) {
             try {
                 if (values[0].asJsonObject.get(VALUE).asJsonObject.get(FROM).asString != null) {
-                   values.forEach {
-                        if (it.asJsonObject.get(VALUE).asJsonObject.get(FROM).asString != "-${INFINITY}")
+                    values.forEach {
+                        if (it.asJsonObject.get(VALUE).asJsonObject
+                                .get(FROM).asString != "-${INFINITY}")
                             border[it.asJsonObject.get(NAME).asString] =
                                 it.asJsonObject.get(VALUE).asJsonObject.get(FROM).asString
-                        else if (it.asJsonObject.get(VALUE).asJsonObject.get(FROM).asString == "-${INFINITY}") {
+                        else if (it.asJsonObject.get(VALUE).asJsonObject
+                                .get(FROM).asString == "-${INFINITY}") {
                             border[it.asJsonObject.get(NAME).asString] =
                                 (it.asJsonObject.get(VALUE).asJsonObject.get(TO).asInt - 10).toString()
                         }
                     }
                 }
             } catch (ill: IllegalStateException) {
-                values.forEach { border[it.asJsonObject.get(NAME).asString] = it.asJsonObject.get(VALUE).asString }
+                values.forEach { border[it.asJsonObject.get(NAME).asString] =
+                    it.asJsonObject.get(VALUE).asString }
             }
         }
         return border
@@ -111,18 +140,25 @@ class ProcessingJSON {
                             it.asJsonObject.get(VALUE).asJsonObject.get(TO).asString
                     else if (it.asJsonObject.get(VALUE).asJsonObject.get(TO).asString == INFINITY) {
                         border[it.asJsonObject.get(NAME).asString] =
-                            ((it.asJsonObject.get(VALUE).asJsonObject.get(FROM).asInt / 10 + 2) * 10).toString()
+                            ((it.asJsonObject.get(VALUE).asJsonObject
+                                .get(FROM).asInt / 10 + 2) * 10).toString()
                     }
                 }
-            } catch (ill: IllegalStateException) { return border }
+            } catch (ill: IllegalStateException) {
+                return border
+            }
         }
         return border
     }
 
-    fun readBorderBooleanOrString(jsonObject: JsonObject, name: String): Map<String, String> {
+    fun readBorderBooleanOrString (
+        jsonObject: JsonObject,
+        name: String
+    ): Map<String, String> {
         val border = mutableMapOf<String, String>()
         readBorder(jsonObject, name)?.forEach {
-            border[it.asJsonObject.get(NAME).asString] = it.asJsonObject.get(VALUE).asString
+            border[it.asJsonObject.get(NAME).asString] =
+                it.asJsonObject.get(VALUE).asString
         }
         return border
     }
@@ -132,13 +168,15 @@ class ProcessingJSON {
         val axisData = ArrayList<ArrayList<Number>>()
         while (iterator.hasNext()) {
             val thisData = ArrayList<Number>()
-            val slide: JsonObject = Gson().fromJson(iterator.next().toString(), JsonObject::class.java)
+            val slide: JsonObject =
+                Gson().fromJson(iterator.next().toString(), JsonObject::class.java)
             val getTopic = slide.get(TOPIC)
             if (getTopic != null && getTopic.asString == topic) {
                 val payload = slide.get(PAYLOAD).asString
                 if (payload.isNotEmpty()) {
                     thisData.add(slide.get(TIME).asLong)
-                    if (payload.indexOf(true.toString()) == -1 && payload.indexOf(false.toString()) == -1) {
+                    if (payload.indexOf(true.toString()) == -1
+                        && payload.indexOf(false.toString()) == -1) {
                         thisData.add(payload.replace(",", ".").toDouble())
                     } else {
                         if (payload.indexOf(true.toString()) != -1) thisData.add(1)
@@ -151,13 +189,17 @@ class ProcessingJSON {
         return axisData
     }
 
-    fun readTypeNumeric(jsonObject: JsonObject, name: String): Boolean{
+    fun readTypeNumeric(jsonObject: JsonObject, name: String): Boolean {
         val values = readBorder(jsonObject, name)
         if (values != null) {
             try {
-                if (values[0].asJsonObject.get(VALUE).asJsonObject.get(FROM).asString != null)
+                if (values[0].asJsonObject
+                        .get(VALUE).asJsonObject
+                        .get(FROM).asString != null)
                     return true
-            } catch (ill: IllegalStateException){ return false }
+            } catch (ill: IllegalStateException) {
+                return false
+            }
         }
         return false
     }

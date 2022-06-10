@@ -33,6 +33,9 @@ class PasswordResetController {
     private lateinit var tokenText: TextField
 
     lateinit var user: User
+    init {
+        THEME = "light"
+    }
 
     @FXML
     fun onEnterButtonClick() {

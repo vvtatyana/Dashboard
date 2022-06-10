@@ -49,7 +49,7 @@ class NumericWidget(
         gauge(gauge)
         gauge.tickLabelDecimals = 1
         gauge.decimals = 1
-        gauge.effect = dropShadow()
+        gauge.style = dropShadow()
         gauge.tickLabelColor = Color.web("#9ba7c5")
         if (data != null && data != "null")
             gauge.value = data.toDouble()
@@ -61,26 +61,31 @@ class NumericWidget(
         val borderFrom = processingJSON.readBorderFrom(jsonModel, typeWidget).toMutableMap()
         val borderColor = processingJSON.readBorderColor(jsonModel, typeWidget).toMutableMap()
         val keys = borderFrom.keys.toList()
-        if (borderFrom.isNotEmpty() && borderFrom[keys[0]]!!.toDouble() < 0.0)
-            borderFrom[keys[0]] = (borderFrom[keys[0]]!!.toDouble() + 10.0).toString()
-        gauge.minValue = borderFrom[keys[0]]!!.toDouble()
-        borderFrom[keys[0]] = gauge.minValue.toInt().toString()
+        if (borderFrom.isNotEmpty()){
+            if(borderFrom[keys[0]]!!.toDouble() < 0.0)borderFrom[keys[0]] = (borderFrom[keys[0]]!!.toDouble() + 10.0).toString()
+            gauge.minValue = borderFrom[keys[0]]!!.toDouble()
+            borderFrom[keys[0]] = gauge.minValue.toString()
+        } else gauge.minValue = 0.0
         val sections = mutableListOf<Section>()
-        if (processingJSON.readTypeNumeric(jsonModel, typeWidget)) {
+        if (borderFrom.isNotEmpty() && processingJSON.readTypeNumeric(jsonModel, typeWidget)) {
             val borderTo = processingJSON.readBorderTo(jsonModel, typeWidget).toMutableMap()
             gauge.maxValue = borderTo[keys[keys.size - 1]]!!.toDouble()
-            keys.indices.forEach {
-                sections.add(Section(borderFrom[keys[it]]!!.toDouble(),
+            keys.indices.forEach { sections.add(Section(borderFrom[keys[it]]!!.toDouble(),
                 borderTo[keys[it]]!!.toDouble(), it.toString(), Color.web(borderColor[keys[it]])))}
         } else {
-            gauge.maxValue = borderFrom[keys[keys.size - 1]]!!.toDouble()
-            rang = (borderFrom[keys[keys.size - 1]]!!.toDouble() - borderFrom[keys[0]]!!.toDouble()) / keys.size
-            val colorValue = borderColor.values.toList()
-            var start = borderFrom[keys[0]]!!.toDouble()
-            keys.indices.forEach {
-                val stop: Double = start + rang
-                sections.add(Section(start,stop,borderFrom[keys[it]]!!.toString(),Color.web(colorValue[it])))
-                start = stop
+            gauge.maxValue = if (borderFrom.isNotEmpty()) {
+                rang = (borderFrom[keys[keys.size - 1]]!!.toDouble() - borderFrom[keys[0]]!!.toDouble()) / keys.size
+                var start = borderFrom[keys[0]]!!.toDouble()
+                val colorValue = borderColor.values.toList()
+                keys.indices.forEach {
+                    val stop: Double = start + rang
+                    sections.add(Section(start,stop,borderFrom[keys[it]]!!.toString(),Color.web(colorValue[it])))
+                    start = stop
+                }
+                borderFrom[keys[keys.size - 1]]!!.toDouble()
+            } else {
+                sections.add(Section(0.0,100.0,"0",Color.web("#9ba7c5")))
+                100.0
             }
         }
         gauge.setSections(sections)

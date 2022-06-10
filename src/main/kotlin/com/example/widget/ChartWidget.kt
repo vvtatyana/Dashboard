@@ -36,11 +36,13 @@ class ChartWidget(
             day = df1.format(Date(data[data.size - 1][0].toLong()))
             dataChart.name = day
 
-            data.forEach {
-                val time = Date(it[0].toLong())
+            val start = if(data.size < 11) 0
+            else data.size - 11
+            for (i in start until data.size) {
+                val time = Date(data[i][0].toLong())
                 if (df1.format(time) == day) {
                     val df2 = SimpleDateFormat(TIME_FORMAT)
-                    dataChart.data.add(XYChart.Data(df2.format(time), it[1].toDouble()))
+                    dataChart.data.add(XYChart.Data(df2.format(time), data[i][1].toDouble()))
                 }
             }
         }

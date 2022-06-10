@@ -82,7 +82,7 @@ class WindowController : Initializable {
     private var objects = mutableListOf<Object>()
     private lateinit var queriesDB: QueriesDB
     private var devicesFlag: Boolean = false
-    private var mouseFlag: Boolean = false
+    private var isMovingAllowed: Boolean = false
     private lateinit var executorService: ScheduledExecutorService
     private val widgets = mutableListOf<AbstractWidget>()
 
@@ -108,33 +108,38 @@ class WindowController : Initializable {
 
     private fun initializeScheduler() {
         executorService = Executors.newSingleThreadScheduledExecutor()
-        executorService.scheduleAtFixedRate(this::schedule, 0, user.getTimer().toLong(), TimeUnit.MINUTES)
+        executorService.scheduleAtFixedRate(
+            this::schedule,
+            1,
+            user.getTimer().toLong(),
+            TimeUnit.MINUTES
+        )
     }
 
     private fun schedule() {
         Platform.runLater {
             val address = request.addressGeneration(ADDRESS, OBJECTS)
             val values = valuesObject(objectData.getNameObject(), objects, address)
-            if (values != null) {
+            if (values != null && indicatorPane.isVisible) {
                 val data = objectsData(objectData.getNameObject(), objects, address, values)
                 widgets.forEach {
-                    val typeWidget = if (it is ChartWidget) CHART
-                    else INDICATOR
-                    val indicator = queriesDB.selectWidget(
-                        user.getId(),
-                        objectData.getIdObject(),
-                        typeWidget,
-                        it.getLayoutX(),
-                        it.getLayoutY()
-                    )
-                    if (indicator != null && data != null) {
-                        val newValue = data[indicator.getIdentifier()]
-                        if (newValue != null) it.setValue(newValue)
+                    if (it !is ChartWidget) {
+                        val indicator = queriesDB.selectWidget(
+                            user.getId(),
+                            objectData.getIdObject(),
+                            INDICATOR,
+                            it.getLayoutX(),
+                            it.getLayoutY()
+                        )
+                        if (indicator != null && data != null) {
+                            it.setValue(data[indicator.getIdentifier()].toString())
+                        }
                     }
                 }
             }
         }
     }
+
 
     private fun imageViewVisible(visible: Boolean) {
         if (!visible) {
@@ -258,7 +263,7 @@ class WindowController : Initializable {
         chart: Widget
     ) {
         val fxmlLoader = FXMLLoader(fxmlLoader("settingChart.fxml"))
-        val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, "Настройки графика", false)
+        val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, "Настройки диаграммы", false)
 
         val controller: SettingChartController = fxmlLoader.getController()
 
@@ -281,16 +286,14 @@ class WindowController : Initializable {
                 }
             }
             updateObject(chart.getId(), dataWidget.getName(), dataWidget.getUnit(), dataWidget.getType())
-            if (dataWidget.getName().isNotEmpty() && dataWidget.getName() != chart.getName())
-                dataWidget.getName() + chartWidget.getTitle().text.substring(
-                    chartWidget.getTitle().text.indexOf(",", 0), chartWidget.getTitle().text.length
-                )
-            if (dataWidget.getUnit().isNotEmpty() && dataWidget.getName() != chart.getUnit()) chartWidget.setTitle(
-                chartWidget.getTitle().text.substring(
-                    0,
-                    chartWidget.getTitle().text.indexOf(",", 0) + 1
-                ) + dataWidget.getUnit()
-            )
+
+            var title = ""
+            title += dataWidget.getName()
+            if (title.isNotEmpty() && dataWidget.getUnit().isNotEmpty()) title += ", "
+            title += dataWidget.getUnit()
+            chart.setName(dataWidget.getName())
+            chart.setUnit(dataWidget.getUnit())
+            chartWidget.setTitle(title)
             if (dataWidget.getDate().isNotEmpty()) {
                 val series = XYChart.Series<String, Number>()
                 val simpleDateFormat = SimpleDateFormat(DATA_FORMAT)
@@ -438,30 +441,15 @@ class WindowController : Initializable {
             panel.toFront()
         }
         panel.setOnMouseDragged { event ->
-            if (mouseFlag) {
+            if (isMovingAllowed) {
                 panel.layoutX = event.sceneX + anchorX
                 panel.layoutY = event.sceneY + anchorY
             }
         }
-        if (panel.prefHeight == Pref.CHART.size) {
-            panel.setOnMouseReleased {
-                if (mouseFlag) {
-                    updatePositionChart(
-                        layoutX,
-                        layoutY,
-                        panel
-                    )
-                }
-            }
-        } else {
-            panel.setOnMouseReleased {
-                if (mouseFlag) {
-                    updatePositionIndicator(
-                        layoutX,
-                        layoutY,
-                        panel
-                    )
-                }
+        panel.setOnMouseReleased {
+            if (isMovingAllowed) {
+                if (panel.prefHeight == Pref.CHART.size) updatePositionChart(layoutX, layoutY, panel)
+                else updatePositionIndicator(layoutX, layoutY, panel)
             }
         }
     }
@@ -603,6 +591,7 @@ class WindowController : Initializable {
                 )
             }
             indicatorPane.children.add(panel.getPanel())
+            widgets.add(panel)
             return true
         }
         return false
@@ -763,7 +752,7 @@ class WindowController : Initializable {
             title = "Добавить индикатор"
             FXMLLoader(fxmlLoader("addWidgetIndicator.fxml"))
         } else {
-            title = "Добавить график"
+            title = "Добавить диаграмму"
             FXMLLoader(fxmlLoader("addWidgetChart.fxml"))
         }
         val stage = createStage(fxmlLoader, Modality.WINDOW_MODAL, title, false)
@@ -918,8 +907,7 @@ class WindowController : Initializable {
         val newPos = shift(panel.layoutX, panel.layoutY, Pref.INDICATOR.size)
         val indicator = queriesDB.selectWidget(user.getId(), objectData.getIdObject(), INDICATOR, layoutX, layoutY)
         if (positionFree(newPos[0], newPos[1])) {
-            val anotherIndicator =
-                queriesDB.selectWidget(user.getId(), objectData.getIdObject(), INDICATOR, newPos[0], newPos[1])
+            val anotherIndicator = queriesDB.selectWidget(user.getId(), objectData.getIdObject(), INDICATOR, newPos[0], newPos[1])
             if (anotherIndicator != null) {
                 widgets.forEach {
                     if (it.getId() == anotherIndicator.getId()) {
@@ -927,18 +915,8 @@ class WindowController : Initializable {
                         it.setLayoutY(layoutY)
                     }
                 }
-                queriesDB.updateWidget(
-                    anotherIndicator.getId(),
-                    INDICATOR,
-                    WidgetsTable.LAYOUT_X.name,
-                    layoutX.toString()
-                )
-                queriesDB.updateWidget(
-                    anotherIndicator.getId(),
-                    INDICATOR,
-                    WidgetsTable.LAYOUT_Y.name,
-                    layoutY.toString()
-                )
+                queriesDB.updateWidget(anotherIndicator.getId(), INDICATOR, WidgetsTable.LAYOUT_X.name, layoutX.toString())
+                queriesDB.updateWidget(anotherIndicator.getId(), INDICATOR, WidgetsTable.LAYOUT_Y.name, layoutY.toString())
             }
         }
         if (indicator != null) {
@@ -948,6 +926,8 @@ class WindowController : Initializable {
                     it.setLayoutY(newPos[1])
                 }
             }
+            panel.layoutX = newPos[0]
+            panel.layoutY = newPos[1]
             queriesDB.updateWidget(indicator.getId(), INDICATOR, WidgetsTable.LAYOUT_X.name, newPos[0].toString())
             queriesDB.updateWidget(indicator.getId(), INDICATOR, WidgetsTable.LAYOUT_Y.name, newPos[1].toString())
         }
@@ -978,6 +958,8 @@ class WindowController : Initializable {
                     it.setLayoutY(newPos[1])
                 }
             }
+            panel.layoutX = newPos[0]
+            panel.layoutY = newPos[1]
             queriesDB.updateWidget(chart.getId(), CHART, WidgetsTable.LAYOUT_X.name, newPos[0].toString())
             queriesDB.updateWidget(chart.getId(), CHART, WidgetsTable.LAYOUT_Y.name, newPos[1].toString())
         }
@@ -1017,13 +999,13 @@ class WindowController : Initializable {
 
     @FXML
     private fun movingClick() {
-        val imageView = if (mouseFlag) {
+        val imageView = if (isMovingAllowed) {
             initializeScheduler()
-            mouseFlag = false
+            isMovingAllowed = false
             createImageView("lock", 30.0)
         } else {
             executorService.shutdown()
-            mouseFlag = true
+            isMovingAllowed = true
             createImageView("unlock", 30.0)
         }
         movingButton.graphic = imageView

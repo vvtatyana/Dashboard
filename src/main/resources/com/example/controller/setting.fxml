@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="dataPane" prefHeight="140.0" prefWidth="298.0" xmlns="http://javafx.com/javafx/15.0.1"
+<AnchorPane fx:id="mainPane" prefHeight="140.0" prefWidth="298.0" xmlns="http://javafx.com/javafx/16"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.SettingController">
     <Label layoutX="50.0" layoutY="54.0" prefHeight="26.0" prefWidth="194.0" text="интервал обновления"
            AnchorPane.leftAnchor="50.0">
@@ -24,7 +24,7 @@
     <Button fx:id="saveButton" layoutX="194.0" mnemonicParsing="false" onAction="#saveClick"
             AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <graphic>
-            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                 <Image url="@images/save.png"/>
             </ImageView>
         </graphic>
@@ -32,7 +32,7 @@
     <Button fx:id="dayNight" layoutX="136.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#dayNightClick"
             AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="0.0">
         <graphic>
-            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                 <Image url="@images/light.png"/>
             </ImageView>
         </graphic>

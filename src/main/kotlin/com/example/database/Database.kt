@@ -8,19 +8,19 @@ import java.sql.Statement
 import kotlin.system.exitProcess
 
 class Database {
-    private val logger = LoggerFactory.getLogger(javaClass)
+    private val LOGGER = LoggerFactory.getLogger(javaClass)
     private lateinit var connection: Connection
     private lateinit var statement: Statement
 
     init {
         open()
-        connection.autoCommit = true
         try {
             statement.executeUpdate(createUsersTable())
+            connection.commit()
             statement.executeUpdate(createWidgetsTable())
-
+            connection.commit()
         } catch (e: java.lang.Exception) {
-            logger.error(e.javaClass.name + ": " + e.message)
+            LOGGER.error(e.javaClass.name + ": " + e.message)
             exitProcess(0)
         } finally {
             close()
@@ -34,7 +34,8 @@ class Database {
     fun open() {
         Class.forName("org.sqlite.JDBC")
         connection =
-            DriverManager.getConnection("jdbc:sqlite:$filePath/database/DashboardRIC.db")
+            DriverManager.getConnection(
+                "jdbc:sqlite:$filePath/database/DashboardRIC.db")
         statement = connection.createStatement()
         connection.autoCommit = false
     }
