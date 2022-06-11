@@ -1,14 +1,11 @@
 package com.example.widget
 
 import com.example.restAPI.ProcessingJSON
-import com.example.util.FONT_FAMILY
-import com.example.util.dropShadow
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import javafx.geometry.Pos
 import javafx.scene.control.Label
 import javafx.scene.layout.AnchorPane
-import javafx.scene.text.Font
 
 class StringWidget(
     id: Int,
@@ -16,7 +13,7 @@ class StringWidget(
     layoutY: Double,
     pref: Double,
     name: String,
-    private val data: String?,
+    private var data: String?,
     private val typeWidget: String,
     private var strModel: String
 ) : AbstractWidget(id, layoutX, layoutY, pref, name) {
@@ -51,16 +48,20 @@ class StringWidget(
         if (border.isNotEmpty() && border.containsValue(data)) {
             var name = ""
             border.forEach{
-                if (it.value == data) name = it.key
+                if (it.value == data)
+                    name = it.key
             }
             val borderColor = ProcessingJSON().readBorderColor(model, typeWidget)
-            if (data != null) {
-                    string.style = "-fx-background-color: ${borderColor[name]}; -fx-border-color: white; -fx-border-width: 3;"
-            }
+            string.style = "-fx-background-color: ${borderColor[name]};"
+        }
+        else {
+            string.style = "-fx-background-color: transparent;"
         }
     }
 
     override fun setValue(newValue: String) {
         string.text = newValue
+        data = newValue
+        setColor(strModel)
     }
 }

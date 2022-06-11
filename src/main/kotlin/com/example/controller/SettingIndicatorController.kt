@@ -11,7 +11,9 @@ import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.scene.control.*
 import javafx.scene.layout.AnchorPane
+import javafx.scene.paint.Color
 import javafx.stage.Stage
+import kotlin.math.roundToInt
 
 class SettingIndicatorController {
 
@@ -49,16 +51,13 @@ class SettingIndicatorController {
     private lateinit var valueIntervalFrom: TextField
 
     @FXML
-    private lateinit var colorInterval: TextField
-
-    @FXML
-    private lateinit var colorPane: Label
-
-    @FXML
     private lateinit var errorLabel: Label
 
     @FXML
     private lateinit var nameIntervalComboBox: ComboBox<String>
+
+    @FXML
+    private lateinit var colorPicker: ColorPicker
 
     private lateinit var borderFrom: Map<String, String>
     private lateinit var borderTo: Map<String, String>
@@ -130,11 +129,10 @@ class SettingIndicatorController {
 
             when (type) {
                 TypeIndicator.NUMBER.type -> {
-                    if(typeNumber) {
+                    if (typeNumber) {
                         valueIntervalTo.text = borderTo[nameIntervalComboBox.value]
                         oldValueTo = valueIntervalTo.text
-                    }
-                    else {
+                    } else {
                         fromLabel.text = "Значение"
                         valueIntervalTo.isVisible = false
                         toLabel.isVisible = false
@@ -153,10 +151,9 @@ class SettingIndicatorController {
                 }
             }
 
-            colorInterval.text = borderColor[nameIntervalComboBox.value]
-            oldColor = colorInterval.text
+            oldColor = borderColor[nameIntervalComboBox.value].toString()
+            colorPicker.value = Color.web(oldColor)
 
-            colorPane.style = "-fx-background-color:${oldColor}"
             nameIntervalComboBox.setOnAction {
 
                 valueIntervalFrom.text = borderFrom[nameIntervalComboBox.value]
@@ -167,10 +164,8 @@ class SettingIndicatorController {
                     valueIntervalTo.text = borderTo[nameIntervalComboBox.value]
                     oldValueTo = valueIntervalTo.text
                 }
-
-                colorInterval.text = borderColor[nameIntervalComboBox.value]
-                oldColor = colorInterval.text
-                colorPane.style = "-fx-background-color:${oldColor}"
+                oldColor = borderColor[nameIntervalComboBox.value].toString()
+                colorPicker.value = Color.web(oldColor)
             }
         } else borderPane.isVisible = false
     }
@@ -211,13 +206,12 @@ class SettingIndicatorController {
     }
 
     private fun checkRequest(message: String): Boolean =
-        if (message == "403 Forbidden" || message == "404 Not Found" || message == "No connection"){
+        if (message == "403 Forbidden" || message == "404 Not Found" || message == "No connection") {
             this.message = message
             val stage: Stage = saveButton.scene.window as Stage
             stage.close()
             false
-        }
-        else true
+        } else true
 
 
     @FXML
@@ -230,67 +224,61 @@ class SettingIndicatorController {
     @FXML
     private fun updateLevelClick() {
         val newNameLevel = nameLevel.text
-        val newColor = colorInterval.text
+        val newColor = toHexString(colorPicker.value)
         val newValueFrom = valueIntervalFrom.text
 
         if (newNameLevel != "" && newNameLevel != oldNameLevel)
             update(nameIntervalComboBox.value, newNameLevel, NAME)
 
-        if (type == TypeIndicator.NUMBER.type) {
-            val newValueTo = valueIntervalTo.text
-            if (typeNumber && newValueFrom != "" && oldValueFrom != newValueFrom) {
-                update(nameIntervalComboBox.value, newValueFrom, "a", true)
-                oldValueFrom = newValueFrom
-            }
-            else if (newValueFrom != "" && oldValueFrom != newValueFrom){
-                update(nameIntervalComboBox.value, newValueFrom, "value", true)
-                oldValueFrom = newValueFrom
-            }
-            if (newValueTo != "" && oldValueTo != newValueTo) {
-                update(nameIntervalComboBox.value, newValueTo, "b", true)
-                oldValueTo = newValueTo
-            }
-
-            if (newValueFrom == "" && newColor == "" && newValueTo == "" && newNameLevel == "")
-                errorLabel.text = "Заполните поля значение или цвет"
-
-            if (newColor != "" && oldColor != newColor) {
-                if (newColor.length != 7 || newColor[0] != '#')
-                    errorLabel.text = "Введена не верная кодировка цвета"
-                else {
-                    update(nameIntervalComboBox.value, newColor, "color")
-                    colorPane.style = "-fx-background-color:${newColor}"
-                    oldColor = newColor
+        when (type) {
+            TypeIndicator.NUMBER.type -> {
+                val newValueTo = valueIntervalTo.text
+                if (typeNumber && newValueFrom != "" && oldValueFrom != newValueFrom) {
+                    update(nameIntervalComboBox.value, newValueFrom, "a", true)
+                    oldValueFrom = newValueFrom
+                } else if (newValueFrom != "" && oldValueFrom != newValueFrom) {
+                    update(nameIntervalComboBox.value, newValueFrom, "value", true)
+                    oldValueFrom = newValueFrom
                 }
-            }
-        } else if (type == TypeIndicator.BOOLEAN.type) {
-            if (newColor != "" && oldColor != newColor) {
-                if (newColor.length != 7 || newColor[0] != '#')
-                    errorLabel.text = "Введена не верная кодировка цвета"
-                else {
-                    update(nameIntervalComboBox.value, newColor, "color")
-                    colorPane.style = "-fx-background-color:${newColor}"
-                    oldColor = newColor
+                if (newValueTo != "" && oldValueTo != newValueTo) {
+                    update(nameIntervalComboBox.value, newValueTo, "b", true)
+                    oldValueTo = newValueTo
                 }
-            }
-        } else if (type == TypeIndicator.STRING.type) {
-            if (newValueFrom != "" && oldValueFrom != newValueFrom) {
-                update(nameIntervalComboBox.value, newValueFrom, "value")
-                oldValueFrom = newValueFrom
-            }
 
-            if (newValueFrom == "" && newColor == "" && newNameLevel == "")
-                errorLabel.text = "Заполните поля значение или цвет"
-
-            if (newColor != "" && oldColor != newColor) {
-                if (newColor.length != 7 || newColor[0] != '#')
-                    errorLabel.text = "Введена не верная кодировка цвета"
-                else {
-                    update(nameIntervalComboBox.value, newColor, "color")
-                    colorPane.style = "-fx-background-color:${newColor}"
-                    oldColor = newColor
+                if (newValueFrom == "" && newColor == "" && newValueTo == "" && newNameLevel == "")
+                    errorLabel.text = "Заполните поля значение"
+                updateColor(newColor)
+            }
+            TypeIndicator.BOOLEAN.type -> {
+                updateColor(newColor)
+            }
+            TypeIndicator.STRING.type -> {
+                if (newValueFrom != "" && oldValueFrom != newValueFrom) {
+                    update(nameIntervalComboBox.value, newValueFrom, "value")
+                    oldValueFrom = newValueFrom
                 }
+
+                if (newValueFrom == "" && newColor == "" && newNameLevel == "")
+                    errorLabel.text = "Заполните поля значение"
+
+                updateColor(newColor)
             }
         }
+    }
+
+    private fun updateColor(newColor: String){
+        if (newColor != "" && oldColor != newColor) {
+            update(nameIntervalComboBox.value, newColor, "color")
+            oldColor = newColor
+            colorPicker.value = Color.web(oldColor)
+        }
+    }
+
+    private fun toHexString(color: Color): String {
+        val r = (color.red * 255).roundToInt() shl 24
+        val g = (color.green * 255).roundToInt() shl 16
+        val b = (color.blue * 255).roundToInt() shl 8
+        val a = (color.opacity * 255).roundToInt()
+        return String.format("#%08X", r + g + b + a)
     }
 }

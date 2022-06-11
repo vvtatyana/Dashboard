@@ -5,8 +5,8 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 import com.example.util.*
-import org.slf4j.LoggerFactory
 import java.net.NoRouteToHostException
+import java.net.SocketException
 import java.net.UnknownHostException
 import java.nio.charset.Charset
 
@@ -23,17 +23,20 @@ class RequestGeneration {
         return try {
             val responseCode = connection.responseCode
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                val input = BufferedReader(InputStreamReader(connection.inputStream))
+                val input =
+                    BufferedReader(InputStreamReader(connection.inputStream))
                 val response = StringBuffer()
                 var readLine: String?
                 while (input.readLine().also { readLine = it } != null) {
                     response.appendLine(readLine)
                 }
                 input.close()
-                /*String(*/response.toString()/*.toByteArray(Charset.forName("Windows-1251")))*/
+                String(response.toString()
+                    .toByteArray(Charset.forName("Windows-1251")))
             } else "$responseCode ${connection.responseMessage}"
         } catch (u: UnknownHostException) { "No connection" }
         catch (n: NoRouteToHostException) { "No connection" }
+        catch (s: SocketException) { "No connection" }
     }
 
     fun patchRequest(address: String, postParams: String): String {

@@ -56,9 +56,6 @@ class User {
         this.login = login
     }
 
-    override fun toString(): String {
-        return "_id: $idUser, \nname: $username, \nlogin: $login"
-    }
     fun getId(): Int = id
     fun getIdUser(): String = idUser
     fun getUsername(): String = username

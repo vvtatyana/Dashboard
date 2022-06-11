@@ -8,7 +8,7 @@ import java.sql.Statement
 import kotlin.system.exitProcess
 
 class Database {
-    private val LOGGER = LoggerFactory.getLogger(javaClass)
+    private val logger = LoggerFactory.getLogger(javaClass)
     private lateinit var connection: Connection
     private lateinit var statement: Statement
 
@@ -20,7 +20,7 @@ class Database {
             statement.executeUpdate(createWidgetsTable())
             connection.commit()
         } catch (e: java.lang.Exception) {
-            LOGGER.error(e.javaClass.name + ": " + e.message)
+            logger.error(e.javaClass.name + ": " + e.message)
             exitProcess(0)
         } finally {
             close()

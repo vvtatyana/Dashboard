@@ -7,7 +7,6 @@ import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import org.slf4j.LoggerFactory
 
 class ProcessingJSON {
 
@@ -19,9 +18,14 @@ class ProcessingJSON {
         val users = ArrayList<User>()
         while (iterator.hasNext()) {
             val slide: JsonObject =
-                Gson().fromJson(iterator.next().toString(), JsonObject::class.java)
+                Gson().fromJson(
+                    iterator.next().toString(),
+                    JsonObject::class.java
+                )
             val user = User(
-                slide.get(_ID).asString, slide.get(NAME).asString, slide.get(LOGIN).asString
+                slide.get(_ID).asString,
+                slide.get(NAME).asString,
+                slide.get(LOGIN).asString
             )
             users.add(user)
         }
@@ -176,7 +180,8 @@ class ProcessingJSON {
                 if (payload.isNotEmpty()) {
                     thisData.add(slide.get(TIME).asLong)
                     if (payload.indexOf(true.toString()) == -1
-                        && payload.indexOf(false.toString()) == -1) {
+                        && payload.indexOf(false.toString()) == -1
+                        && payload.indexOf("<nil>") == -1) {
                         thisData.add(payload.replace(",", ".").toDouble())
                     } else {
                         if (payload.indexOf(true.toString()) != -1) thisData.add(1)

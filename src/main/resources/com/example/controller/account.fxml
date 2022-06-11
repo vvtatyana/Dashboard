@@ -5,38 +5,38 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="mainPane" prefHeight="292.0" prefWidth="428.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.AccountController">
-    <Label fx:id="username" alignment="TOP_CENTER" layoutX="165.0" layoutY="97.0" text="имя пользователя" AnchorPane.bottomAnchor="215.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+<AnchorPane fx:id="mainPane" prefHeight="311.0" prefWidth="428.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.AccountController">
+    <Label fx:id="username" alignment="TOP_CENTER" layoutX="165.0" layoutY="97.0" text="имя пользователя" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="45.0">
         <font>
             <Font name="Segoe UI Semibold" size="22.0" />
         </font>
     </Label>
-    <Label layoutX="50.0" layoutY="197.0" text="логин" AnchorPane.bottomAnchor="180.4" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+    <Label layoutX="50.0" layoutY="197.0" text="логин" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="86.0">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <Label fx:id="login" layoutX="50.0" layoutY="223.0" prefHeight="30.0" prefWidth="328.0" textFill="#3b507b" AnchorPane.bottomAnchor="149.6" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+    <Label fx:id="login" layoutX="50.0" layoutY="223.0" prefHeight="30.0" prefWidth="328.0" textFill="#3b507b" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="112.0">
         <font>
             <Font name="Segoe UI Semibold" size="14.0" />
         </font>
     </Label>
-    <Label layoutX="50.0" layoutY="254.0" text="токен" AnchorPane.bottomAnchor="123.39999999999998" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+    <Label layoutX="50.0" layoutY="254.0" text="токен" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="143.00000000000003">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <TextField fx:id="tokenText" layoutX="50.0" layoutY="280.0" prefHeight="30.0" prefWidth="328.0" promptText="mVhMTM4OTQ0ZTAwMTBmYzhiNWUiLCJzdWIiOiI2MWU0MmRkMzZmN2" AnchorPane.bottomAnchor="92.60000000000002" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+    <TextField fx:id="tokenText" layoutX="50.0" layoutY="280.0" prefHeight="30.0" prefWidth="328.0" promptText="mVhMTM4OTQ0ZTAwMTBmYzhiNWUiLCJzdWIiOiI2MWU0MmRkMzZmN2" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="168.99999999999997">
         <font>
             <Font name="Segoe UI Semibold" size="14.0" />
         </font>
     </TextField>
-    <Label layoutX="50.0" layoutY="310.0" text="хост" AnchorPane.bottomAnchor="67.39999999999998" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+    <Label layoutX="50.0" layoutY="310.0" text="хост" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="199.00000000000003">
         <font>
             <Font name="Segoe UI Semibold" size="16.0" />
         </font>
     </Label>
-    <TextField fx:id="hostText" layoutX="50.0" layoutY="336.0" prefHeight="30.0" prefWidth="328.0" promptText="dev.rightech.io" AnchorPane.bottomAnchor="36.60000000000002" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+    <TextField fx:id="hostText" layoutX="50.0" layoutY="225.0" prefHeight="30.0" prefWidth="328.0" promptText="dev.rightech.io" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="225.0">
         <font>
             <Font name="Segoe UI Semibold" size="14.0" />
         </font>
@@ -55,7 +55,7 @@
             </ImageView>
         </graphic>
     </Button>
-   <Label fx:id="errorLabel" layoutX="50.0" layoutY="261.0" prefHeight="18.0" prefWidth="328.0" textFill="RED">
+   <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="TOP" layoutX="50.0" layoutY="261.0" prefHeight="18.0" prefWidth="328.0" textFill="RED">
       <font>
          <Font name="Segoe UI Semibold" size="14.0" />
       </font>

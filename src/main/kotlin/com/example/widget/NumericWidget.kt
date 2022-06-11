@@ -1,7 +1,6 @@
 package com.example.widget
 
 import com.example.restAPI.ProcessingJSON
-import com.example.util.TypeIndicator
 import com.example.util.dropShadow
 import com.google.gson.Gson
 import com.google.gson.JsonObject

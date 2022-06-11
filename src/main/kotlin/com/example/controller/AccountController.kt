@@ -57,11 +57,14 @@ class AccountController {
         val token = tokenText.text
         val host = hostText.text
 
+        var goodFlag = true
+
         if (token != "") {
             if (check(token, user.getAddress())){
                 user.setToken(token)
             }
             else {
+                goodFlag = false
                 HEADERS_AUTH = "Bearer ${user.getToken()}"
                 errorLabel.text = "Не верный токен"
             }
@@ -72,13 +75,18 @@ class AccountController {
                 user.setAddress(ADDRESS)
             }
             else {
+                if (goodFlag)
+                    errorLabel.text = "Не верный хост"
+                else errorLabel.text = "Не верные токен и хост"
+                goodFlag = false
                 ADDRESS = user.getAddress()
-                errorLabel.text = "Не верный хост"
             }
         }
 
-        val stage: Stage = saveButton.scene.window as Stage
-        stage.close()
+        if (goodFlag) {
+            val stage: Stage = saveButton.scene.window as Stage
+            stage.close()
+        }
     }
 
     @FXML
@@ -102,7 +110,6 @@ class AccountController {
             val users = ProcessingJSON().readAllUsers(json)
             for (user in users) {
                 if (user.getLogin() == this.user.getLogin()) {
-                    user.setAddress(ADDRESS)
                     return true
                 }
             }

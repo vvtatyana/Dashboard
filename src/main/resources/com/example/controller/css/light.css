@@ -19,7 +19,7 @@
     -fx-effect: dropshadow(one-pass-box, #cacdd5, 1.0, 1.0, 1.0, 1.0);
 }
 
-.text-field, .combo-box {
+.text-field, .combo-box, .color-picker {
     -fx-background-color: #ebf0f4;
     -fx-border-color: white;
     -fx-border-width: 1;
@@ -31,15 +31,23 @@
     -fx-effect: dropshadow(one-pass-box, #cacdd5, 1.0, 1.0, 1.0, 1.0);
 }
 
+.color-picker {
+    -fx-text-fill: #3c435c;
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI Semibold";
+}
+
 .label, .check-box {
     -fx-text-fill: #3c435c;
 }
 
 #stringLabel{
-    -fx-text-fill: white;
+    -fx-text-fill: #3c435c;
     -fx-font-size: 14px;
     -fx-font-family: "Segoe UI Semibold";
     -fx-effect: dropshadow(one-pass-box, #cacdd5, 1.0, 1.0, 1.0, 1.0);
+    -fx-border-color: white;
+    -fx-border-width: 3;
 }
 
 #errorLabel{
